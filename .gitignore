@@ -111,3 +111,7 @@ fabric.properties
 
 # Ignore code-workspaces
 *.code-workspace
+package.json
+package-lock.json
+node_modules/.package-lock.json
+node_modules

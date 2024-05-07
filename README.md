@@ -1,19 +1,18 @@
 # Project Title
 
 ## 1. Project Description
-State your app in a nutshell, or one-sentence pitch. Give some elaboration on what the core features are.  
-This browser based web application to ... 
+Team DTC02 is developing VeritasAI to help people who read online articles determine the bias and accuracy of the content, and whether it was generated with AI, by implementing AI language models to analyze the text
 
 ## 2. Names of Contributors
 List team members and/or short bio's here... 
-* ...
+* Dylan Reimer - Mechanical Engineer turned software developer. Enjoys long programming sessions on the beach with sunset wallpapers
 * ...
 * ...
 	
 ## 3. Technologies and Resources Used
 List technologies (with version numbers), API's, icons, fonts, images, media or data sources, and other resources that were used.
 * HTML, CSS, JavaScript
-* Bootstrap 5.0 (Frontend library)
+* Tailwind v3.4.3
 * Firebase 8.0 (BAAS - Backend as a Service)
 * ...
 
