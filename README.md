@@ -1,13 +1,15 @@
-# Project Title
+# VeritasAI
 
 ## 1. Project Description
 Team DTC02 is developing VeritasAI to help people who read online articles determine the bias and accuracy of the content, and whether it was generated with AI, by implementing AI language models to analyze the text
 
 ## 2. Names of Contributors
-List team members and/or short bio's here... 
+* DTC-02
 * Dylan Reimer - Mechanical Engineer turned software developer. Enjoys long programming sessions on the beach with sunset wallpapers
-* ...
-* ...
+* Alex Krantz
+* Kyryl Shtanhei
+* Daniel Lee
+* Travis Gooden
 	
 ## 3. Technologies and Resources Used
 List technologies (with version numbers), API's, icons, fonts, images, media or data sources, and other resources that were used.
