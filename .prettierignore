@@ -1,7 +1,8 @@
 node_modules/
 
-# Ignore files for PNPM
+# Ignore lockfiles
 pnpm-lock.yaml
+pdm.lock
 
 # Unformattable
 .husky/

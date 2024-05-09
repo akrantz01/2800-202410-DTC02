@@ -1,0 +1,11 @@
+[project]
+name = "2800-202410-dtc02"
+version = "1.0.0"
+description = "Team DTC02 is developing VeritasAI to help people who read online articles determine the bias and accuracy of the content, and whether it was generated with AI, by implementing AI language models to analyze the text"
+
+requires-python = ">=3.10"
+
+dependencies = []
+
+[tool.pdm]
+distribution = false
