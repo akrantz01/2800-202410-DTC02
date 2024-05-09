@@ -1,0 +1,77 @@
+{
+  "extends": ["eslint:recommended", "standard", "prettier", "plugin:import/recommended"],
+  "plugins": ["@html-eslint", "import"],
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "es2022": true
+  },
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", ["index", "sibling", "parent", "object"]],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreDeclarationSort": true
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.html"],
+      "parser": "@html-eslint/parser",
+      "extends": ["plugin:@html-eslint/recommended"],
+      "rules": {
+        "spaced-comment": "off",
+        "@html-eslint/indent": "off",
+        "@html-eslint/no-multiple-h1": "off",
+        "@html-eslint/element-newline": "off",
+        "@html-eslint/id-naming-convention": ["error", "kebab-case"],
+        "@html-eslint/require-button-type": "error",
+        "@html-eslint/require-meta-viewport": "error",
+        "@html-eslint/lowercase": "error",
+        "@html-eslint/no-trailing-spaces": "error",
+        "@html-eslint/no-restricted-attrs": [
+          "error",
+          {
+            "tagPatterns": [".*"],
+            "attrPatterns": ["^on.*"],
+            "message": "Event attributes are not allowed. Use addEventListener instead."
+          }
+        ],
+        "@html-eslint/require-attrs": [
+          "error",
+          {
+            "tag": "script",
+            "attr": "type",
+            "value": "module"
+          }
+        ],
+        "@html-eslint/require-closing-tags": [
+          "error",
+          {
+            "selfClosing": "always"
+          }
+        ],
+        "@html-eslint/no-extra-spacing-attrs": [
+          "error",
+          {
+            "enforceBeforeSelfClose": true
+          }
+        ]
+      }
+    }
+  ]
+}
