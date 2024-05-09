@@ -2,7 +2,8 @@
   "extends": [
     "eslint:recommended",
     "prettier",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:import/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 2022,
@@ -11,5 +12,24 @@
   "env": {
     "browser": true,
     "es2022": true
+  },
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", ["index", "sibling", "parent", "object"]],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreDeclarationSort": true
+      }
+    ]
   }
 }
