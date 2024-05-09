@@ -5,9 +5,12 @@ import {
 
 import { displayError, enableSignInWithGoogle, redirectToHome } from './shared.js';
 import { auth } from '../firebase.js';
+import { currentUser } from '../user.js';
 
 const form = document.querySelector('form');
 enableSignInWithGoogle();
+
+if ((await currentUser) !== null) redirectToHome();
 
 // Handle email & password sign in
 form.addEventListener('submit', async (event) => {
