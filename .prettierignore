@@ -12,3 +12,7 @@ pdm.lock
 .env.*
 .env
 .npmrc
+
+# Handled by ruff
+__pycache__/
+*.py

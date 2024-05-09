@@ -9,3 +9,25 @@ dependencies = []
 
 [tool.pdm]
 distribution = false
+
+[tool.pdm.dev-dependencies]
+dev = ["ruff>=0.4.3"]
+
+[tool.pdm.scripts]
+lint = { cmd = "ruff check" }
+"lint:fix" = { cmd = "ruff check --fix" }
+format = { cmd = "ruff format --check" }
+"format:fix" = { cmd = "ruff format" }
+
+[tool.ruff]
+line-length = 100
+indent-width = 4
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = ["A", "B", "E4", "E501", "E7", "E9", "F", "I", "N", "RUF"]
