@@ -24,12 +24,15 @@ List technologies (with version numbers), API's, icons, fonts, images, media or 
 
 ## 4. Complete setup/installion/usage
 
-State what a user needs to do when they come to your project. How do others start using your code or application?
-Here are the steps ...
+Here's how to get started once you've cloned the project:
 
-- ...
-- ...
-- ...
+- Install the [pnpm](https://pnpm.io) (Node) and [pdm](https://pdm-project.org/en/stable/) (Python) package managers.
+- Install dependencies for each language
+  - `pnpm install`
+  - `pdm install`
+- Start developing
+  - Frontend: `pnpm dev`
+  - Backend: TBD
 
 ## 5. Known Bugs and Limitations
 

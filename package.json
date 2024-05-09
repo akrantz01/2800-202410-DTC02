@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky",
-    "dev": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
+    "dev": "tailwindcss -i ./frontend/styles/input.css -o ./frontend/styles/output.css --watch",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "lint": "eslint .",
