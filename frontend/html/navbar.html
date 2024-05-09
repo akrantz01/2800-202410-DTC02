@@ -10,7 +10,10 @@
   <body>
     <!-- button animation from https://www.epicweb.dev/tips/hamburger-menu-animation -->
     <div class="fixed end-6 bottom-6 group">
-      <button class="shadow-md rounded-full w-14 h-14 bg-secondary peer group focus:bg-primary">
+      <button
+        type="button"
+        class="shadow-md rounded-full w-14 h-14 bg-secondary peer group focus:bg-primary"
+      >
         <div class="grid justify-items-center gap-1.5">
           <span
             class="h-1 w-8 rounded-full bg-primary group-focus:bg-secondary group-focus:rotate-45 group-focus:translate-y-2.5 transition"
@@ -26,26 +29,33 @@
       </button>
 
       <button
+        type="button"
         class="absolute bg-secondary text-primary font-extrabold z-10 invisible peer-focus:visible bottom-0 -left-8 rounded-full shadow-md p-2 peer-focus:-translate-x-20 peer-focus:translate-y-0 w-14 h-14 transition hover:bg-accent"
       >
         1
       </button>
       <button
+        type="button"
         class="absolute bg-secondary text-primary font-extrabold z-10 invisible peer-focus:visible bottom-6 -left-8 rounded-full shadow-md p-2 peer-focus:-translate-x-16 peer-focus:-translate-y-8 w-14 h-14 transition hover:bg-accent"
       >
         2
       </button>
       <button
+        type="button"
         class="absolute bg-secondary text-primary font-extrabold z-10 invisible peer-focus:visible bottom-8 -left-6 rounded-full shadow-md p-2 peer-focus:-translate-x-8 peer-focus:-translate-y-16 w-14 h-14 transition hover:bg-accent"
       >
         3
       </button>
       <button
+        type="button"
         class="absolute bg-secondary text-primary font-extrabold z-10 invisible peer-focus:visible bottom-8 -left-0 rounded-full shadow-md p-2 peer-focus:translate-x-0 peer-focus:-translate-y-20 w-14 h-14 transition hover:bg-accent"
       >
         4
       </button>
-      <button class="hidden absolute top-0 left-0 rounded-full w-14 h-14 peer-focus:block"></button>
+      <button
+        type="button"
+        class="hidden absolute top-0 left-0 rounded-full w-14 h-14 peer-focus:block"
+      ></button>
     </div>
   </body>
 </html>
