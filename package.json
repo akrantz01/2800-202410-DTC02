@@ -7,8 +7,10 @@
   "scripts": {
     "prepare": "husky",
     "dev": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "devDependencies": {
     "@html-eslint/eslint-plugin": "^0.24.1",
