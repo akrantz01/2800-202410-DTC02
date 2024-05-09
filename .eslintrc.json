@@ -26,6 +26,12 @@
       {
         "ignoreDeclarationSort": true
       }
+    ],
+    "import/no-unresolved": [
+      "error",
+      {
+        "ignore": ["^https://"]
+      }
     ]
   },
   "overrides": [
