@@ -12,6 +12,7 @@ pdm.lock
 .env.*
 .env
 .npmrc
+*.svg
 
 # Handled by ruff
 __pycache__/
