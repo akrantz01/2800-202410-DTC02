@@ -410,3 +410,8 @@ cython_debug/
 
 # Ignore code-workspaces
 *.code-workspace
+
+### Project Files ###
+
+# Tailwind generated styles
+frontend/styles/output.css
