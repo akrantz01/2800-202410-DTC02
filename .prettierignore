@@ -1,1 +1,13 @@
 node_modules/
+
+# Ignore files for PNPM
+pnpm-lock.yaml
+
+# Unformattable
+.husky/
+.eslintignore
+.prettierignore
+.gitignore
+.env.*
+.env
+.npmrc
