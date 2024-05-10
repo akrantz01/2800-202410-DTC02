@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - dev
       - ak/deployment/http
 
 permissions:
@@ -19,6 +20,8 @@ jobs:
   http:
     name: Deploy ${{ matrix.name }} (HTTP)
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.ref_name }}_${{ matrix.name }}
     strategy:
       matrix:
         name:
