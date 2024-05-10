@@ -11,9 +11,13 @@ permissions:
   contents: read
   id-token: write
 
+env:
+  REGION: us-central1
+  RUNTIME: python312
+
 jobs:
   http:
-    name: ${{ matrix.name }} (HTTP)
+    name: Deploy ${{ matrix.name }} (HTTP)
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,3 +30,27 @@ jobs:
         with:
           project_id: ${{ secrets.PROJECT_ID }}
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+      - uses: pdm-project/setup-pdm@v4
+        with:
+          python-version-file: backend/${{ matrix.name }}/pyproject.toml
+
+      - name: Export requirements
+        run: |
+          pdm export \
+            --project backend/${{ matrix.name }} \
+            -f requirements \
+            -o backend/${{ matrix.name }}/requirements.txt \
+            --without-hashes
+
+      # TODO: require authentication for invocation
+      - name: Deploy
+        run: |
+          gcloud functions deploy ${{ matrix.name }} --gen2 \
+            --region=${REGION} \
+            --runtime=${RUNTIME} \
+            --source backend/${{ matrix.name }} \
+            --entry-point=handler \
+            --trigger-http \
+            --allow-unauthenticated
