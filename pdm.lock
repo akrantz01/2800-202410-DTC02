@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:3c0b0b4aa014d1d0c4ead3ae1c7a1e7373aeb7022c87e06bab1d6e4ac0db83fa"
+content_hash = "sha256:ecc833eb392e1df2c9dbcb9e43cf934a8f8bb7db15c94b9fcbfc9ee4aa8977fa"
 
 [[package]]
 name = "analysis-manager"
@@ -207,6 +207,18 @@ groups = ["dev"]
 files = [
     {file = "packaging-24.0-py3-none-any.whl", hash = "sha256:2ddfb553fdf02fb784c234c7ba6ccc288296ceabec964ad2eae3777778130bc5"},
     {file = "packaging-24.0.tar.gz", hash = "sha256:eb82c5e3e56209074766e6885bb04b8c38a0c015d0a30036ebe7ece34c9989e9"},
+]
+
+[[package]]
+name = "page-cache"
+version = "1.0.0"
+requires_python = ">=3.10"
+editable = true
+path = "./backend/page-cache"
+summary = ""
+groups = ["dev"]
+dependencies = [
+    "functions-framework>=3.5.0",
 ]
 
 [[package]]
