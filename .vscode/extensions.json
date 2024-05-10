@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "charliermarsh.ruff",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "github.vscode-github-actions",
+    "ms-python.debugpy",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "tamasfe.even-better-toml"
+  ]
+}

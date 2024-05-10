@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../styles/output.css" rel="stylesheet" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <!-- right side -->
+    <!-- add logic to change and button logic-->
+    <!-- button animation from https://www.epicweb.dev/tips/hamburger-menu-animation -->
+    <div class="fixed end-6 bottom-6 group">
+      <button
+        type="button"
+        class="shadow-md rounded-full w-14 h-14 bg-primary peer group focus:bg-white"
+      >
+        <div class="grid justify-items-center gap-1.5">
+          <span
+            class="h-1 w-8 rounded-full bg-white group-focus:bg-primary group-focus:rotate-45 group-focus:translate-y-2.5 transition"
+          ></span>
+          <span
+            class="h-1 w-8 rounded-full bg-white group-focus:bg-primary group-focus:scale-x-0 transition"
+          ></span>
+          <span
+            class="h-1 w-8 rounded-full bg-white group-focus:bg-primary group-focus:-rotate-45 group-focus:-translate-y-2.5 transition"
+          ></span>
+        </div>
+        <!-- end of grabbed code -->
+      </button>
+
+      <button
+        type="button"
+        id="scan"
+        class="absolute text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible -bottom-[22px] -left-[32px] rounded-full p-2 peer-focus:-translate-x-[105px] peer-focus:translate-y-0 w-[75px] h-[75px] transition-all delay-150"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="icon icon-tabler icon-tabler-text-scan-2 inline-block"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="#ffffff"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M4 8v-2a2 2 0 0 1 2 -2h2" />
+          <path d="M4 16v2a2 2 0 0 0 2 2h2" />
+          <path d="M16 4h2a2 2 0 0 1 2 2v2" />
+          <path d="M16 20h2a2 2 0 0 0 2 -2v-2" />
+          <path d="M8 12h8" />
+          <path d="M8 9h6" />
+          <path d="M8 15h4" />
+        </svg>
+        <span class="">Scan</span>
+      </button>
+      <button
+        type="button"
+        id="history"
+        class="absolute text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible bottom-[20px] -left-[32px] rounded-full p-2 peer-focus:-translate-x-[87px] peer-focus:-translate-y-[32px] w-[75px] h-[75px] transition-all delay-150"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="icon icon-tabler icon-tabler-history inline-block"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="#ffffff"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M12 8l0 4l2 2" />
+          <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+        </svg>
+        <p>History</p>
+      </button>
+      <button
+        type="button"
+        id="favorites"
+        class="absolute text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible bottom-[32px] -left-[20px] rounded-full p-2 peer-focus:-translate-x-[47px] peer-focus:-translate-y-[73px] w-[75px] h-[75px] transition-all delay-150"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="icon icon-tabler icon-tabler-heart inline-block"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="#ffffff"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+        </svg>
+        <span class="object-center">Saved</span>
+      </button>
+      <button
+        type="button"
+        id="profile"
+        class="absolute text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible bottom-[32px] -left-0 rounded-full p-2 peer-focus:translate-x-[5px] peer-focus:-translate-y-[84px] w-[75px] h-[75px] transition-all delay-150"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="icon icon-tabler icon-tabler-user inline-block"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="#ffffff"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+          <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+        </svg>
+        <span class="object-center">Profile</span>
+      </button>
+
+      <div
+        class="invisible peer-focus:visible peer-focus:scale-[6] absolute top-0 -left-0 bg-primary rounded-full w-14 h-14 transition-all -z-10 delay-150"
+      ></div>
+
+      <button
+        type="button"
+        class="hidden absolute top-0 left-0 rounded-full w-14 h-14 peer-focus:block"
+      ></button>
+    </div>
+
+    <!-- left side -->
+    <!-- button animation from https://www.epicweb.dev/tips/hamburger-menu-animation -->
+    <!-- <div class="fixed start-6 bottom-6 group">
+      <button
+        type="button"
+        class="shadow-md rounded-full w-14 h-14 bg-primary peer group focus:bg-white"
+      >
+        <div class="grid justify-items-center gap-1.5">
+          <span
+            class="h-1 w-8 rounded-full bg-white group-focus:bg-primary group-focus:rotate-45 group-focus:translate-y-2.5 transition"
+          ></span>
+          <span
+            class="h-1 w-8 rounded-full bg-white group-focus:bg-primary group-focus:scale-x-0 transition"
+          ></span>
+          <span
+            class="h-1 w-8 rounded-full bg-white group-focus:bg-primary group-focus:-rotate-45 group-focus:-translate-y-2.5 transition"
+          ></span>
+        </div> -->
+    <!-- end of grabbed code -->
+    <!-- </button>
+
+      <button
+        type="button" id='scan'
+        class="absolute text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible -bottom-[22px] left-[32px] rounded-full p-2 peer-focus:translate-x-[90px] peer-focus:translate-y-0 w-[75px] h-[75px] transition-all delay-150"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-text-scan-2 inline-block" width="32" height="32" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M4 8v-2a2 2 0 0 1 2 -2h2" />
+          <path d="M4 16v2a2 2 0 0 0 2 2h2" />
+          <path d="M16 4h2a2 2 0 0 1 2 2v2" />
+          <path d="M16 20h2a2 2 0 0 0 2 -2v-2" />
+          <path d="M8 12h8" />
+          <path d="M8 9h6" />
+          <path d="M8 15h4" />
+        </svg>
+        <span class="">Scan</span>
+      </button>
+      <button
+        type="button" id='history'
+        class="absolute text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible bottom-[20px] left-[32px] rounded-full p-2 peer-focus:translate-x-[72px] peer-focus:-translate-y-[32px] w-[75px] h-[75px] transition-all delay-150 "
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-history inline-block" width="32" height="32" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M12 8l0 4l2 2" />
+          <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+        </svg>
+        <p>History</p>
+      </button>
+      <button
+        type="button" id='favorites'
+        class="absolute text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible bottom-[32px] left-[20px] rounded-full p-2 peer-focus:translate-x-[32px] peer-focus:-translate-y-[73px] w-[75px] h-[75px] transition-all delay-150  "
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart inline-block" width="32" height="32" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+        </svg>
+        <span class="object-center">Saved</span>
+      </button>
+      <button
+        type="button" id='profile'
+        class="absolute text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible bottom-[32px] left-0 rounded-full p-2 peer-focus:-translate-x-[20px] peer-focus:-translate-y-[84px] w-[75px] h-[75px] transition-all delay-150 "
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user inline-block" width="32" height="32" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+          <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+        </svg>
+        <span class="object-center">Profile</span>
+      </button>
+
+      <div class="invisible peer-focus:visible peer-focus:scale-[6] absolute top-0 -left-0 bg-primary rounded-full w-14 h-14 transition-all -z-10 delay-150"></div>
+
+      <button
+        type="button"
+        class="hidden absolute top-0 left-0 rounded-full w-14 h-14 peer-focus:block"
+      ></button>
+    </div> -->
+  </body>
+</html>

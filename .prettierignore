@@ -1,0 +1,19 @@
+node_modules/
+
+# Ignore lockfiles
+pnpm-lock.yaml
+pdm.lock
+
+# Unformattable
+.husky/
+.eslintignore
+.prettierignore
+.gitignore
+.env.*
+.env
+.npmrc
+*.svg
+
+# Handled by ruff
+__pycache__/
+*.py

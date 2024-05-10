@@ -1,0 +1,43 @@
+[project]
+name = "2800-202410-dtc02"
+version = "1.0.0"
+description = "Team DTC02 is developing VeritasAI to help people who read online articles determine the bias and accuracy of the content, and whether it was generated with AI, by implementing AI language models to analyze the text"
+
+requires-python = ">=3.10"
+
+dependencies = []
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.dev-dependencies]
+dev = [
+  "-e analysis_manager @ file:///${PROJECT_ROOT}/backend/analysis-manager",
+  "-e page_cache @ file:///${PROJECT_ROOT}/backend/page-cache",
+  "ruff>=0.4.3",
+]
+
+[tool.pdm.scripts]
+lint = { cmd = "ruff check" }
+"lint:fix" = { cmd = "ruff check --fix" }
+format = { cmd = "ruff format --check" }
+"format:fix" = { cmd = "ruff format" }
+
+analysis-manager.cmd = "functions-framework --target=analysis_manager --source backend/analysis-manager/function.py"
+analysis-manager.env = { PORT = "8080" }
+
+page-cache.cmd = "functions-framework --target=page_cache --source backend/page-cache/function.py"
+page-cache.env = { PORT = "8081" }
+
+[tool.ruff]
+line-length = 100
+indent-width = 4
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = ["A", "B", "E4", "E501", "E7", "E9", "F", "I", "N", "RUF"]

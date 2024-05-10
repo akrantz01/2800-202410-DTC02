@@ -1,0 +1,11 @@
+[project]
+name = "analysis_manager"
+version = "1.0.0"
+
+requires-python = ">=3.10"
+
+dependencies = ["functions-framework>=3.5.0"]
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
