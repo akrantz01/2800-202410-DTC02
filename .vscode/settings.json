@@ -14,5 +14,13 @@
       "source.organizeImports": "always"
     }
   },
-  "eslint.validate": ["javascript", "html"]
+  "eslint.validate": ["javascript", "html"],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/__pycache__": true,
+    "**/.pdm-build": true,
+    "**/*.egg-info": true
+  }
 }
