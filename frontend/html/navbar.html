@@ -32,8 +32,7 @@
 
       <button
         type="button" onclick="clickedButton('clicked scan')"
-        
-        class="absolute text-white font-extrabold z-10 invisible peer-focus:visible -bottom-[22px] -left-[32px] rounded-full p-2 peer-focus:-translate-x-[105px] peer-focus:translate-y-0 w-[75px] h-[75px] transition"
+        class="absolute text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible -bottom-[22px] -left-[32px] rounded-full p-2 peer-focus:-translate-x-[105px] peer-focus:translate-y-0 w-[75px] h-[75px] transition-all delay-150"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-text-scan-2 inline-block" width="32" height="32" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -49,7 +48,7 @@
       </button>
       <button
         type="button" onclick="clickedButton('clicked history')"
-        class="absolute text-white font-extrabold z-10 invisible peer-focus:visible bottom-[20px] -left-[32px] rounded-full p-2 peer-focus:-translate-x-[87px] peer-focus:-translate-y-[32px] w-[75px] h-[75px] transition "
+        class="absolute text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible bottom-[20px] -left-[32px] rounded-full p-2 peer-focus:-translate-x-[87px] peer-focus:-translate-y-[32px] w-[75px] h-[75px] transition-all delay-150 "
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-history inline-block" width="32" height="32" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -59,24 +58,18 @@
         <p>History</p>
       </button>
       <button
-        type="button" onclick="clickedButton('clicked Learn')"
-        class="absolute text-white font-extrabold z-10 invisible peer-focus:visible bottom-[32px] -left-[20px] rounded-full p-2 peer-focus:-translate-x-[47px] peer-focus:-translate-y-[73px] w-[75px] h-[75px] transition  "
+        type="button" onclick="clickedButton('clicked favorites')"
+        class="absolute text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible bottom-[32px] -left-[20px] rounded-full p-2 peer-focus:-translate-x-[47px] peer-focus:-translate-y-[73px] w-[75px] h-[75px] transition-all delay-150  "
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-books inline-block" width="32" height="32" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart inline-block" width="32" height="32" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-          <path d="M5 4m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" />
-          <path d="M9 4m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" />
-          <path d="M5 8h4" />
-          <path d="M9 16h4" />
-          <path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041z" />
-          <path d="M14 9l4 -1" />
-          <path d="M16 16l3.923 -.98" />
+          <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
         </svg>
-        <span class="object-center">Learn</span>
+        <span class="object-center">Saved</span>
       </button>
       <button
         type="button" onclick="clickedButton('clicked profile')"
-        class="absolute text-white font-extrabold z-10 invisible peer-focus:visible bottom-[32px] -left-0 rounded-full p-2 peer-focus:translate-x-[5px] peer-focus:-translate-y-[84px] w-[75px] h-[75px] transition "
+        class="absolute text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible bottom-[32px] -left-0 rounded-full p-2 peer-focus:translate-x-[5px] peer-focus:-translate-y-[84px] w-[75px] h-[75px] transition-all delay-150 "
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user inline-block" width="32" height="32" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -86,7 +79,7 @@
         <span class="object-center">Profile</span>
       </button>
 
-      <div class="invisible peer-focus:visible peer-focus:scale-[6] absolute top-0 -left-0 bg-primary rounded-full w-14 h-14 transition-all -z-10"></div>
+      <div class="invisible peer-focus:visible peer-focus:scale-[6] absolute top-0 -left-0 bg-primary rounded-full w-14 h-14 transition-all -z-10 delay-150"></div>
 
       <button
         type="button"
