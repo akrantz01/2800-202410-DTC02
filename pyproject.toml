@@ -23,10 +23,10 @@ lint = { cmd = "ruff check" }
 format = { cmd = "ruff format --check" }
 "format:fix" = { cmd = "ruff format" }
 
-analysis-manager.cmd = "functions-framework --target=analysis_manager --source backend/analysis-manager/function.py"
+analysis-manager.cmd = "functions-framework --target=handler --source backend/analysis-manager/main.py"
 analysis-manager.env = { PORT = "8080" }
 
-page-cache.cmd = "functions-framework --target=page_cache --source backend/page-cache/function.py"
+page-cache.cmd = "functions-framework --target=handler --source backend/page-cache/main.py"
 page-cache.env = { PORT = "8081" }
 
 [tool.ruff]

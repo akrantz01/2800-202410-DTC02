@@ -3,7 +3,7 @@ from flask import Request, typing
 
 
 @functions_framework.http
-def analysis_manager(request: Request) -> typing.ResponseReturnValue:
+def handler(request: Request) -> typing.ResponseReturnValue:
     """
     Initiate the analysis process for a document.
 
