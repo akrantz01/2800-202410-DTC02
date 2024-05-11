@@ -7,6 +7,7 @@
   "scripts": {
     "prepare": "husky",
     "dev": "tailwindcss -i ./frontend/styles/input.css -o ./frontend/styles/output.css --watch",
+    "build": "tailwindcss -i ./frontend/styles/input.css -o ./frontend/styles/output.css",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "lint": "eslint .",
