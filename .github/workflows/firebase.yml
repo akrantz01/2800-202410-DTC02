@@ -1,0 +1,29 @@
+name: Deploy Firebase
+
+on:
+  push:
+    branches:
+      - dev
+      - ak/deployment/firebase
+
+jobs:
+  hosting:
+    name: Hosting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: pnpm
+
+      - run: pnpm install
+      - run: pnpm build
+
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          channelId: live
+          projectId: ${{ secrets.PROJECT_ID }}
