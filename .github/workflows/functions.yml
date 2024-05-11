@@ -4,9 +4,7 @@ name: Functions
 on:
   push:
     branches:
-      - main
       - dev
-      - ak/deployment/http
 
 permissions:
   contents: read
