@@ -415,3 +415,7 @@ cython_debug/
 
 # Tailwind generated styles
 frontend/styles/output.css
+
+# Firebase local configuration
+.firebase/
+.firebaserc
