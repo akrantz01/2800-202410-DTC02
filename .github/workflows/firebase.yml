@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - dev
-      - ak/deployment/firebase
 
 jobs:
   hosting:
