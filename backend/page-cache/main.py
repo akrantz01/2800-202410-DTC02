@@ -3,7 +3,7 @@ from flask import Request, typing
 
 
 @functions_framework.http
-def page_cache(request: Request) -> typing.ResponseReturnValue:
+def handler(request: Request) -> typing.ResponseReturnValue:
     """
     Check if the submitted document has already been analyzed.
 

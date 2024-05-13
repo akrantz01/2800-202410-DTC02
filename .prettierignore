@@ -8,6 +8,7 @@ pdm.lock
 .husky/
 .eslintignore
 .prettierignore
+.gcloudignore
 .gitignore
 .env.*
 .env
