@@ -19,3 +19,7 @@ firestore.rules
 # Handled by ruff
 __pycache__/
 *.py
+
+
+# Ignore Favicon
+frontend/images/favicon/*
