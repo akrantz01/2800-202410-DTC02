@@ -12,6 +12,7 @@ distribution = false
 
 [tool.pdm.dev-dependencies]
 dev = [
+  "-e document_id @ file:///${PROJECT_ROOT}/backend/common/document-id",
   "-e analysis_manager @ file:///${PROJECT_ROOT}/backend/analysis-manager",
   "-e page_cache @ file:///${PROJECT_ROOT}/backend/page-cache",
   "ruff>=0.4.3",
