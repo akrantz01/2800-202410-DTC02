@@ -9,3 +9,6 @@ dependencies = []
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
+
+[tool.pdm.dev-dependencies]
+dev = ["pytest>=8.2.0"]
