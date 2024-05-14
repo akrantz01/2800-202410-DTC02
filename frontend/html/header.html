@@ -9,79 +9,14 @@
 
   <body>
     <header
-      class="bg-primary text-slate-200 h-[44px] lg:flex lg:justify-between lg:items-center lg:h-[44px] lg:w-full"
+      class="bg-primary text-slate-200 h-[44px] lg:flex lg:justify-between lg:items-center lg:w-full overflow-hidden"
     >
       <div
         class="rounded-full absolute top-2.5 left-2 p-[4px] bg-white lg:static lg:ml-2 items-center"
       >
         <img src="/frontend/images/logo.png" class="h-4" alt="LOGO" />
       </div>
-      <!-- <button type="button" class="peer focus:-z-10 absolute top-2 right-2 lg:hidden lg:static">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="icon icon-tabler icon-tabler-menu-2"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="#9e9e9e"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M4 6l16 0" />
-          <path d="M4 12l16 0" />
-          <path d="M4 18l16 0" />
-        </svg>
-      </button>
-      <button
-        type="button"
-        class="invisible peer-focus:visible peer-focus:z-10 absolute top-2 right-2 lg:hidden"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="icon icon-tabler icon-tabler-x"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="#9e9e9e"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M18 6l-12 12" />
-          <path d="M6 6l12 12" />
-        </svg>
-      </button> -->
-      <!-- <div
-        class="flex lg:flex-none bg-primary text-white flex-col lg:flex-row invisible lg:visible peer-focus:visible absolute lg:static top-[40px] peer-focus:translate-y-0 w-auto transition-all delay-150 lg:gap-4 lg:transition-none font-extrabold lg:mr-4"
-      >
-        <a
-          href="/"
-          class="text-xl block hover:bg-white hover:text-primary py-2 px-4 text-center rounded-full"
-          >Home</a
-        >
-        <a
-          href="/members"
-          class="text-xl block hover:bg-white hover:text-primary py-2 px-4 text-center rounded-full"
-          >Members</a
-        >
-        <a
-          href="/admin"
-          class="text-xl block hover:bg-white hover:text-primary py-2 px-4 text-center rounded-full"
-          >Admin</a
-        >
-
-        <a
-          href="/admin"
-          class="text-xl block text-secondary hover:bg-secondary hover:text-primary py-2 px-4 text-center rounded-full"
-          >Logout</a
-        >
-      </div> -->
-      <div class="group fixed -top-[5px] right-2 lg:static lg:flex lg:gap-6">
+      <div class="fixed -top-[5px] right-2 lg:static lg:flex lg:gap-6 lg:mr-6">
         <button
           type="button"
           class="rounded-full w-[40px] h-[40px] bg-primary peer group focus:bg-white lg:hidden"
@@ -101,66 +36,13 @@
         </button>
 
         <a
-          href="/"
-          id="scan"
-          class="block absolute text-center text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible -bottom-[28px] -left-[15px] rounded-full p-2 peer-focus:-translate-x-[105px] peer-focus:translate-y-0 w-[75px] h-[75px] transition-all delay-150 lg:visible lg:static lg:gap-2 lg:w-auto lg:h-autp lg:items-center lg:z-10 lg:flex lg:hover:bg-white lg:hover:text-primary lg:group lg:transition-none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="icon icon-tabler icon-tabler-text-scan-2 inline-block lg:group-hover:stroke-primary"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            stroke-width="2.5"
-            stroke="#ffffff"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 8v-2a2 2 0 0 1 2 -2h2" />
-            <path d="M4 16v2a2 2 0 0 0 2 2h2" />
-            <path d="M16 4h2a2 2 0 0 1 2 2v2" />
-            <path d="M16 20h2a2 2 0 0 0 2 -2v-2" />
-            <path d="M8 12h8" />
-            <path d="M8 9h6" />
-            <path d="M8 15h4" />
-          </svg>
-          <span class="">Analyze</span>
-        </a>
-
-        <a
-          href="#"
-          id="favorites"
-          class="absolute block text-center text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible -bottom-[20px] -left-[16px] rounded-full p-2 peer-focus:-translate-x-[74px] peer-focus:translate-y-[80px] w-[75px] h-[75px] transition-all delay-150 lg:visible lg:static lg:gap-2 lg:w-auto lg:h-autp lg:items-center lg:z-10 lg:flex lg:hover:bg-white lg:hover:text-primary lg:group lg:transition-none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="icon icon-tabler icon-tabler-heart inline-block lg:group-hover:stroke-primary"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            stroke-width="2.5"
-            stroke="#ffffff"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path
-              d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"
-            />
-          </svg>
-          <span class="object-center">Saved</span>
-        </a>
-        <a
           href="#"
           id="profile"
-          class="absolute block text-center text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible -bottom-[15px] -left-[25px] rounded-full p-2 peer-focus:translate-x-[5px] peer-focus:translate-y-[114px] w-[75px] h-[75px] transition-all delay-150 lg:visible lg:static lg:gap-2 lg:w-auto lg:h-autp lg:items-center lg:z-10 lg:flex lg:hover:bg-white lg:hover:text-primary lg:group lg:transition-none"
+          class="block absolute text-center text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible -bottom-[30px] -left-[15px] rounded-full p-2 peer-focus:-translate-x-[105px] peer-focus:translate-y-[6px] w-[75px] h-[75px] transition-all delay-150 lg:visible lg:static lg:gap-2 lg:w-auto lg:h-autp lg:items-center lg:z-10 lg:flex lg:hover:bg-white lg:hover:text-primary group lg:transition-none"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="icon icon-tabler icon-tabler-user inline-block lg:group-hover:stroke-primary"
+            class="icon icon-tabler icon-tabler-user inline-block group-hover:stroke-primary"
             width="32"
             height="32"
             viewBox="0 0 24 24"
@@ -175,6 +57,57 @@
             <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
           </svg>
           <span class="object-center">Profile</span>
+        </a>
+
+        <a
+          href="#"
+          id="learn-more"
+          class="absolute block text-center text-white font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible -bottom-[20px] -left-[16px] rounded-full p-2 peer-focus:-translate-x-[74px] peer-focus:translate-y-[80px] w-[75px] h-[75px] transition-all delay-150 lg:visible lg:static lg:gap-2 lg:w-auto lg:h-autp lg:items-center lg:z-10 lg:flex lg:hover:bg-white lg:hover:text-primary group lg:transition-none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-school inline-block lg:group-hover:stroke-primary"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            stroke-width="2.5"
+            stroke="#ffffff"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" />
+            <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" />
+          </svg>
+          <span class="object-center">Learn</span>
+        </a>
+
+        <a
+          href="#"
+          id="logout"
+          class="absolute block text-center text-secondary font-extrabold -z-20 peer-focus:z-10 invisible peer-focus:visible -bottom-[15px] -left-[25px] rounded-full p-2 peer-focus:-translate-x-[0px] peer-focus:translate-y-[114px] w-[75px] h-[75px] transition-all delay-150 lg:visible lg:static lg:gap-2 lg:w-auto lg:h-autp lg:items-center lg:z-10 lg:flex lg:hover:bg-secondary lg:hover:text-white group lg:transition-none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-logout-2 inline-block lg:group-hover:stroke-white stroke-secondary"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            stroke-width="2.5"
+            stroke="#ffffff"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path
+              d="M10 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2"
+            />
+            <path d="M15 12h-12l3 -3" />
+            <path d="M6 15l-3 -3" />
+          </svg>
+          <span class="">Logout</span>
         </a>
 
         <div
