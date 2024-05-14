@@ -1,0 +1,14 @@
+[project]
+name = "document_id"
+version = "1.0.0"
+
+requires-python = ">=3.10"
+
+dependencies = []
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm.dev-dependencies]
+dev = ["pytest>=8.2.0"]

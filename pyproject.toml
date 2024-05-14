@@ -12,9 +12,11 @@ distribution = false
 
 [tool.pdm.dev-dependencies]
 dev = [
+  "-e document_id @ file:///${PROJECT_ROOT}/backend/common/document-id",
   "-e analysis_manager @ file:///${PROJECT_ROOT}/backend/analysis-manager",
   "-e page_cache @ file:///${PROJECT_ROOT}/backend/page-cache",
   "ruff>=0.4.3",
+  "pytest>=8.2.0",
 ]
 
 [tool.pdm.scripts]
@@ -22,6 +24,7 @@ lint = { cmd = "ruff check" }
 "lint:fix" = { cmd = "ruff check --fix" }
 format = { cmd = "ruff format --check" }
 "format:fix" = { cmd = "ruff format" }
+test = { cmd = "pytest" }
 
 analysis-manager.cmd = "functions-framework --target=handler --source backend/analysis-manager/main.py"
 analysis-manager.env = { PORT = "8080" }
