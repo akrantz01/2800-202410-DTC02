@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../styles/output.css" rel="stylesheet" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <header
+      class="bg-primary text-slate-200 h-[40px] lg:flex lg:justify-between lg:items-center lg:h-auto"
+    >
+      <p class="3XL absolute top-2 left-2 lg:static lg:pl-2 lg:flex lg:flex-none">LOGO</p>
+      <button type="button" class="peer focus:-z-10 absolute top-2 right-2 lg:hidden lg:static">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="icon icon-tabler icon-tabler-menu-2"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="#9e9e9e"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M4 6l16 0" />
+          <path d="M4 12l16 0" />
+          <path d="M4 18l16 0" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="invisible peer-focus:visible peer-focus:z-10 absolute top-2 right-2 lg:hidden"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="icon icon-tabler icon-tabler-x"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="#9e9e9e"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M18 6l-12 12" />
+          <path d="M6 6l12 12" />
+        </svg>
+      </button>
+      <div
+        class="flex lg:flex-none lg:w-64 bg-primary text-slate-200 flex-col lg:flex-row p-4 invisible lg:visible peer-focus:visible absolute lg:static top-[40px] peer-focus:translate-y-0 w-full transition-all delay-150 lg:gap-4 lg:transition-none"
+      >
+        <a
+          href="/"
+          class="text-xl block hover:bg-slate-200 hover:text-gray-800 py-2 text-center flex-1"
+          >Home</a
+        >
+        <a
+          href="/members"
+          class="text-xl block hover:bg-slate-200 hover:text-gray-800 py-2 text-center flex-1"
+          >Members</a
+        >
+        <a
+          href="/admin"
+          class="text-xl block hover:bg-slate-200 hover:text-gray-800 py-2 text-center flex-1"
+          >Admin</a
+        >
+      </div>
+    </header>
+  </body>
+</html>
