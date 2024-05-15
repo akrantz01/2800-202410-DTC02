@@ -1,8 +1,7 @@
 from typing import List
 
-from flask import make_response, Request, typing
 import functions_framework
-
+from flask import Request, make_response, typing
 from pydantic import BaseModel, Field, HttpUrl, ValidationError
 
 
