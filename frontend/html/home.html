@@ -39,7 +39,7 @@
 
       <h2 class="text-primary text-xl mb-2">Reveal the Truth</h2>
 
-      <form class="flex flex-col justify-center items-center">
+      <form class="flex flex-col justify-center items-center" method="post">
         <textarea
           type="text"
           name="text-to-analyze"
@@ -128,14 +128,14 @@
             class="block w-full rounded-lg border placeholder-primary text-primary focus:ring-primary border-primary"
           />
         </div>
+        <button
+          class="group shadow-md hover:shadow-primary rounded-lg text-4xl py-2 px-4 text-white hover:bg-secondary bg-primary"
+          type="submit"
+          formaction="http://localhost:8080"
+        >
+          Analyze
+        </button>
       </form>
-
-      <a
-        class="group shadow-md hover:shadow-primary rounded-lg text-4xl py-2 px-4 text-white hover:bg-secondary bg-primary"
-        href="#"
-      >
-        Analyze
-      </a>
     </div>
     <footer>
       <div class="fixed end-6 bottom-6 group">
