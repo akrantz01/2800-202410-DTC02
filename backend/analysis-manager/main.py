@@ -12,7 +12,6 @@ from pydantic import (
 class AnalyzeTextAreaModel(BaseModel):
     text_body: str = Field(
         min_length=10,
-        max_length=5000,
         validation_alias=AliasChoices("text_body", "text-to-analyze"),
     )
     author: str = Field(min_length=1)
@@ -29,13 +28,13 @@ def handler(request: Request) -> typing.ResponseReturnValue:
     :return: an empty successful response
     """
     request_form = {key: request.form[key] for key in request.form}
-    #
+
     # TODO: validate incoming request
     try:
         AnalyzeTextAreaModel.model_validate(request_form)
     except ValidationError as e:
         response = make_response({error["type"]: error["msg"] for error in e.errors()})
-        response.status_code(422)
+        response.status_code = 422
         return response
 
     request_form["author"] = request_form["author"].split(",")
