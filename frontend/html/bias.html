@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="../styles/output.css" rel="stylesheet" />
-    <title>VeritasAI</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
+      rel="stylesheet"
+    />
+    <title>Bias Analysis</title>
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -35,6 +39,33 @@
 
     <!-- Bias Types -->
     <div id="fact-cards" class="flex flex-col space-y-2 p-4">
+      <div
+        role="status"
+        class="flex items-center justify-center h-56 max-w-sm rounded-lg animate-pulse bg-gray-700"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="icon icon-tabler icon-tabler-chart-bar"
+          width="64"
+          height="64"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="#9e9e9e"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+          <path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+          <path
+            d="M15 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"
+          />
+          <path d="M4 20l14 0" />
+        </svg>
+        <span class="sr-only">Loading...</span>
+      </div>
+
       <!-- Bias Detection Card Variation 1 -->
       <div
         class="min-w-sm bg-white border border-gray-600 border-separate rounded-lg shadow text-left"
@@ -150,8 +181,95 @@
           </div>
         </div>
       </div>
+
+      <!-- Bias Detection Card Variation 3-->
+      <div
+        id="accordion-parent"
+        data-accordion="collapse"
+        class="min-w-sm bg-secondary border border-gray-600 border-separate rounded-t-lg text-left justify-between"
+      >
+        <h2 id="accordion-collapse-heading-1">
+          <button
+            type="button"
+            data-accordion-target="#accordion-collapse-body-1"
+            aria-expanded="true"
+            aria-controls="accordion-collapse-body-1"
+            class="flex flex-wrap justify-between w-full items-center text-md font-semibold text-white border-b border-gray-600 rounded-t-lg p-4 bg-secondary"
+          >
+            <span>Confirmation Bias</span>
+            <svg
+              data-accordion-icon
+              class="w-3 h-3 rotate-180 shrink-0"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5 5 1 1 5"
+              />
+            </svg>
+          </button>
+        </h2>
+        <div
+          class="p-4 space-y-4 text-left hidden bg-white"
+          id="accordion-collapse-body-1"
+          aria-labelledby="accordion-collapse-heading-1"
+        >
+          <p class="font-bold">Analyzed Quote:</p>
+          <p class="font-normal italic mx-0.5 text-gray-500">
+            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe iure sapiente libero
+            voluptas consequatur deleniti consectetur rem autem in error, doloremque quasi placeat
+            molestias magnam ea alias eaque! Fuga, consectetur."
+          </p>
+
+          <div class="flex flex-row space-x-2 flex-wrap text-md font-semibold">
+            <img src="/frontend/images/logo.svg" width="32" height="32" alt="VeritasAI" />
+            <p>VeritasAI Response:</p>
+          </div>
+          <p>
+            Lorem ipsum dolor sit,
+            <a href="#" class="text-blue-400 underline">confirmation bias</a> adipisicing elit.
+            Libero corporis beatae accusantium minus rerum, laboriosam quibusdam, cum nobis ducimus
+            fuga officiis illo vitae consectetur eaque totam delectus. Animi, non laudantium.
+          </p>
+
+          <div class="flex flex-row justify-between items-center">
+            <a
+              href="#"
+              class="inline-flex mx-0.5 font-medium items-center text-blue-400 hover:underline"
+            >
+              Learn More
+              <svg
+                class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 18 18"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <footer id="footer-placeholder"></footer>
+    <!-- <script type="module" src="/frontend/scripts/nav-bar-logic.js"></script> -->
+    <script
+      type="module"
+      src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"
+    ></script>
   </body>
 </html>
