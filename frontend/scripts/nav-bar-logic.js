@@ -28,7 +28,10 @@ async function loadSkeleton() {
     }
     footerRequest.onreadystatechange = () => {
       if (footerRequest.readyState === 4 && footerRequest.status === 200) {
-        document.getElementById('footer-placeholder').innerHTML = footerRequest.responseText;
+        document.getElementById('footer-placeholder').innerHTML = footerRequest.responseText.slice(
+          6,
+          -8,
+        );
       }
     };
     footerRequest.send();
