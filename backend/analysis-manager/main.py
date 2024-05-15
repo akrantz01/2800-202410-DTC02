@@ -17,9 +17,7 @@ class AnalyzeTextAreaModel(BaseModel):
     )
     author: str = Field(min_length=1)
     publisher: str = Field(min_length=5)
-    source_url: HttpUrl = Field(
-        validation_alias=AliasChoices("source_url", "source-url")
-    )
+    source_url: HttpUrl = Field(validation_alias=AliasChoices("source_url", "source-url"))
 
 
 @functions_framework.http
