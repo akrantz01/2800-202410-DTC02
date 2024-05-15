@@ -1,11 +1,9 @@
+from google.cloud import language_v2
+
 # check date of writing vs date of topic
 # scan for articles on same topic?
 # scan for type of language used
 # check if all sides are shown
-
-# Imports the Google Cloud client library
-
-from google.cloud import language_v2
 
 
 def analyze_sentiment_sample():

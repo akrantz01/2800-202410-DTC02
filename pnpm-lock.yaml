@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      pdm:
+        specifier: ^0.3.0
+        version: 0.3.0
     devDependencies:
       '@html-eslint/eslint-plugin':
         specifier: ^0.24.1
