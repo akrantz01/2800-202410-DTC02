@@ -33,17 +33,22 @@
   >
     <header id="header-placeholder"></header>
 
-    <!-- Pagination Controls Go Here -->
+    <!-- Placeholder Pagination Controls -->
+    <!-- <div class="flex flex-row min-w-screen bg-gray-600 justify-between my-8 p-3">
+    <a>Summary</a>
+    <a>Accuracy</a>
+    <a>Bias</a>
+    <a>Tone</a>
+    <a>AI</a>
+  </div> -->
 
-    <!-- -->
-
-    <div class="flex flex-col min-h-full space-y-4">
+    <div class="flex flex-col min-h-full space-y-4 m-2">
       <div
         id="analysis-description"
-        class="w-full bg-red-300 rounded-lg p-4 px-6 text-left space-y-4"
+        class="w-full border border-gray-400 rounded-lg bg-white p-4 px-6 text-left space-y-2"
       >
-        <h2 class="text-2xl font-semibold">Accuracy Assessment</h2>
-        <p class="">
+        <h2 class="text-2xl text-gray-600 font-semibold">Accuracy Assessment</h2>
+        <p class="text-md text-gray-500">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae, temporibus
           quisquam! Dignissimos repudiandae animi dolorem fuga beatae sequi soluta quidem fugiat
           alias ex, pariatur voluptatibus obcaecati nisi quam vitae dolore.
@@ -51,7 +56,15 @@
       </div>
 
       <!-- Contains Fact Cards -->
-      <div id="fact-cards" class="flex flex-col space-y-2">
+      <div
+        id="fact-cards"
+        class="flex flex-col space-y-2 border border-gray-400 rounded-lg bg-white p-4"
+      >
+        <h2 class="text-2xl text-gray-600 text-left pb-5">
+          Facts
+          <p class="text-sm text-gray-600 text-left">2/5 Analyzed</p>
+        </h2>
+
         <!-- Fact Card: True -->
         <div
           class="min-w-sm bg-white border border-gray-600 border-separate rounded-lg shadow text-left"
@@ -81,7 +94,7 @@
               </svg>
               <h5 class="text-xl text-green-500 font-semibold align-text-bottom">True</h5>
             </div>
-            <p class="font-normal mx-0.5 text-gray-400">
+            <p class="font-normal mx-0.5 text-gray-500">
               Bananas are berries, but strawberries are not. Botanically speaking, bananas qualify
               as berries because they develop from a flower with a single ovary, while strawberries
               are considered aggregate fruits.
@@ -166,6 +179,30 @@
               </svg>
             </a>
           </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col space-y-2 border border-gray-400 rounded-lg bg-white p-4">
+        <h2 class="text-2xl text-gray-600 text-left">72% Factual</h2>
+        <div class="w-full bg-red-500 rounded-full h-2.5">
+          <div class="bg-green-500 h-2.5 rounded-full" style="width: 72%"></div>
+        </div>
+      </div>
+
+      <div class="w-full border border-gray-400 rounded-lg bg-white p-4 px-6 text-left space-y-2">
+        <h2 class="text-2xl text-gray-600 font-semibold">Summary</h2>
+        <p class="text-md text-gray-500">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae, temporibus
+          quisquam! Dignissimos repudiandae animi dolorem fuga beatae sequi soluta quidem fugiat
+          alias ex, pariatur voluptatibus obcaecati nisi quam vitae dolore.
+        </p>
+        <div>
+          <button
+            type="button"
+            class="bg-secondary rounded-xl p-3 text-white border border-gray-100"
+          >
+            <a href="">Share</a>
+          </button>
         </div>
       </div>
     </div>
