@@ -2,10 +2,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
-import {
-  addDoc,
-  collection,
-} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
+import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
 
 import { displayError, enableSignInWithGoogle, redirectToHome } from './shared.js';
 import { auth, firestore } from '../firebase.js';
@@ -25,13 +22,12 @@ form.addEventListener('submit', async (event) => {
   try {
     const credential = await createUserWithEmailAndPassword(auth, data.email, data.password);
     await updateProfile(credential.user, { displayName: data.name });
-
-    const docRef = await addDoc(collection(firestore, 'users'), {
+    console.log(credential.user.uid);
+    await setDoc(doc(firestore, 'users', credential.user.uid), {
       name: credential.user.displayName,
       email: credential.user.email,
     });
 
-    console.log('id = ' + docRef.id);
     redirectToHome();
   } catch (error) {
     let message = error.message;
