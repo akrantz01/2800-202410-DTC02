@@ -12,7 +12,7 @@ def handler(request: Request) -> typing.ResponseReturnValue:
     :return: an empty successful response
     """
     try:
-        body = AnalyzeText.model_validate(request.form)
+        body = AnalyzeText.model_validate(dict(request.form))
     except ValidationError as e:
         return response_from_validation_error(e)
 

@@ -33,9 +33,6 @@ test = { cmd = "pytest" }
 analysis-manager.cmd = "functions-framework --target=handler --source projects/analysis-manager/main.py"
 analysis-manager.env = { PORT = "8080" }
 
-page-cache.cmd = "functions-framework --target=handler --source backend/page-cache/main.py"
-page-cache.env = { PORT = "8081" }
-
 [tool.polylith.bricks]
 "components/veritasai/document_id" = "veritasai/document_id"
 "components/veritasai/input_validation" = "veritasai/input_validation"
@@ -43,6 +40,9 @@ page-cache.env = { PORT = "8081" }
 
 [tool.pyright]
 extraPaths = ["bases", "components"]
+
+[tool.pytest.ini_options]
+markers = ["function: mark a test as requiring an instance of a handler function"]
 
 [tool.ruff]
 line-length = 100
