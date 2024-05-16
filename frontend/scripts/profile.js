@@ -14,7 +14,7 @@ import {
   updateDoc,
 } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
 
-import { displayError, redirectToHome } from './authentication/shared.js';
+import { redirectToHome } from './authentication/shared.js';
 import { auth, firestore } from './firebase.js';
 import { currentUser } from './user.js';
 
@@ -23,6 +23,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!user) {
     redirectToHome();
     return;
+  }
+
+  const errorContainer = document.getElementById('error-message');
+  const messageContainer = document.getElementById('message');
+
+  function displayMessage(message, isError = false) {
+    if (isError) {
+      errorContainer.querySelector('span').textContent = message;
+      errorContainer.classList.remove('hidden');
+    } else {
+      messageContainer.querySelector('span').textContent = message;
+      messageContainer.classList.remove('hidden');
+    }
   }
 
   try {
@@ -60,10 +73,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
           await updateProfile(user, { displayName: newName });
           await updateDoc(doc(firestore, 'users', user.uid), { name: newName });
-          alert('Name updated successfully');
+          displayMessage('Name updated successfully');
           window.location.reload();
         } catch (error) {
-          displayError(error.message);
+          displayMessage(error.message, true);
         }
       });
 
@@ -80,24 +93,24 @@ document.addEventListener('DOMContentLoaded', async () => {
           await reauthenticateWithCredential(user, credential);
           await updateEmail(user, newEmail);
           await updateDoc(doc(firestore, 'users', user.uid), { email: newEmail });
-          alert('Email updated successfully. Please verify your new email.');
+          displayMessage('Email updated successfully. Please verify your new email.');
           window.location.reload();
         } catch (error) {
-          displayError(error.message);
+          displayMessage(error.message, true);
         }
       });
 
       document.getElementById('reset-password-button').addEventListener('click', async () => {
         try {
           await sendPasswordResetEmail(auth, user.email);
-          alert('Password reset email sent. Check your inbox.');
+          displayMessage('Password reset email sent. Check your inbox.');
         } catch (error) {
-          displayError(error.message);
+          displayMessage(error.message, true);
         }
       });
     }
   } catch (error) {
-    displayError(error.message);
+    displayMessage(error.message, true);
   }
 
   const logoutButton = document.getElementById('logout-button');
@@ -113,7 +126,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       await deleteUser(auth.currentUser);
       redirectToHome();
     } catch (error) {
-      displayError(error.message);
+      displayMessage(error.message, true);
     }
   });
 });
