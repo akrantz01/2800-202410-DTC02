@@ -6,7 +6,7 @@ import {
 import { auth } from '../firebase.js';
 
 const googleSignIn = document.getElementById('signin-google');
-const errorContainer = document.getElementById('error');
+const errorContainer = document.getElementById('error-message');
 
 /**
  * Enable the sign in with Google button
