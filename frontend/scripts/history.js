@@ -14,11 +14,12 @@ import { currentUser } from './user.js';
  * add history to user database bu providing the articleID as a string
  */
 export async function addHistory(articleID) {
-  const userID = currentUser.uid;
+  const loggedInUser = await currentUser;
+  const userID = loggedInUser.uid;
   const article = doc(firestore, 'users', userID, 'history', articleID);
 
   await setDoc(article, {
-    dateScanned: Timestamp.now.toDate,
+    dateScanned: Timestamp.now(),
   });
 }
 
@@ -35,7 +36,6 @@ async function writeHistory() {
     let articleBody;
     let date = historicalArticle.data().dateScanned.toDate().toString().split(' ');
     date = date.slice(0, 5).join(' ');
-    console.log(date);
     const articleRef = doc(firestore, 'articles', articleID);
     const articleSnapshot = await getDoc(articleRef);
     if (articleSnapshot.exists()) {
@@ -58,4 +58,5 @@ async function writeHistory() {
   });
 }
 
-window.addEventListener('load', writeHistory);
+if (window.location.href.match('history.html') != null)
+  window.addEventListener('load', writeHistory);
