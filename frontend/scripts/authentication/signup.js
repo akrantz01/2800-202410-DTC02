@@ -8,7 +8,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
 
 import { displayError, enableSignInWithGoogle, redirectToHome } from './shared.js';
-import { auth , firestore } from '../firebase.js';
+import { auth, firestore } from '../firebase.js';
 import { currentUser } from '../user.js';
 
 const form = document.querySelector('form');
