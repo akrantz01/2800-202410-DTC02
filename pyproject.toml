@@ -5,7 +5,7 @@ description = "Team DTC02 is developing VeritasAI to help people who read online
 
 requires-python = ">=3.10"
 
-dependencies = ["requests>=2.31.0"]
+dependencies = []
 
 [tool.pdm]
 distribution = false
