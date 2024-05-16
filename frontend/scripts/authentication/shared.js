@@ -39,6 +39,10 @@ export function redirectToHome() {
  * @param {string} message the message to display
  */
 export function displayError(message) {
-  errorContainer.querySelector('span').textContent = message;
-  errorContainer.classList.remove('hidden');
+  if (errorContainer) {
+    errorContainer.querySelector('span').textContent = message;
+    errorContainer.classList.remove('hidden');
+  } else {
+    console.error('Error container element not found');
+  }
 }

@@ -1,5 +1,7 @@
 import {
+  GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  signInWithPopup,
   updateProfile,
 } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
 import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
@@ -34,5 +36,23 @@ form.addEventListener('submit', async (event) => {
     else if (error.code === 'auth/weak-password') message = 'Password is too weak.';
 
     displayError(message);
+  }
+});
+
+// Handle Google sign in
+const googleButton = document.getElementById('signin-google');
+googleButton.addEventListener('click', async () => {
+  const provider = new GoogleAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    await setDoc(doc(firestore, 'users', user.uid), {
+      name: user.displayName,
+      email: user.email,
+    });
+
+    redirectToHome();
+  } catch (error) {
+    displayError(error.message);
   }
 });
