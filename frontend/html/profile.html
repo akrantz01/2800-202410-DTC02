@@ -14,6 +14,13 @@
         <div id="profile-info" class="mb-6">
           <!-- Profile information will be inserted here -->
         </div>
+        <button
+          id="change-name-button"
+          type="button"
+          class="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+        >
+          Change Name
+        </button>
         <form id="update-name-form" class="hidden mb-6">
           <label for="new-name" class="block mb-2 text-sm font-bold text-gray-700">New Name:</label>
           <input
@@ -28,6 +35,13 @@
             Update Name
           </button>
         </form>
+        <button
+          id="change-email-button"
+          type="button"
+          class="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+        >
+          Change Email
+        </button>
         <form id="update-email-form" class="hidden mb-6">
           <label for="new-email" class="block mb-2 text-sm font-bold text-gray-700"
             >New Email:</label
@@ -37,6 +51,12 @@
             type="email"
             class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           />
+          <label for="password" class="block mb-2 text-sm font-bold text-gray-700">Password:</label>
+          <input
+            id="password"
+            type="password"
+            class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          />
           <button
             type="submit"
             class="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
@@ -44,6 +64,13 @@
             Update Email
           </button>
         </form>
+        <button
+          id="reset-password-button"
+          type="button"
+          class="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+        >
+          Reset Password
+        </button>
         <button
           id="logout-button"
           type="button"
