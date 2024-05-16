@@ -67,55 +67,55 @@ def test_all_fields_empty(client: FlaskClient):
 
     assert response.status_code == 422
     assert response.json == [
-       {
-           'ctx': {
-               'min_length': 5,
-           },
-           'input': '',
-           'loc': [
-               'content',
-           ],
-           'msg': 'String should have at least 5 characters',
-           'type': 'string_too_short',
-           'url': 'https://errors.pydantic.dev/2.7/v/string_too_short',
-       },
-       {
-           'ctx': {
-               'min_length': 2,
-           },
-           'input': '',
-           'loc': [
-               'author',
-           ],
-           'msg': 'String should have at least 2 characters',
-           'type': 'string_too_short',
-           'url': 'https://errors.pydantic.dev/2.7/v/string_too_short',
-       },
-       {
-           'ctx': {
-               'min_length': 5,
-           },
-           'input': '',
-           'loc': [
-               'publisher',
-           ],
-           'msg': 'String should have at least 5 characters',
-           'type': 'string_too_short',
-           'url': 'https://errors.pydantic.dev/2.7/v/string_too_short',
-       },
-       {
-           'ctx': {
-               'error': 'input is empty',
-           },
-           'input': '',
-           'loc': [
-               'source-url',
-           ],
-           'msg': 'Input should be a valid URL, input is empty',
-           'type': 'url_parsing',
-           'url': 'https://errors.pydantic.dev/2.7/v/url_parsing',
-       },
-   ]
+        {
+            "ctx": {
+                "min_length": 5,
+            },
+            "input": "",
+            "loc": [
+                "content",
+            ],
+            "msg": "String should have at least 5 characters",
+            "type": "string_too_short",
+            "url": "https://errors.pydantic.dev/2.7/v/string_too_short",
+        },
+        {
+            "ctx": {
+                "min_length": 2,
+            },
+            "input": "",
+            "loc": [
+                "author",
+            ],
+            "msg": "String should have at least 2 characters",
+            "type": "string_too_short",
+            "url": "https://errors.pydantic.dev/2.7/v/string_too_short",
+        },
+        {
+            "ctx": {
+                "min_length": 5,
+            },
+            "input": "",
+            "loc": [
+                "publisher",
+            ],
+            "msg": "String should have at least 5 characters",
+            "type": "string_too_short",
+            "url": "https://errors.pydantic.dev/2.7/v/string_too_short",
+        },
+        {
+            "ctx": {
+                "error": "input is empty",
+            },
+            "input": "",
+            "loc": [
+                "source-url",
+            ],
+            "msg": "Input should be a valid URL, input is empty",
+            "type": "url_parsing",
+            "url": "https://errors.pydantic.dev/2.7/v/url_parsing",
+        },
+    ]
 
 
 def test_content_empty(client: FlaskClient, data: dict[str, str]):
@@ -274,16 +274,16 @@ def test_url_invalid_characters(client: FlaskClient, data: dict[str, str]):
 
     assert response.status_code == 422
     assert response.json == [
-       {
-           'ctx': {
-               'expected_schemes': "'http' or 'https'",
-           },
-           'input': 'ttp://#*@)($#$)',
-           'loc': [
-               'source-url',
-           ],
-           'msg': "URL scheme should be 'http' or 'https'",
-           'type': 'url_scheme',
-           'url': 'https://errors.pydantic.dev/2.7/v/url_scheme',
-       },
-   ]
+        {
+            "ctx": {
+                "expected_schemes": "'http' or 'https'",
+            },
+            "input": "ttp://#*@)($#$)",
+            "loc": [
+                "source-url",
+            ],
+            "msg": "URL scheme should be 'http' or 'https'",
+            "type": "url_scheme",
+            "url": "https://errors.pydantic.dev/2.7/v/url_scheme",
+        },
+    ]

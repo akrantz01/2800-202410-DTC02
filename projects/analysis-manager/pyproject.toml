@@ -12,6 +12,9 @@ requires-python = ">=3.10"
 
 dependencies = ["flask>=3.0.3", "functions-framework>=3.5.0", "pydantic>=2.7.1"]
 
+[tool.pdm.build]
+includes = ["main.py", "requirements.txt"]
+
 [tool.polylith.bricks]
 "../../bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
 "../../components/veritasai/input_validation" = "veritasai/input_validation"

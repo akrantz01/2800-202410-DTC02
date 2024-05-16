@@ -24,7 +24,9 @@ jobs:
       matrix:
         name:
           - analysis-manager
-          - page-cache
+    env:
+      PDM_PROJECT: projects/${{ matrix.name }}
+      PDM_LOCKFILE: ${{ github.workspace }}/pdm.lock
     steps:
       - uses: actions/checkout@v4
       - uses: google-github-actions/auth@v2
@@ -35,15 +37,18 @@ jobs:
       - uses: google-github-actions/setup-gcloud@v2
       - uses: pdm-project/setup-pdm@v4
         with:
-          python-version-file: backend/${{ matrix.name }}/pyproject.toml
+          python-version-file: projects/${{ matrix.name }}/pyproject.toml
 
-      - name: Export requirements
+      - name: Build
+        id: build
         run: |
-          pdm export \
-            --project backend/${{ matrix.name }} \
-            -f requirements \
-            -o backend/${{ matrix.name }}/requirements.txt \
-            --without-hashes
+          pdm export --prod --format requirements --output ${{ env.PDM_PROJECT }}/requirements.txt --without-hashes
+          pdm build --no-wheel
+          echo "name=$(pdm show --name)" >> "$GITHUB_OUTPUT"
+          echo "version=$(pdm show --version)" >> "$GITHUB_OUTPUT"
+
+      - name: Package
+        run: tar zxvf ${{ env.PDM_PROJECT }}/dist/${{ steps.build.outputs.name}}-${{ steps.build.outputs.version }}.tar.gz
 
       # TODO: require authentication for invocation
       - name: Deploy
@@ -51,7 +56,7 @@ jobs:
           gcloud functions deploy ${{ matrix.name }} --gen2 \
             --region=${REGION} \
             --runtime=${RUNTIME} \
-            --source backend/${{ matrix.name }} \
+            --source ${{ steps.build.outputs.name }}-${{ steps.build.outputs.version }} \
             --entry-point=handler \
             --trigger-http \
             --allow-unauthenticated \
