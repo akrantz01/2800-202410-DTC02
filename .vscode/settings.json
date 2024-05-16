@@ -23,5 +23,8 @@
     "**/.pdm-build": true,
     "**/*.egg-info": true
   },
-  "python.analysis.extraPaths": ["bases", "components"]
+  "python.analysis.extraPaths": ["bases", "components"],
+  "python.testing.pytestArgs": ["test"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
 }
