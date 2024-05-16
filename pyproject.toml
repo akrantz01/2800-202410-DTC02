@@ -2,10 +2,11 @@
 name = "2800-202410-dtc02"
 version = "1.0.0"
 description = "Team DTC02 is developing VeritasAI to help people who read online articles determine the bias and accuracy of the content, and whether it was generated with AI, by implementing AI language models to analyze the text"
+authors = [{ name = "DTC-02" }]
 
 requires-python = ">=3.10"
 
-dependencies = []
+dependencies = ["flask>=3.0.3", "functions-framework>=3.5.0", "pydantic>=2.7.1"]
 
 [build-system]
 requires = ["pdm-backend", "pdm-polylith-workspace"]
@@ -24,7 +25,7 @@ format = { cmd = "ruff format --check" }
 "format:fix" = { cmd = "ruff format" }
 test = { cmd = "pytest" }
 
-analysis-manager.cmd = "functions-framework --target=handler --source backend/analysis-manager/main.py"
+analysis-manager.cmd = "functions-framework --target=handler --source projects/analysis-manager/main.py"
 analysis-manager.env = { PORT = "8080" }
 
 page-cache.cmd = "functions-framework --target=handler --source backend/page-cache/main.py"
