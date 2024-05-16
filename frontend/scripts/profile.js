@@ -1,7 +1,9 @@
 import {
   EmailAuthProvider,
+  GoogleAuthProvider,
   deleteUser,
   reauthenticateWithCredential,
+  reauthenticateWithPopup,
   sendPasswordResetEmail,
   signOut,
   updateEmail,
@@ -122,6 +124,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   const deleteAccountButton = document.getElementById('delete-account-button');
   deleteAccountButton.addEventListener('click', async () => {
     try {
+      if (user.providerData[0].providerId === 'google.com') {
+        const provider = new GoogleAuthProvider();
+        await reauthenticateWithPopup(user, provider);
+      }
       await deleteDoc(doc(firestore, 'users', user.uid));
       await deleteUser(auth.currentUser);
       redirectToHome();
