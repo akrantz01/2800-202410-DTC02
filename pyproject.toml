@@ -6,7 +6,12 @@ authors = [{ name = "DTC-02" }]
 
 requires-python = ">=3.10"
 
-dependencies = ["flask>=3.0.3", "functions-framework>=3.5.0", "pydantic>=2.7.1"]
+dependencies = [
+  "flask>=3.0.3",
+  "functions-framework>=3.5.0",
+  "pydantic>=2.7.1",
+  "google-cloud-language>=2.13.3",
+]
 
 [build-system]
 requires = ["pdm-backend", "pdm-polylith-workspace"]
