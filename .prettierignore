@@ -15,6 +15,7 @@ pdm.lock
 .npmrc
 *.svg
 firestore.rules
+.keep
 
 # Handled by ruff
 __pycache__/

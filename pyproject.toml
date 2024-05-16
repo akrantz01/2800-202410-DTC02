@@ -7,8 +7,12 @@ requires-python = ">=3.10"
 
 dependencies = []
 
+[build-system]
+requires = ["pdm-backend", "pdm-polylith-workspace"]
+build-backend = "pdm.backend"
+
 [tool.pdm]
-distribution = false
+distribution = true
 
 [tool.pdm.dev-dependencies]
 dev = [
@@ -17,6 +21,7 @@ dev = [
   "-e page_cache @ file:///${PROJECT_ROOT}/backend/page-cache",
   "ruff>=0.4.3",
   "pytest>=8.2.0",
+  "polylith-cli>=1.6.0",
 ]
 
 [tool.pdm.scripts]
