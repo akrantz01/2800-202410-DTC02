@@ -40,7 +40,7 @@ form.addEventListener('submit', async (event) => {
 });
 
 // Handle Google sign in
-const googleButton = document.getElementById('google-signin-button');
+const googleButton = document.getElementById('signin-google');
 googleButton.addEventListener('click', async () => {
   const provider = new GoogleAuthProvider();
   try {
