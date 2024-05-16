@@ -18,7 +18,7 @@ def data() -> dict[str, str]:
 
 
 def test_missing_fields(client: FlaskClient):
-    response = client.post("/", data={})
+    response = client.post("/", json={})
 
     assert response.status_code == 422
     assert response.json == [
@@ -47,7 +47,7 @@ def test_missing_fields(client: FlaskClient):
 
 def test_all_fields_empty(client: FlaskClient):
     data = {"content": "", "author": "", "publisher": "", "source-url": ""}
-    response = client.post("/", data=data)
+    response = client.post("/", json=data)
 
     assert response.status_code == 422
     assert response.json == [
@@ -76,7 +76,7 @@ def test_all_fields_empty(client: FlaskClient):
 
 def test_content_empty(client: FlaskClient, data: dict[str, str]):
     data["content"] = ""
-    response = client.post("/", data=data)
+    response = client.post("/", json=data)
 
     assert response.status_code == 422
     assert response.json == [
@@ -90,7 +90,7 @@ def test_content_empty(client: FlaskClient, data: dict[str, str]):
 
 def test_author_empty(client: FlaskClient, data: dict[str, str]):
     data["author"] = ""
-    response = client.post("/", data=data)
+    response = client.post("/", json=data)
 
     assert response.status_code == 422
     assert response.json == [
@@ -104,7 +104,7 @@ def test_author_empty(client: FlaskClient, data: dict[str, str]):
 
 def test_publisher_empty(client: FlaskClient, data: dict[str, str]):
     data["publisher"] = ""
-    response = client.post("/", data=data)
+    response = client.post("/", json=data)
 
     assert response.status_code == 422
     assert response.json == [
@@ -118,7 +118,7 @@ def test_publisher_empty(client: FlaskClient, data: dict[str, str]):
 
 def test_url_empty(client: FlaskClient, data: dict[str, str]):
     data["source-url"] = ""
-    response = client.post("/", data=data)
+    response = client.post("/", json=data)
     assert response.status_code == 422
     assert response.json == [
         {
@@ -134,7 +134,7 @@ def test_url_empty(client: FlaskClient, data: dict[str, str]):
 @pytest.mark.parametrize("field,length", [("content", 5), ("author", 2), ("publisher", 5)])
 def test_field_too_short(client: FlaskClient, data: dict[str, str], field: str, length: int):
     data[field] = "a" * (length - 1)
-    response = client.post("/", data=data)
+    response = client.post("/", json=data)
 
     assert response.status_code == 422
     assert response.json == [
@@ -148,7 +148,7 @@ def test_field_too_short(client: FlaskClient, data: dict[str, str], field: str, 
 
 def test_url_invalid_string(client: FlaskClient, data: dict[str, str]):
     data["source-url"] = "Behind ye old windmill"
-    response = client.post("/", data=data)
+    response = client.post("/", json=data)
 
     assert response.status_code == 422
     assert response.json == [
@@ -162,7 +162,7 @@ def test_url_invalid_string(client: FlaskClient, data: dict[str, str]):
 
 def test_url_invalid_domain(client: FlaskClient, data: dict[str, str]):
     data["source-url"] = "http://Behind ye old windmill"
-    response = client.post("/", data=data)
+    response = client.post("/", json=data)
 
     assert response.status_code == 422
     assert response.json == [
@@ -176,7 +176,7 @@ def test_url_invalid_domain(client: FlaskClient, data: dict[str, str]):
 
 def test_url_invalid_characters(client: FlaskClient, data: dict[str, str]):
     data["source-url"] = "ttp://#*@)($#$)"
-    response = client.post("/", data=data)
+    response = client.post("/", json=data)
 
     assert response.status_code == 422
     assert response.json == [
