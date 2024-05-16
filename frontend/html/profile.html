@@ -17,7 +17,7 @@
         <button
           id="change-name-button"
           type="button"
-          class="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+          class="hidden w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
         >
           Change Name
         </button>
@@ -38,7 +38,7 @@
         <button
           id="change-email-button"
           type="button"
-          class="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+          class="hidden w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
         >
           Change Email
         </button>
@@ -67,7 +67,7 @@
         <button
           id="reset-password-button"
           type="button"
-          class="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+          class="hidden w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
         >
           Reset Password
         </button>
@@ -85,9 +85,12 @@
         >
           Delete Account
         </button>
-      </div>
-      <div id="error-message" class="hidden mt-4 text-center text-red-500">
-        <span></span>
+        <div id="message" class="hidden mt-4 text-center">
+          <span class="text-green-500"></span>
+        </div>
+        <div id="error-message" class="hidden mt-4 text-center text-red-500">
+          <span></span>
+        </div>
       </div>
     </main>
     <footer id="footer-placeholder"></footer>
