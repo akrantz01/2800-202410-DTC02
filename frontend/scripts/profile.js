@@ -2,6 +2,7 @@ import {
   EmailAuthProvider,
   deleteUser,
   reauthenticateWithCredential,
+  sendPasswordResetEmail,
   signOut,
   updateEmail,
   updateProfile,
@@ -45,8 +46,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Check if the user logged in with email and password
     if (user.providerData[0].providerId === 'password') {
-      document.getElementById('update-name-form').classList.remove('hidden');
-      document.getElementById('update-email-form').classList.remove('hidden');
+      document.getElementById('change-name-button').classList.remove('hidden');
+      document.getElementById('change-email-button').classList.remove('hidden');
+      document.getElementById('reset-password-button').classList.remove('hidden');
+
+      document.getElementById('change-name-button').addEventListener('click', () => {
+        document.getElementById('update-name-form').classList.toggle('hidden');
+      });
 
       document.getElementById('update-name-form').addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -61,21 +67,30 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       });
 
+      document.getElementById('change-email-button').addEventListener('click', () => {
+        document.getElementById('update-email-form').classList.toggle('hidden');
+      });
+
       document.getElementById('update-email-form').addEventListener('submit', async (event) => {
         event.preventDefault();
         const newEmail = document.getElementById('new-email').value;
-        const password = prompt('Please enter your password to confirm the change:');
-        if (!password) {
-          alert('Password is required to change email');
-          return;
-        }
+        const password = document.getElementById('password').value;
         try {
           const credential = EmailAuthProvider.credential(user.email, password);
           await reauthenticateWithCredential(user, credential);
           await updateEmail(user, newEmail);
           await updateDoc(doc(firestore, 'users', user.uid), { email: newEmail });
-          alert('Email updated successfully');
+          alert('Email updated successfully. Please verify your new email.');
           window.location.reload();
+        } catch (error) {
+          displayError(error.message);
+        }
+      });
+
+      document.getElementById('reset-password-button').addEventListener('click', async () => {
+        try {
+          await sendPasswordResetEmail(auth, user.email);
+          alert('Password reset email sent. Check your inbox.');
         } catch (error) {
           displayError(error.message);
         }
