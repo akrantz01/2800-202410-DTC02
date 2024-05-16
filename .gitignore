@@ -419,3 +419,6 @@ frontend/styles/output.css
 # Firebase local configuration
 .firebase/
 .firebaserc
+
+# Project requirements
+projects/*/requirements.txt

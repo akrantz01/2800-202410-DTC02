@@ -1,4 +1,4 @@
-from document_id import generate
+from veritasai.document_id import generate
 
 
 def test_empty_content():
