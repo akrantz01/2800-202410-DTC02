@@ -14,8 +14,8 @@ class AnalyzeTextAreaModel(BaseModel):
         min_length=10,
         validation_alias=AliasChoices("text_body", "text-to-analyze"),
     )
-    author: str = Field(min_length=1)
-    publisher: str = Field(min_length=5)
+    author: str = Field(min_length=5)
+    publisher: str = Field(min_length=2)
     source_url: HttpUrl = Field(validation_alias=AliasChoices("source_url", "source-url"))
 
 
