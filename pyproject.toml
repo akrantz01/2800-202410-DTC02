@@ -15,14 +15,7 @@ build-backend = "pdm.backend"
 distribution = true
 
 [tool.pdm.dev-dependencies]
-dev = [
-  "-e document_id @ file:///${PROJECT_ROOT}/backend/common/document-id",
-  "-e analysis_manager @ file:///${PROJECT_ROOT}/backend/analysis-manager",
-  "-e page_cache @ file:///${PROJECT_ROOT}/backend/page-cache",
-  "ruff>=0.4.3",
-  "pytest>=8.2.0",
-  "polylith-cli>=1.6.0",
-]
+dev = ["ruff>=0.4.3", "pytest>=8.2.0", "polylith-cli>=1.6.0"]
 
 [tool.pdm.scripts]
 lint = { cmd = "ruff check" }
@@ -36,6 +29,9 @@ analysis-manager.env = { PORT = "8080" }
 
 page-cache.cmd = "functions-framework --target=handler --source backend/page-cache/main.py"
 page-cache.env = { PORT = "8081" }
+
+[tool.pyright]
+extraPaths = ["bases", "components"]
 
 [tool.ruff]
 line-length = 100

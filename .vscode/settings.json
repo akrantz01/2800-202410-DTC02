@@ -22,5 +22,6 @@
     "**/__pycache__": true,
     "**/.pdm-build": true,
     "**/*.egg-info": true
-  }
+  },
+  "python.analysis.extraPaths": ["bases", "components"]
 }
