@@ -8,8 +8,14 @@
       "name": "analysis-manager",
       "type": "debugpy",
       "request": "launch",
-      "module": "functions_framework",
-      "args": ["--target=handler", "--source=projects/analysis-manager/main.py", "--debug"]
+      "module": "flask",
+      "env": {
+        "FLASK_APP": "development/function.py",
+        "FLASK_DEBUG": "1",
+        "FUNCTION": "analysis_manager"
+      },
+      "args": ["run", "--no-debugger"],
+      "autoStartBrowser": false
     }
   ]
 }
