@@ -22,7 +22,6 @@ form.addEventListener('submit', async (event) => {
   try {
     const credential = await createUserWithEmailAndPassword(auth, data.email, data.password);
     await updateProfile(credential.user, { displayName: data.name });
-    console.log(credential.user.uid);
     await setDoc(doc(firestore, 'users', credential.user.uid), {
       name: credential.user.displayName,
       email: credential.user.email,
