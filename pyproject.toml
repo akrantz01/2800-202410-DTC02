@@ -32,6 +32,7 @@ page-cache.env = { PORT = "8081" }
 
 [tool.polylith.bricks]
 "components/veritasai/document_id" = "veritasai/document_id"
+"components/veritasai/input_validation" = "veritasai/input_validation"
 
 [tool.pyright]
 extraPaths = ["bases", "components"]
