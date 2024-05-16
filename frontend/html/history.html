@@ -103,7 +103,7 @@
                 <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
                 <path d="M12 7v5l3 3" />
               </svg>
-              <p class="text-slate-600">2024-05-15 16:13</p>
+              <p class="scanned-date text-slate-600">2024-05-15 16:13</p>
             </div>
           </a>
         </template>
@@ -111,17 +111,6 @@
     </div>
     <footer id="footer-placeholder"></footer>
     <script type="module" src="/frontend/scripts/nav-bar-logic.js"></script>
-    <!-- Script demo for using template -->
-    <!-- <script>
-      let myTemplate = document.getElementById('history-card');
-
-      let newCard = myTemplate.content.cloneNode(true);
-      newCard.querySelector('.analyzed-text').innerHTML =
-        "There once was a man named Stan who didn't have a plan";
-      newCard.querySelector('.ai-gauge').style = 'width: 2%';
-      newCard.querySelector('.bias-gauge').style = 'width: 80%';
-
-      document.getElementById('history-cards').appendChild(newCard);
-    </script> -->
+    <script type="module" src="/frontend/scripts/history.js"></script>
   </body>
 </html>
