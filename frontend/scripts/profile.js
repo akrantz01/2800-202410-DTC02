@@ -47,6 +47,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const userData = userDoc.data();
+    const dob = new Date(userData.dob);
+    const today = new Date();
+    const isBirthday = today.getMonth() === dob.getMonth() && today.getDate() === dob.getDate();
+
     const profileContainer = document.getElementById('profile-info');
     profileContainer.innerHTML = `
       <div class="mb-4">
@@ -56,6 +60,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
         <p class="text-lg">${userData.email}</p>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">Date of Birth:</label>
+        <p class="text-lg">${userData.dob}${isBirthday ? ' - Happy Birthday!' : ''}</p>
       </div>
     `;
 
