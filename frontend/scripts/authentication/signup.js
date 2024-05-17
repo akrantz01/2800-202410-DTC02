@@ -1,6 +1,7 @@
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  deleteUser,
   signInWithPopup,
   updateProfile,
 } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
@@ -54,9 +55,25 @@ googleButton.addEventListener('click', async () => {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
+
+    // Prompt for date of birth
+    const dob = prompt('Please enter your date of birth (YYYY-MM-DD):');
+    if (!dob) {
+      displayError('Date of birth is required.');
+      return;
+    }
+    const dobDate = new Date(dob);
+    const age = new Date().getFullYear() - dobDate.getFullYear();
+    if (age < 14) {
+      displayError('You must be at least 14 years old to sign up.');
+      await deleteUser(user);
+      return;
+    }
+
     await setDoc(doc(firestore, 'users', user.uid), {
       name: user.displayName,
       email: user.email,
+      dob,
     });
 
     redirectToHome();
