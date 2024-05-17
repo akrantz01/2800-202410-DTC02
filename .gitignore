@@ -415,3 +415,13 @@ cython_debug/
 
 # Tailwind generated styles
 frontend/styles/output.css
+
+# Firebase local configuration
+.firebase/
+.firebaserc
+
+# Project requirements
+projects/*/requirements.txt
+
+# Firebase Admin SDK credentials
+*-firebase-adminsdk-*.json

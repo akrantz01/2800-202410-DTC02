@@ -2,32 +2,51 @@
 name = "2800-202410-dtc02"
 version = "1.0.0"
 description = "Team DTC02 is developing VeritasAI to help people who read online articles determine the bias and accuracy of the content, and whether it was generated with AI, by implementing AI language models to analyze the text"
+authors = [{ name = "DTC-02" }]
 
 requires-python = ">=3.10"
 
-dependencies = []
+dependencies = [
+  "flask>=3.0.3",
+  "functions-framework>=3.5.0",
+  "pydantic>=2.7.1",
+  "google-cloud-language>=2.13.3",
+  "python-dotenv>=1.0.1",
+  "firebase-admin>=6.5.0",
+]
+
+[build-system]
+requires = ["pdm-backend", "pdm-polylith-workspace"]
+build-backend = "pdm.backend"
 
 [tool.pdm]
-distribution = false
+distribution = true
 
 [tool.pdm.dev-dependencies]
-dev = [
-  "-e analysis_manager @ file:///${PROJECT_ROOT}/backend/analysis-manager",
-  "-e page_cache @ file:///${PROJECT_ROOT}/backend/page-cache",
-  "ruff>=0.4.3",
-]
+dev = ["ruff>=0.4.3", "pytest>=8.2.0", "polylith-cli>=1.6.0", "pytest-mock>=3.14.0"]
 
 [tool.pdm.scripts]
 lint = { cmd = "ruff check" }
 "lint:fix" = { cmd = "ruff check --fix" }
 format = { cmd = "ruff format --check" }
 "format:fix" = { cmd = "ruff format" }
+test = { cmd = "pytest" }
 
-analysis-manager.cmd = "functions-framework --target=analysis_manager --source backend/analysis-manager/function.py"
+analysis-manager.cmd = "functions-framework --target=handler --source projects/analysis-manager/main.py"
 analysis-manager.env = { PORT = "8080" }
 
-page-cache.cmd = "functions-framework --target=page_cache --source backend/page-cache/function.py"
-page-cache.env = { PORT = "8081" }
+[tool.polylith.bricks]
+"components/veritasai/document_id" = "veritasai/document_id"
+"components/veritasai/input_validation" = "veritasai/input_validation"
+"bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
+"components/veritasai/firebase" = "veritasai/firebase"
+"components/veritasai/cache" = "veritasai/cache"
+
+[tool.pyright]
+extraPaths = ["bases", "components"]
+
+[tool.pytest.ini_options]
+markers = ["function: mark a test as requiring an instance of a handler function"]
 
 [tool.ruff]
 line-length = 100
@@ -36,7 +55,7 @@ indent-width = 4
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
-line-ending = "lf"
+line-ending = "auto"
 docstring-code-format = true
 
 [tool.ruff.lint]

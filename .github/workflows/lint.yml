@@ -49,3 +49,25 @@ jobs:
 
       - run: ruff format --check .
       - run: ruff check --output-format=github .
+
+  polylith:
+    name: Polylith
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pdm-project/setup-pdm@v4
+        with:
+          python-version-file: pyproject.toml
+          cache: true
+
+      - run: pdm install
+
+      - run: |
+          pdm run poly sync
+
+          if ! git diff --quiet HEAD; then
+            echo "not all bricks are in sync, please run 'pdm run poly sync' and commit the changes."
+            exit 1
+          fi
+
+      - run: pdm run poly check

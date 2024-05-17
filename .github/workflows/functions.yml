@@ -1,0 +1,63 @@
+---
+name: Functions
+
+on:
+  push:
+    branches:
+      - dev
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  REGION: us-central1
+  RUNTIME: python312
+
+jobs:
+  http:
+    name: Deploy ${{ matrix.name }} (HTTP)
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.ref_name }}_${{ matrix.name }}
+    strategy:
+      matrix:
+        name:
+          - analysis-manager
+    env:
+      PDM_PROJECT: projects/${{ matrix.name }}
+      PDM_LOCKFILE: ${{ github.workspace }}/pdm.lock
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          project_id: ${{ secrets.PROJECT_ID }}
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+      - uses: pdm-project/setup-pdm@v4
+        with:
+          python-version-file: projects/${{ matrix.name }}/pyproject.toml
+
+      - name: Build
+        id: build
+        run: |
+          pdm export --prod --format requirements --output ${{ env.PDM_PROJECT }}/requirements.txt --without-hashes
+          pdm build --no-wheel
+          echo "name=$(pdm show --name)" >> "$GITHUB_OUTPUT"
+          echo "version=$(pdm show --version)" >> "$GITHUB_OUTPUT"
+
+      - name: Package
+        run: tar zxvf ${{ env.PDM_PROJECT }}/dist/${{ steps.build.outputs.name}}-${{ steps.build.outputs.version }}.tar.gz
+
+      # TODO: require authentication for invocation
+      - name: Deploy
+        run: |
+          gcloud functions deploy ${{ matrix.name }} --gen2 \
+            --region=${REGION} \
+            --runtime=${RUNTIME} \
+            --source ${{ steps.build.outputs.name }}-${{ steps.build.outputs.version }} \
+            --entry-point=handler \
+            --trigger-http \
+            --allow-unauthenticated \
+            --ignore-file=$(pwd)/.gcloudignore

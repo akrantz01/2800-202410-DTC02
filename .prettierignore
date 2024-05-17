@@ -8,12 +8,19 @@ pdm.lock
 .husky/
 .eslintignore
 .prettierignore
+.gcloudignore
 .gitignore
 .env.*
 .env
 .npmrc
 *.svg
+firestore.rules
+.keep
 
 # Handled by ruff
 __pycache__/
 *.py
+
+
+# Ignore Favicon
+frontend/images/favicon/*
