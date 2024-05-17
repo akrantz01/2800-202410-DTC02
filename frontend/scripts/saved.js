@@ -1,6 +1,7 @@
 import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
 
 import { firestore } from './firebase.js';
+import { saveArticleToggle } from './history.js';
 import { currentUser } from './user.js';
 
 /**
@@ -11,8 +12,8 @@ async function writeSaves() {
   const userID = loggedInUser.uid;
 
   const savedSnapshot = await getDoc(doc(firestore, 'users', userID));
-  const articles = savedSnapshot.data().savedArticles;
-  articles.forEach(async (savedArticle) => {
+  const savedArticles = savedSnapshot.data().savedArticles;
+  savedArticles.forEach(async (savedArticle) => {
     const articleID = savedArticle;
     let articleBody;
 
@@ -31,8 +32,12 @@ async function writeSaves() {
     newCard.querySelector('.analyzed-text').innerHTML = articleBody;
     newCard.querySelector('.ai-gauge').style = 'width: 2%';
     newCard.querySelector('.bias-gauge').style = 'width: 80%';
-    // newCard.querySelector('.scanned-date').innerHTML = date;
-
+    const buttonID = 'save-' + articleID;
+    newCard.querySelector('.save-button').id = buttonID;
+    const buttonElement = newCard.getElementById(buttonID);
+    buttonElement.addEventListener('click', () => {
+      saveArticleToggle(articleID);
+    });
     document.getElementById('saved-cards').appendChild(newCard);
   });
 }
