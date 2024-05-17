@@ -16,10 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (age < 14) {
       displayError('You must be at least 14 years old to sign up.');
-      // const user = JSON.parse(sessionStorage.getItem('googleUser'));
-      const userAuth = auth.currentUser;
-      if (userAuth) {
-        await deleteUser(userAuth);
+      const user = JSON.parse(sessionStorage.getItem('googleUser'));
+      if (user) {
+        const userAuth = await auth.currentUser;
+        if (userAuth) {
+          await deleteUser(userAuth);
+        }
+        window.location.href = 'index.html';
       }
       return;
     }
