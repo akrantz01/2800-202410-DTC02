@@ -42,13 +42,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const aiDetectionText = document.getElementById('ai-detection-text');
     aiDetectionProgress.style.width = `${articleData.aiDetection}%`;
     aiDetectionProgress.textContent = `${articleData.aiDetection}%`;
-    aiDetectionText.textContent = `AI Detection: ${articleData.aiDetection}%`;
+    aiDetectionText.textContent = `${articleData.aiDetection}%`;
 
     const analysisProgress = document.getElementById('analysis-progress');
     const analysisText = document.getElementById('analysis-text');
     analysisProgress.style.width = `${articleData.analysis}%`;
     analysisProgress.textContent = `${articleData.analysis}%`;
-    analysisText.textContent = `Analysis: ${articleData.analysis}% factual`;
+    analysisText.textContent = `${articleData.analysis}% factual`;
 
     // Set up bias indicator
     const biasLeft = document.getElementById('bias-left');
@@ -77,10 +77,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       biasText.textContent = 'Bias: Neutral';
     }
 
-    // Set up links with the UID query parameter
-    document.getElementById('ai-detect-link').href = `ai-detect.html?uid=${uid}`;
-    document.getElementById('analysis-link').href = `analysis.html?uid=${uid}`;
-    document.getElementById('bias-link').href = `bias.html?uid=${uid}`;
+    // Add event listeners to the cards to navigate to detailed pages
+    document.getElementById('ai-detection-card').addEventListener('click', () => {
+      window.location.href = `ai-detect.html?uid=${uid}`;
+    });
+    document.getElementById('factual-analysis-card').addEventListener('click', () => {
+      window.location.href = `analysis.html?uid=${uid}`;
+    });
+    document.getElementById('bias-detection-card').addEventListener('click', () => {
+      window.location.href = `bias.html?uid=${uid}`;
+    });
   } catch (error) {
     displayError(error.message);
   }
