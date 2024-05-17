@@ -38,8 +38,8 @@
         class="flex flex-col items-center justify-center bg-white shadow-md rounded-lg p-4 mx-auto"
       >
         <span class="text-sm">AI Probability:</span>
-        <h1 class="font-bold text-4xl">100%</h1>
-        <span class="text-sm">50 out of 50 points</span>
+        <h1 class="font-bold text-4xl" id="ai-percentage-score">100%</h1>
+        <span class="text-sm" id="ai-probability-score">40 out of 40 points</span>
       </div>
       <div
         id="ai-analysis-breakdown"
@@ -69,17 +69,12 @@
             </div>
             <ul class="font-normal text-sm flex flex-col pl-4">
               <li class="relative flex flex-row items-center justify-between">
-                <span>Strange words used</span>
+                <span>Improbable nouns</span>
                 <div class="flex-grow border-b border-gray-400 mx-1"></div>
                 <span class="font-bold pr-4">5 points</span>
               </li>
               <li class="relative flex flex-row items-center justify-between">
                 <span>Tone variance</span>
-                <div class="flex-grow border-b border-gray-400 mx-1"></div>
-                <span class="font-bold pr-4">5 points</span>
-              </li>
-              <li class="relative flex flex-row items-center justify-between">
-                <span>hmm something else</span>
                 <div class="flex-grow border-b border-gray-400 mx-1"></div>
                 <span class="font-bold pr-4">5 points</span>
               </li>
@@ -108,7 +103,7 @@
                 <span class="font-bold pr-4">5 points</span>
               </li>
               <li class="relative flex flex-row items-center justify-between">
-                <span>something something</span>
+                <span>Vocabulary depth</span>
                 <div class="flex-grow border-b border-gray-400 mx-1"></div>
                 <span class="font-bold pr-4">5 points</span>
               </li>
@@ -166,14 +161,9 @@
             </div>
             <ul class="font-normal text-sm pl-4">
               <li class="relative flex flex-row items-center justify-between">
-                <span>Something super revealing</span>
+                <span>Token-to-text ratio</span>
                 <div class="flex-grow border-b border-gray-400 mx-1"></div>
                 <span class="font-bold pr-4">5 points</span>
-              </li>
-              <li class="relative flex flex-row items-center justify-between">
-                <span class="flex-shrink">Something else</span>
-                <div class="flex-grow border-b border-gray-400 mx-1"></div>
-                <span class="flex-shrink font-bold pr-4">5 points</span>
               </li>
             </ul>
           </li>
@@ -206,6 +196,25 @@
           </button>
         </div>
         <span class="flex text-2xl font-bold text-primary pt-4 pl-4">Article Name</span>
+        <span class="flex text-md font-bold pl-4">Publisher</span>
+        <div class="flex flex-row pl-4 items-center">
+          <a href="#" class="text-blue-400 underline">Original article</a>
+          <svg
+            class="w-3 h-3 ms-2.5 rtl:rotate-[270deg] text-blue-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 18 18"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778"
+            ></path>
+          </svg>
+        </div>
         <span class="px-4 pb-4 text-left"
           >Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis quis sint accusantium
           porro fugit? Quibusdam dolore maiores, dolorem, perspiciatis aspernatur delectus iste
