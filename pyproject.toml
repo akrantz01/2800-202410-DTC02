@@ -22,7 +22,7 @@ build-backend = "pdm.backend"
 distribution = true
 
 [tool.pdm.dev-dependencies]
-dev = ["ruff>=0.4.3", "pytest>=8.2.0", "polylith-cli>=1.6.0"]
+dev = ["ruff>=0.4.3", "pytest>=8.2.0", "polylith-cli>=1.6.0", "pytest-mock>=3.14.0"]
 
 [tool.pdm.scripts]
 lint = { cmd = "ruff check" }

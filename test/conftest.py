@@ -80,3 +80,16 @@ def disable_dotenv(monkeypatch: MonkeyPatch):
         m.setattr("dotenv.load_dotenv", lambda: None)
 
         yield
+
+
+@pytest.fixture(autouse=True)
+def disable_firebase_admin_sdk_initialization(monkeypatch: MonkeyPatch):
+    """
+    Disables the initialization process for the Firebase Admin SDK.
+
+    This ensures that credentials are not required to run tests.
+    """
+    with monkeypatch.context() as m:
+        m.setattr("firebase_admin.initialize_app", lambda *args, **kwargs: None)
+
+        yield
