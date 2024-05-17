@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../styles/output.css" rel="stylesheet" />
+    <title>Article Summary</title>
+  </head>
+  <body class="min-h-screen bg-gradient-to-b from-white to-gray-300 font-roboto">
+    <header id="header-placeholder"></header>
+    <main class="container p-4 mx-auto">
+      <div class="max-w-2xl p-6 mx-auto bg-white rounded-lg shadow-md">
+        <h1 class="mb-6 text-3xl font-bold text-center text-primary">Article Summary</h1>
+        <div id="article-info" class="mb-6">
+          <!-- Article information will be inserted here -->
+        </div>
+        <div class="grid gap-4 mt-4 sm:grid-cols-3">
+          <a
+            href="#"
+            id="ai-detect-link"
+            class="px-4 py-2 text-center text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+            >AI Detection</a
+          >
+          <a
+            href="#"
+            id="analysis-link"
+            class="px-4 py-2 text-center text-white bg-green-500 rounded-lg hover:bg-green-600"
+            >Analysis</a
+          >
+          <a
+            href="#"
+            id="bias-link"
+            class="px-4 py-2 text-center text-white bg-red-500 rounded-lg hover:bg-red-600"
+            >Bias Detection</a
+          >
+        </div>
+        <div id="error-message" class="hidden mt-6 text-center text-red-500">
+          <span></span>
+        </div>
+      </div>
+    </main>
+    <footer id="footer-placeholder"></footer>
+    <script type="module" src="/frontend/scripts/summary.js"></script>
+    <script type="module" src="/frontend/scripts/nav-bar-logic.js"></script>
+  </body>
+</html>
