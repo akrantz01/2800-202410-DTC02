@@ -11,6 +11,7 @@ dependencies = [
   "functions-framework>=3.5.0",
   "pydantic>=2.7.1",
   "google-cloud-language>=2.13.3",
+  "python-dotenv>=1.0.1",
 ]
 
 [build-system]
@@ -37,6 +38,7 @@ analysis-manager.env = { PORT = "8080" }
 "components/veritasai/document_id" = "veritasai/document_id"
 "components/veritasai/input_validation" = "veritasai/input_validation"
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
+"components/veritasai/firebase" = "veritasai/firebase"
 
 [tool.pyright]
 extraPaths = ["bases", "components"]
