@@ -1,5 +1,6 @@
 import functions_framework
 from flask import Request, typing
+from veritasai import document_id
 from veritasai.input_validation import AnalyzeText, ValidationError, response_from_validation_error
 
 
@@ -17,6 +18,9 @@ def handler(request: Request) -> typing.ResponseReturnValue:
         return response_from_validation_error(e)
 
     print(body)
+
+    unique_id = document_id.generate(body.content, body.author, body.publisher)
+    print(unique_id)
 
     # TODO: check if the document has already been processed
     # TODO: (maybe) save the document to a storage bucket

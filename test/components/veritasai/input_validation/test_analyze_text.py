@@ -36,27 +36,6 @@ def test_missing_fields():
             "type": "missing",
             "url": "https://errors.pydantic.dev/2.7/v/missing",
         },
-        {
-            "input": {},
-            "loc": ("author",),
-            "msg": "Field required",
-            "type": "missing",
-            "url": "https://errors.pydantic.dev/2.7/v/missing",
-        },
-        {
-            "input": {},
-            "loc": ("publisher",),
-            "msg": "Field required",
-            "type": "missing",
-            "url": "https://errors.pydantic.dev/2.7/v/missing",
-        },
-        {
-            "input": {},
-            "loc": ("source-url",),
-            "msg": "Field required",
-            "type": "missing",
-            "url": "https://errors.pydantic.dev/2.7/v/missing",
-        },
     ]
 
 

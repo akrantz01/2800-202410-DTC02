@@ -27,21 +27,6 @@ def test_missing_fields(client: FlaskClient):
             "msg": "Field required",
             "type": "missing",
         },
-        {
-            "loc": ["author"],
-            "msg": "Field required",
-            "type": "missing",
-        },
-        {
-            "loc": ["publisher"],
-            "msg": "Field required",
-            "type": "missing",
-        },
-        {
-            "loc": ["source-url"],
-            "msg": "Field required",
-            "type": "missing",
-        },
     ]
 
 
