@@ -20,6 +20,13 @@ form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
   const data = Object.fromEntries(new FormData(form));
+  const dob = new Date(data.dob);
+  const age = new Date().getFullYear() - dob.getFullYear();
+
+  if (age < 14) {
+    displayError('You must be at least 14 years old to sign up.');
+    return;
+  }
 
   try {
     const credential = await createUserWithEmailAndPassword(auth, data.email, data.password);
@@ -27,6 +34,7 @@ form.addEventListener('submit', async (event) => {
     await setDoc(doc(firestore, 'users', credential.user.uid), {
       name: credential.user.displayName,
       email: credential.user.email,
+      dob: data.dob,
     });
 
     redirectToHome();
@@ -46,12 +54,19 @@ googleButton.addEventListener('click', async () => {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    await setDoc(doc(firestore, 'users', user.uid), {
-      name: user.displayName,
-      email: user.email,
-    });
 
-    redirectToHome();
+    // Store user info temporarily
+    sessionStorage.setItem(
+      'googleUser',
+      JSON.stringify({
+        uid: user.uid,
+        displayName: user.displayName,
+        email: user.email,
+      }),
+    );
+
+    // Redirect to the date of birth input page
+    window.location.href = 'dob.html';
   } catch (error) {
     displayError(error.message);
   }

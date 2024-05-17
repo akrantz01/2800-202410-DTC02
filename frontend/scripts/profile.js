@@ -16,7 +16,7 @@ import {
   updateDoc,
 } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
 
-import { redirectToHome } from './authentication/shared.js';
+import { redirectToHome, redirectToIndex } from './authentication/shared.js';
 import { auth, firestore } from './firebase.js';
 import { currentUser } from './user.js';
 
@@ -47,6 +47,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const userData = userDoc.data();
+    const dob = new Date(userData.dob);
+    const today = new Date();
+
+    const normalizedDob = new Date(dob.getFullYear(), dob.getMonth(), dob.getDate() + 1);
+    const normalizedToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    console.log(normalizedDob);
+    console.log(normalizedToday);
+
+    const isBirthday =
+      normalizedToday.getMonth() === normalizedDob.getMonth() &&
+      normalizedToday.getDate() === normalizedDob.getDate();
+
+    console.log(isBirthday);
+
     const profileContainer = document.getElementById('profile-info');
     profileContainer.innerHTML = `
       <div class="mb-4">
@@ -56,6 +70,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
         <p class="text-lg">${userData.email}</p>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">Date of Birth:</label>
+        <p class="text-lg">${userData.dob}${isBirthday ? '<p>Happy Birthday! 🎉 </p>' : ''}</p>
       </div>
     `;
 
@@ -118,7 +136,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const logoutButton = document.getElementById('logout-button');
   logoutButton.addEventListener('click', async () => {
     await signOut(auth);
-    redirectToHome();
+    redirectToIndex();
   });
 
   const deleteAccountButton = document.getElementById('delete-account-button');
@@ -130,7 +148,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
       await deleteDoc(doc(firestore, 'users', user.uid));
       await deleteUser(auth.currentUser);
-      redirectToHome();
+      redirectToIndex();
     } catch (error) {
       displayMessage(error.message, true);
     }
