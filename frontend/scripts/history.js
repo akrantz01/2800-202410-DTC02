@@ -1,10 +1,13 @@
 import {
   Timestamp,
+  arrayRemove,
+  arrayUnion,
   collection,
   doc,
   getDoc,
   getDocs,
   setDoc,
+  updateDoc,
 } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
 
 import { firestore } from './firebase.js';
@@ -29,7 +32,9 @@ export async function addHistory(articleID) {
 async function writeHistory() {
   const loggedInUser = await currentUser;
   const userID = loggedInUser.uid;
-
+  const user = doc(firestore, 'users', userID);
+  const savedSnapshot = await getDoc(user);
+  const savedArticles = savedSnapshot.data().savedArticles;
   const historySnapshot = await getDocs(collection(firestore, 'users', userID, 'history'));
   historySnapshot.forEach(async (historicalArticle) => {
     const articleID = historicalArticle.id;
@@ -52,9 +57,36 @@ async function writeHistory() {
     newCard.querySelector('.ai-gauge').style = 'width: 2%';
     newCard.querySelector('.bias-gauge').style = 'width: 80%';
     newCard.querySelector('.scanned-date').innerHTML = date;
+    const buttonID = 'save-' + articleID;
+    newCard.querySelector('.save-button').id = buttonID;
+    const buttonElement = newCard.getElementById(buttonID);
+    if (savedArticles.includes(articleID)) buttonElement.classList.add('fill-primary');
+    buttonElement.addEventListener('click', () => {
+      saveArticleToggle(articleID);
+    });
 
     document.getElementById('history-cards').appendChild(newCard);
   });
+}
+
+export async function saveArticleToggle(articleID) {
+  const loggedInUser = await currentUser;
+  const userID = loggedInUser.uid;
+  const user = doc(firestore, 'users', userID);
+  const savedSnapshot = await getDoc(user);
+  const savedArticles = savedSnapshot.data().savedArticles;
+
+  if (savedArticles.includes(articleID)) {
+    await updateDoc(user, {
+      savedArticles: arrayRemove(articleID),
+    });
+    document.getElementById('save-' + articleID).classList.remove('fill-primary');
+  } else {
+    await updateDoc(user, {
+      savedArticles: arrayUnion(articleID),
+    });
+    document.getElementById('save-' + articleID).classList.add('fill-primary');
+  }
 }
 
 if (window.location.href.match('history.html') != null)
