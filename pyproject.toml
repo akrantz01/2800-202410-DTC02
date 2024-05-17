@@ -51,7 +51,7 @@ indent-width = 4
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
-line-ending = "lf"
+line-ending = "auto"
 docstring-code-format = true
 
 [tool.ruff.lint]
