@@ -12,6 +12,7 @@ dependencies = [
   "pydantic>=2.7.1",
   "google-cloud-language>=2.13.3",
   "python-dotenv>=1.0.1",
+  "firebase-admin>=6.5.0",
 ]
 
 [build-system]
@@ -39,6 +40,7 @@ analysis-manager.env = { PORT = "8080" }
 "components/veritasai/input_validation" = "veritasai/input_validation"
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
 "components/veritasai/firebase" = "veritasai/firebase"
+"components/veritasai/cache" = "veritasai/cache"
 
 [tool.pyright]
 extraPaths = ["bases", "components"]

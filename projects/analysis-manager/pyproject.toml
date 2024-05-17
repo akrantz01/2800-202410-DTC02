@@ -10,7 +10,13 @@ authors = [{ name = "DTC-02" }]
 
 requires-python = ">=3.10"
 
-dependencies = ["flask>=3.0.3", "functions-framework>=3.5.0", "pydantic>=2.7.1"]
+dependencies = [
+  "firebase-admin>=6.5.0",
+  "flask>=3.0.3",
+  "functions-framework>=3.5.0",
+  "pydantic>=2.7.1",
+  "python-dotenv>=1.0.1",
+]
 
 [tool.pdm.build]
 includes = ["main.py", "requirements.txt"]
@@ -19,3 +25,5 @@ includes = ["main.py", "requirements.txt"]
 "../../bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
 "../../components/veritasai/input_validation" = "veritasai/input_validation"
 "../../components/veritasai/document_id" = "veritasai/document_id"
+"../../components/veritasai/cache" = "veritasai/cache"
+"../../components/veritasai/firebase" = "veritasai/firebase"
