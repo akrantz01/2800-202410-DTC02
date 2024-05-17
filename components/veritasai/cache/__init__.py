@@ -1,4 +1,4 @@
-from veritasai.firebase import db
+from veritasai.firebase import get_db
 
 
 def has_article(article_id: str) -> bool:
@@ -8,5 +8,5 @@ def has_article(article_id: str) -> bool:
     :param article_id: the ID of the document to check
     :return: True if the document exists, False otherwise
     """
-    document = db.collection("articles").document(article_id).get()
+    document = get_db().collection("articles").document(article_id).get()
     return document.exists

@@ -4,11 +4,12 @@ import firebase_admin
 from dotenv import load_dotenv
 from firebase_admin import firestore
 from firebase_admin.credentials import ApplicationDefault, Base, Certificate
+from google.cloud.firestore import Client
 
 load_dotenv()
 
 
-def get_credentials() -> Base:
+def _get_credentials() -> Base:
     """
     Get the credentials for the Firebase Admin SDK.
     """
@@ -20,7 +21,19 @@ def get_credentials() -> Base:
     return credentials
 
 
-app = firebase_admin.initialize_app(credential=get_credentials())
-db = firestore.client(app=app)
+_app = None
 
-__all__ = ["db"]
+
+def get_db() -> Client:
+    """
+    Get the Firestore client.
+    """
+    global _app
+
+    if _app is None:
+        _app = firebase_admin.initialize_app(credential=_get_credentials())
+
+    return firestore.client(app=_app)
+
+
+__all__ = ["get_db"]
