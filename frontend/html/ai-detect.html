@@ -33,17 +33,28 @@
   >
     <header id="header-placeholder"></header>
     <div class="flex flex-col container justify-center items-center">
-      <div class="flex flex-col items-center justify-center bg-gray-300 rounded-md p-3 mx-auto">
+      <h1 class="mb-8 text-4xl font-bold text-center text-primary">AI Detection</h1>
+      <div
+        class="flex flex-col items-center justify-center bg-white shadow-md rounded-lg p-4 mx-auto"
+      >
         <span class="text-sm">AI Probability:</span>
-        <h1 class="font-bold text-4xl">100%</h1>
-        <span class="text-sm">50 out of 50 points</span>
+        <h1 class="font-bold text-4xl" id="ai-percentage-score">100%</h1>
+        <span class="text-sm" id="ai-probability-score">40 out of 40 points</span>
       </div>
-      <div id="ai-analysis-breakdown" class="flex bg-gray-300 rounded-md mt-3 p-3">
-        <ul class="flex flex-col font-bold text-xl">
-          <li class="pt-1 flex flex-col">
+      <div
+        id="ai-analysis-breakdown"
+        class="flex flex-col min-w-sm bg-white shadow-md rounded-lg mt-3"
+      >
+        <div
+          class="flex flex-wrap text-md font-semibold text-white border-b rounded-t-lg bg-secondary p-4"
+        >
+          Analysis Breakdown
+        </div>
+        <ul class="flex flex-col font-bold text-xl pb-4">
+          <li class="flex flex-col pt-4">
             <div class="flex flex-row justify-between">
-              <span class="mr-3">Perplexity</span>
-              <button name="learn-perplexity" type="button">
+              <span class="mr-3 text-primary pl-4">Perplexity</span>
+              <button name="learn-perplexity" type="button" class="pr-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="24px"
@@ -56,28 +67,23 @@
                 </svg>
               </button>
             </div>
-            <ul class="font-normal text-sm flex flex-col">
+            <ul class="font-normal text-sm flex flex-col pl-4">
               <li class="relative flex flex-row items-center justify-between">
-                <span>Strange words used</span>
+                <span>Improbable nouns</span>
                 <div class="flex-grow border-b border-gray-400 mx-1"></div>
-                <span class="font-bold">5 points</span>
+                <span class="font-bold pr-4">5 points</span>
               </li>
               <li class="relative flex flex-row items-center justify-between">
                 <span>Tone variance</span>
                 <div class="flex-grow border-b border-gray-400 mx-1"></div>
-                <span class="font-bold">5 points</span>
-              </li>
-              <li class="relative flex flex-row items-center justify-between">
-                <span>hmm something else</span>
-                <div class="flex-grow border-b border-gray-400 mx-1"></div>
-                <span class="font-bold">5 points</span>
+                <span class="font-bold pr-4">5 points</span>
               </li>
             </ul>
           </li>
           <li class="pt-1 flex flex-col">
             <div class="flex flex-row justify-between">
-              <span class="mr-3">Burstiness</span>
-              <button name="learn-burstiness" type="button">
+              <span class="mr-3 text-primary pl-4">Burstiness</span>
+              <button name="learn-burstiness" type="button" class="pr-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="24px"
@@ -90,23 +96,23 @@
                 </svg>
               </button>
             </div>
-            <ul class="font-normal text-sm">
+            <ul class="font-normal text-sm pl-4">
               <li class="relative flex flex-row items-center justify-between">
                 <span>Sentence length variation</span>
                 <div class="flex-grow border-b border-gray-400 mx-1"></div>
-                <span class="font-bold">5 points</span>
+                <span class="font-bold pr-4">5 points</span>
               </li>
               <li class="relative flex flex-row items-center justify-between">
-                <span>something something</span>
+                <span>Vocabulary depth</span>
                 <div class="flex-grow border-b border-gray-400 mx-1"></div>
-                <span class="font-bold">5 points</span>
+                <span class="font-bold pr-4">5 points</span>
               </li>
             </ul>
           </li>
           <li class="pt-1 flex-flex-col items-start">
             <div class="flex flex-row justify-between">
-              <span class="mr-3">N-gram Analysis</span>
-              <button name="learn-ngram" type="button">
+              <span class="mr-3 text-primary pl-4">N-gram Analysis</span>
+              <button name="learn-ngram" type="button" class="pr-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="24px"
@@ -119,28 +125,28 @@
                 </svg>
               </button>
             </div>
-            <ul class="font-normal text-sm">
+            <ul class="font-normal text-sm pl-4">
               <li class="relative flex flex-row items-center justify-between">
                 <span>Bi-gram analysis</span>
                 <div class="flex-grow border-b border-gray-400 mx-1"></div>
-                <span class="font-bold">5 points</span>
+                <span class="font-bold pr-4">5 points</span>
               </li>
               <li class="relative flex flex-row items-center justify-between">
                 <span>Tri-gram analysis</span>
                 <div class="flex-grow border-b border-gray-400 mx-1"></div>
-                <span class="font-bold">5 points</span>
+                <span class="font-bold pr-4">5 points</span>
               </li>
               <li class="relative flex flex-row items-center justify-between">
                 <span>Quad-gram analysis</span>
                 <div class="flex-grow border-b border-gray-400 mx-1"></div>
-                <span class="font-bold">5 points</span>
+                <span class="font-bold pr-4">5 points</span>
               </li>
             </ul>
           </li>
           <li class="pt-1 flex flex-col">
             <div class="flex flex-row justify-between">
-              <span class="mr-3">Type-token Ratio</span>
-              <button name="learn-typetoken" type="button">
+              <span class="mr-3 text-primary pl-4">Type-token Ratio</span>
+              <button name="learn-typetoken" type="button" class="pr-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="24px"
@@ -153,16 +159,11 @@
                 </svg>
               </button>
             </div>
-            <ul class="font-normal text-sm">
+            <ul class="font-normal text-sm pl-4">
               <li class="relative flex flex-row items-center justify-between">
-                <span>Something super revealing</span>
+                <span>Token-to-text ratio</span>
                 <div class="flex-grow border-b border-gray-400 mx-1"></div>
-                <span class="font-bold">5 points</span>
-              </li>
-              <li class="relative flex flex-row items-center justify-between">
-                <span class="flex-shrink">Something else super revealing</span>
-                <div class="flex-grow border-b border-gray-400 mx-1"></div>
-                <span class="flex-shrink font-bold">5 points</span>
+                <span class="font-bold pr-4">5 points</span>
               </li>
             </ul>
           </li>
@@ -170,16 +171,23 @@
       </div>
       <div
         id="analyzed-text"
-        class="flex flex-col justify-center items-center bg-gray-300 rounded-md mt-3 p-3 m-3 md:w-3/5"
+        class="flex flex-col min-w-sm shadow-md bg-white rounded-lg mt-3 mx-4 md:w-3/5"
       >
-        <div class="flex flex-row">
-          <span class="flex text-2xl font-bold">Analyzed Text</span>
+        <div
+          class="flex flex-wrap text-md font-semibold text-white border-b rounded-t-lg bg-secondary"
+        >
+          <div
+            class="flex flex-wrap text-md font-semibold text-white rounded-t-lg bg-secondary p-4"
+          >
+            Analyzed Text
+          </div>
           <button name="copy-text" class="ml-2" type="button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
               viewBox="0 -960 960 960"
               width="24px"
+              fill="#e8eaed"
             >
               <path
                 d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z"
@@ -187,7 +195,27 @@
             </svg>
           </button>
         </div>
-        <span
+        <span class="flex text-2xl font-bold text-primary pt-4 pl-4">Article Name</span>
+        <span class="flex text-md font-bold pl-4">Publisher</span>
+        <div class="flex flex-row pl-4 items-center">
+          <a href="#" class="text-blue-400 underline">Original article</a>
+          <svg
+            class="w-3 h-3 ms-2.5 rtl:rotate-[270deg] text-blue-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 18 18"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778"
+            ></path>
+          </svg>
+        </div>
+        <span class="px-4 pb-4 text-left"
           >Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis quis sint accusantium
           porro fugit? Quibusdam dolore maiores, dolorem, perspiciatis aspernatur delectus iste
           consequatur, iusto dicta totam praesentium. Cum, perspiciatis expedita.</span
