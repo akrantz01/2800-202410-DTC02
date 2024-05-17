@@ -422,3 +422,6 @@ frontend/styles/output.css
 
 # Project requirements
 projects/*/requirements.txt
+
+# Firebase Admin SDK credentials
+*-firebase-adminsdk-*.json
