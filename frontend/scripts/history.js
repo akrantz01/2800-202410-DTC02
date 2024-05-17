@@ -36,8 +36,7 @@ async function writeHistory() {
     let articleBody;
     let date = historicalArticle.data().dateScanned.toDate().toString().split(' ');
     date = date.slice(0, 5).join(' ');
-    const articleRef = doc(firestore, 'articles', articleID);
-    const articleSnapshot = await getDoc(articleRef);
+    const articleSnapshot = await getDoc(doc(firestore, 'articles', articleID));
     if (articleSnapshot.exists()) {
       articleBody = articleSnapshot.data().scannedText;
       // get other data from article
