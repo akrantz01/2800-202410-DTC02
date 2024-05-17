@@ -4,7 +4,7 @@ import pytest
 from flask import Flask
 from flask.testing import FlaskClient
 from functions_framework import create_app
-from pytest import FixtureRequest
+from pytest import FixtureRequest, MonkeyPatch
 
 
 @pytest.fixture(scope="session")
@@ -69,3 +69,14 @@ def client(app: Flask) -> FlaskClient:
     Retrieve the test client for the function handler.
     """
     return app.test_client()
+
+
+@pytest.fixture(autouse=True)
+def disable_dotenv(monkeypatch: MonkeyPatch):
+    """
+    Disable the loading of the .env file for all tests.
+    """
+    with monkeypatch.context() as m:
+        m.setattr("dotenv.load_dotenv", lambda: None)
+
+        yield
