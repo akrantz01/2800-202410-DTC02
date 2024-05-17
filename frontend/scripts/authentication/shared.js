@@ -34,6 +34,13 @@ export function redirectToHome() {
 }
 
 /**
+ * Redirect to the home page
+ */
+export function redirectToIndex() {
+  window.location.href = 'index.html';
+}
+
+/**
  * Display an error message to the user
  *
  * @param {string} message the message to display
