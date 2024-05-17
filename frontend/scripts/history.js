@@ -69,6 +69,9 @@ async function writeHistory() {
   });
 }
 
+/**
+ * Toggle articles from save array
+ */
 export async function saveArticleToggle(articleID) {
   const loggedInUser = await currentUser;
   const userID = loggedInUser.uid;
