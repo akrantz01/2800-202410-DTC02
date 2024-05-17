@@ -1,5 +1,6 @@
 import functions_framework
 from flask import Request, typing
+from veritasai.cache import has_article
 from veritasai.document_id import generate_id
 from veritasai.input_validation import AnalyzeText, ValidationError, response_from_validation_error
 
@@ -20,9 +21,10 @@ def handler(request: Request) -> typing.ResponseReturnValue:
     print(body)
 
     unique_id = generate_id(body.content, body.author, body.publisher)
-    print(unique_id)
+    if has_article(unique_id):
+        # TODO: return a response indicating that the document has already been processed
+        return "", 204
 
-    # TODO: check if the document has already been processed
     # TODO: (maybe) save the document to a storage bucket
     # TODO: send pubsub message to analysis worker(s)
 
