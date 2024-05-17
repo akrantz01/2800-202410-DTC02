@@ -49,7 +49,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const userData = userDoc.data();
     const dob = new Date(userData.dob);
     const today = new Date();
-    const isBirthday = today.getMonth() === dob.getMonth() && today.getDate() === dob.getDate();
+
+    const normalizedDob = new Date(dob.getFullYear(), dob.getMonth(), dob.getDate() + 1);
+    const normalizedToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    console.log(normalizedDob);
+    console.log(normalizedToday);
+
+    const isBirthday =
+      normalizedToday.getMonth() === normalizedDob.getMonth() &&
+      normalizedToday.getDate() === normalizedDob.getDate();
+
+    console.log(isBirthday);
 
     const profileContainer = document.getElementById('profile-info');
     profileContainer.innerHTML = `
@@ -63,7 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       </div>
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2">Date of Birth:</label>
-        <p class="text-lg">${userData.dob}${isBirthday ? ' - Happy Birthday!' : ''}</p>
+        <p class="text-lg">${userData.dob}${isBirthday ? '<p>Happy Birthday! 🎉 </p>' : ''}</p>
       </div>
     `;
 
