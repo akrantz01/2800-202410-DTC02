@@ -16,7 +16,7 @@ import {
   updateDoc,
 } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
 
-import { redirectToHome } from './authentication/shared.js';
+import { redirectToHome, redirectToIndex } from './authentication/shared.js';
 import { auth, firestore } from './firebase.js';
 import { currentUser } from './user.js';
 
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const logoutButton = document.getElementById('logout-button');
   logoutButton.addEventListener('click', async () => {
     await signOut(auth);
-    redirectToHome();
+    redirectToIndex();
   });
 
   const deleteAccountButton = document.getElementById('delete-account-button');
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
       await deleteDoc(doc(firestore, 'users', user.uid));
       await deleteUser(auth.currentUser);
-      redirectToHome();
+      redirectToIndex();
     } catch (error) {
       displayMessage(error.message, true);
     }
