@@ -1,7 +1,5 @@
 import {
-  GoogleAuthProvider,
   createUserWithEmailAndPassword,
-  signInWithPopup,
   updateProfile,
 } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
 import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
@@ -44,30 +42,5 @@ form.addEventListener('submit', async (event) => {
     else if (error.code === 'auth/weak-password') message = 'Password is too weak.';
 
     displayError(message);
-  }
-});
-
-// Handle Google sign in
-const googleButton = document.getElementById('signin-google');
-googleButton.addEventListener('click', async () => {
-  const provider = new GoogleAuthProvider();
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-
-    // Store user info temporarily
-    sessionStorage.setItem(
-      'googleUser',
-      JSON.stringify({
-        uid: user.uid,
-        displayName: user.displayName,
-        email: user.email,
-      }),
-    );
-
-    // Redirect to the date of birth input page
-    window.location.href = 'dob.html';
-  } catch (error) {
-    displayError(error.message);
   }
 });

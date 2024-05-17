@@ -5,22 +5,32 @@ import {
 
 import { auth } from '../firebase.js';
 
-const googleSignIn = document.getElementById('signin-google');
+const googleButton = document.getElementById('signin-google');
 const errorContainer = document.getElementById('error');
 
 /**
  * Enable the sign in with Google button
  */
 export function enableSignInWithGoogle() {
-  googleSignIn.addEventListener('click', async () => {
+  googleButton.addEventListener('click', async () => {
     const provider = new GoogleAuthProvider();
-
     try {
-      await signInWithPopup(auth, provider);
-      redirectToHome();
-    } catch (error) {
-      if (error.code === 'auth/user-cancelled') return;
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
 
+      // Store user info temporarily
+      sessionStorage.setItem(
+        'googleUser',
+        JSON.stringify({
+          uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+        }),
+      );
+
+      // Redirect to the date of birth input page
+      window.location.href = 'dob.html';
+    } catch (error) {
       displayError(error.message);
     }
   });
