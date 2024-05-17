@@ -41,13 +41,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const aiDetectionProgress = document.getElementById('ai-detection-progress');
     const aiDetectionText = document.getElementById('ai-detection-text');
     aiDetectionProgress.style.width = `${articleData.aiDetection}%`;
-    aiDetectionProgress.textContent = `${articleData.aiDetection}%`;
+    // aiDetectionProgress.textContent = `${articleData.aiDetection}%`;
     aiDetectionText.textContent = `${articleData.aiDetection}%`;
 
     const analysisProgress = document.getElementById('analysis-progress');
     const analysisText = document.getElementById('analysis-text');
     analysisProgress.style.width = `${articleData.analysis}%`;
-    analysisProgress.textContent = `${articleData.analysis}%`;
+    // analysisProgress.textContent = `${articleData.analysis}%`;
     analysisText.textContent = `${articleData.analysis}% factual`;
 
     // Set up bias indicator
