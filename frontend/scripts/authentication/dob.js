@@ -1,7 +1,7 @@
 import { deleteUser } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
 import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
 
-import { displayError, redirectToHome } from './shared.js';
+import { displayError, redirectToHome, redirectToIndex } from './shared.js';
 import { auth, firestore } from '../firebase.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -22,7 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (userAuth) {
           await deleteUser(userAuth);
         }
-        window.location.href = 'index.html';
+        setTimeout(() => {
+          redirectToIndex();
+        }, 3000);
       }
       return;
     }
