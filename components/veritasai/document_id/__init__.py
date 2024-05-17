@@ -2,7 +2,7 @@ from base64 import urlsafe_b64encode
 from hashlib import sha3_256
 
 
-def generate(content: str, author: str | None = None, source: str | None = None) -> str:
+def generate_id(content: str, author: str | None = None, source: str | None = None) -> str:
     """
     Generate a document ID from the content, author and source.
 
