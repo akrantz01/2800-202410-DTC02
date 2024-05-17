@@ -37,6 +37,46 @@ document.addEventListener('DOMContentLoaded', async () => {
       <p class="mt-4">${articleData.summary}</p>
     `;
 
+    // Set up progress bars
+    const aiDetectionProgress = document.getElementById('ai-detection-progress');
+    const aiDetectionText = document.getElementById('ai-detection-text');
+    aiDetectionProgress.style.width = `${articleData.aiDetection}%`;
+    aiDetectionProgress.textContent = `${articleData.aiDetection}%`;
+    aiDetectionText.textContent = `AI Detection: ${articleData.aiDetection}%`;
+
+    const analysisProgress = document.getElementById('analysis-progress');
+    const analysisText = document.getElementById('analysis-text');
+    analysisProgress.style.width = `${articleData.analysis}%`;
+    analysisProgress.textContent = `${articleData.analysis}%`;
+    analysisText.textContent = `Analysis: ${articleData.analysis}% factual`;
+
+    // Set up bias indicator
+    const biasLeft = document.getElementById('bias-left');
+    const biasNeutral = document.getElementById('bias-neutral');
+    const biasRight = document.getElementById('bias-right');
+    const biasText = document.getElementById('bias-text');
+
+    biasLeft.classList.remove('bg-blue-500');
+    biasNeutral.classList.remove('bg-green-500');
+    biasRight.classList.remove('bg-red-500');
+
+    if (articleData.bias === 'left') {
+      biasLeft.classList.add('bg-blue-500', 'flex-grow');
+      biasNeutral.classList.add('bg-gray-200');
+      biasRight.classList.add('bg-gray-200');
+      biasText.textContent = 'Bias: Left';
+    } else if (articleData.bias === 'right') {
+      biasLeft.classList.add('bg-gray-200');
+      biasNeutral.classList.add('bg-gray-200');
+      biasRight.classList.add('bg-red-500', 'flex-grow');
+      biasText.textContent = 'Bias: Right';
+    } else {
+      biasLeft.classList.add('bg-gray-200');
+      biasNeutral.classList.add('bg-green-500', 'flex-grow');
+      biasRight.classList.add('bg-gray-200');
+      biasText.textContent = 'Bias: Neutral';
+    }
+
     // Set up links with the UID query parameter
     document.getElementById('ai-detect-link').href = `ai-detect.html?uid=${uid}`;
     document.getElementById('analysis-link').href = `analysis.html?uid=${uid}`;
