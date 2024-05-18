@@ -36,11 +36,11 @@ analysis-manager.cmd = "functions-framework --target=handler --source projects/a
 analysis-manager.env = { PORT = "8080" }
 
 [tool.polylith.bricks]
-"components/veritasai/document_id" = "veritasai/document_id"
 "components/veritasai/input_validation" = "veritasai/input_validation"
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
 "components/veritasai/firebase" = "veritasai/firebase"
 "components/veritasai/cache" = "veritasai/cache"
+"components/veritasai/articles" = "veritasai/articles"
 
 [tool.pyright]
 extraPaths = ["bases", "components"]
