@@ -16,6 +16,7 @@ dependencies = [
   "functions-framework>=3.5.0",
   "pydantic>=2.7.1",
   "python-dotenv>=1.0.1",
+  "google-cloud-storage>=2.16.0",
 ]
 
 [tool.pdm.build]

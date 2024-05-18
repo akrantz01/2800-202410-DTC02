@@ -42,7 +42,6 @@ analysis-manager.env = { PORT = "8080" }
 "components/veritasai/firebase" = "veritasai/firebase"
 "components/veritasai/cache" = "veritasai/cache"
 "components/veritasai/articles" = "veritasai/articles"
-"components/veritasai/protocol" = "veritasai/protocol"
 
 [tool.pyright]
 extraPaths = ["bases", "components"]

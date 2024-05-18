@@ -1,11 +1,11 @@
 from google.cloud.exceptions import NotFound, PreconditionFailed
 from pytest_mock import MockerFixture
-from veritasai.protocol.storage import retrieve_content, save_content
+from veritasai.articles.storage import retrieve_content, save_content
 
 
 def test_save_content(mocker: MockerFixture):
     client = mocker.MagicMock()
-    mocker.patch("veritasai.protocol.storage._get_client", return_value=client)
+    mocker.patch("veritasai.articles.storage._get_client", return_value=client)
 
     save_content("test-article-id", "Hello, world!")
 
@@ -23,7 +23,7 @@ def test_save_content_when_already_exists(mocker: MockerFixture):
     client.bucket.return_value.blob.return_value.upload_from_string.side_effect = (
         PreconditionFailed("id")
     )
-    mocker.patch("veritasai.protocol.storage._get_client", return_value=client)
+    mocker.patch("veritasai.articles.storage._get_client", return_value=client)
 
     save_content("test-article-id", "Hello, world!")
 
@@ -40,7 +40,7 @@ def test_retrieve_content_when_exists(mocker: MockerFixture):
     client = mocker.MagicMock()
     client.bucket.return_value.blob.return_value.exists.return_value = True
     client.bucket.return_value.blob.return_value.download_as_string.return_value = b"Hello, world!"
-    mocker.patch("veritasai.protocol.storage._get_client", return_value=client)
+    mocker.patch("veritasai.articles.storage._get_client", return_value=client)
 
     assert retrieve_content("test-article-id") == "Hello, world!"
 
@@ -52,7 +52,7 @@ def test_retrieve_content_when_exists(mocker: MockerFixture):
 def test_retrieve_content_when_does_not_exist(mocker: MockerFixture):
     client = mocker.MagicMock()
     client.bucket.return_value.blob.return_value.download_as_string.side_effect = NotFound("id")
-    mocker.patch("veritasai.protocol.storage._get_client", return_value=client)
+    mocker.patch("veritasai.articles.storage._get_client", return_value=client)
 
     assert retrieve_content("test-article-id") is None
 
