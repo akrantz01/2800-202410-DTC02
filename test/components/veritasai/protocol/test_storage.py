@@ -1,19 +1,6 @@
-import pytest
 from google.cloud.exceptions import NotFound, PreconditionFailed
-from pytest import MonkeyPatch
 from pytest_mock import MockerFixture
 from veritasai.protocol.storage import retrieve_content, save_content
-
-
-@pytest.fixture(autouse=True)
-def set_articles_bucket(monkeypatch: MonkeyPatch):
-    """
-    Set the ARTICLES_BUCKET environment variable to "test-bucket".
-    """
-    with monkeypatch.context() as m:
-        m.setenv("ARTICLES_BUCKET", "test-bucket")
-
-        yield
 
 
 def test_save_content(mocker: MockerFixture):

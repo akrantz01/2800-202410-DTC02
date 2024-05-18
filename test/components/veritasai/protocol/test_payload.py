@@ -5,6 +5,7 @@ from datetime import datetime
 import pytest
 from cloudevents.http import CloudEvent
 from pytest import FixtureRequest
+from pytest_mock import MockerFixture
 from veritasai.protocol import Payload
 
 
@@ -108,3 +109,86 @@ def test_from_cloud_event_minimal(cloud_event: CloudEvent):
     assert Payload.from_cloud_event(cloud_event) == Payload(
         id="some-id",
     )
+
+
+def test_create(mocker: MockerFixture):
+    save_content = mocker.patch("veritasai.protocol.message.save_content")
+
+    payload = Payload.create("some-id", "Hello, world!", "Alice", "Twitter", "https://example.com")
+
+    assert payload == Payload(
+        id="some-id",
+        author="Alice",
+        publisher="Twitter",
+        url="https://example.com",
+    )
+    save_content.assert_called_once_with("some-id", "Hello, world!")
+
+
+def test_create_minimal(mocker: MockerFixture):
+    save_content = mocker.patch("veritasai.protocol.message.save_content")
+
+    payload = Payload.create("some-id", "Hello, world!")
+
+    assert payload == Payload(id="some-id")
+    save_content.assert_called_once_with("some-id", "Hello, world!")
+
+
+def test_content_property_when_exists(mocker: MockerFixture):
+    retrieve_content = mocker.patch("veritasai.protocol.message.retrieve_content")
+    retrieve_content.return_value = "Hello, world!"
+
+    payload = Payload(id="some-id")
+    assert payload.content == "Hello, world!"
+
+    retrieve_content.assert_called_once_with("some-id")
+
+
+def test_content_property_raises_when_does_not_exist(mocker: MockerFixture):
+    retrieve_content = mocker.patch("veritasai.protocol.message.retrieve_content")
+    retrieve_content.return_value = None
+
+    payload = Payload(id="some-id")
+    with pytest.raises(ValueError, match="article 'some-id' not found"):
+        _ = payload.content
+
+    retrieve_content.assert_called_once_with("some-id")
+
+
+def test_content_property_cached(mocker: MockerFixture):
+    retrieve_content = mocker.patch("veritasai.protocol.message.retrieve_content")
+    retrieve_content.return_value = "Hello, world!"
+
+    payload = Payload(id="some-id")
+    for _ in range(3):
+        assert payload.content == "Hello, world!"
+
+    retrieve_content.assert_called_once_with("some-id")
+
+
+def test_content_property_does_not_cache_when_does_not_exist(mocker: MockerFixture):
+    retrieve_content = mocker.patch("veritasai.protocol.message.retrieve_content")
+    retrieve_content.return_value = None
+
+    payload = Payload(id="some-id")
+    for _ in range(3):
+        with pytest.raises(ValueError):
+            _ = payload.content
+
+    retrieve_content.assert_called_with("some-id")
+    assert retrieve_content.call_count == 3
+
+
+def test_content_property_raises_when_not_exists_then_caches_once_exists(mocker: MockerFixture):
+    retrieve_content = mocker.patch("veritasai.protocol.message.retrieve_content")
+    retrieve_content.side_effect = [None, "Hello, world!"]
+
+    payload = Payload(id="some-id")
+    with pytest.raises(ValueError):
+        _ = payload.content
+
+    for _ in range(3):
+        assert payload.content == "Hello, world!"
+
+    retrieve_content.assert_has_calls([mocker.call("some-id"), mocker.call("some-id")])
+    assert retrieve_content.call_count == 2
