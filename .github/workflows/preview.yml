@@ -1,0 +1,41 @@
+name: Preview
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    branches-ignore:
+      - main
+
+jobs:
+  hosting:
+    name: Hosting
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: pnpm
+
+      - run: pnpm install
+      - run: pnpm build
+
+      - name: firebase hosting:channel:deploy
+        run: |
+          branch=$(echo ${{ github.head_ref }} | tr / - | tr "[:upper:]" "[:lower:]")
+          channel=pr${{ github.event.number }}-$branch
+          pnpm firebase hosting:channel:deploy $channel \
+            --project ${{ secrets.PROJECT_ID }} \
+            --expires 1d
