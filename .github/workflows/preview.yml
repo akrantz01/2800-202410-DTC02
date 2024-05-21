@@ -55,10 +55,11 @@ jobs:
             const signature = 'Preview deployment for this PR is ready!';
 
             const expiration = new Date(Date.now() + 24 * 60 * 60 * 1000);
+            const url = "${{ steps.deploy.outputs.url }}";
             const body = `
             ${signature}
 
-            ${{ steps.deploy.outputs.url }}
+            <a href="${url}" target="_blank">${url.substring(8)}</a>
 
             <sub>Created for commit \`${context.payload.pull_request.head.sha.substring(0, 7)}\`</sub>
             <sub>Expires on ${expiration.toUTCString()}</sub>
