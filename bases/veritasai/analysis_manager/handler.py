@@ -1,7 +1,7 @@
 import functions_framework
 from flask import Request, typing
+from veritasai.articles import generate_id
 from veritasai.cache import has_article
-from veritasai.document_id import generate_id
 from veritasai.input_validation import AnalyzeText, ValidationError, response_from_validation_error
 
 

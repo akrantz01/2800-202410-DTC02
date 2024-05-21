@@ -4,15 +4,15 @@ from hashlib import sha3_256
 
 def generate_id(content: str, author: str | None = None, source: str | None = None) -> str:
     """
-    Generate a document ID from the content, author and source.
+    Generate a unique ID for an article from its content, author and source.
 
-    The generated document ID ignores leading and trailing whitespace in the content, author and
-    source. It should be treated as an opaque identifier.
+    The generated ID ignores leading and trailing whitespace in the content, author and source. It
+    should be treated as an opaque identifier.
 
-    :param content: The content of the document.
-    :param author: The optional author of the document.
-    :param source: The optional source of the document.
-    :return: The document id.
+    :param content: The content of the article.
+    :param author: The optional author of the article.
+    :param source: The optional source of the article.
+    :return: The unique id.
     """
     content = content.strip()
     author = author.strip() if author else ""
