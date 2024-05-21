@@ -93,3 +93,14 @@ def disable_firebase_admin_sdk_initialization(monkeypatch: MonkeyPatch):
         m.setattr("firebase_admin.initialize_app", lambda *args, **kwargs: None)
 
         yield
+
+
+@pytest.fixture(autouse=True)
+def set_articles_bucket(monkeypatch: MonkeyPatch):
+    """
+    Set the ARTICLES_BUCKET environment variable to "test-bucket".
+    """
+    with monkeypatch.context() as m:
+        m.setenv("ARTICLES_BUCKET", "test-bucket")
+
+        yield
