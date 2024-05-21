@@ -10,49 +10,48 @@ function getQueryParam(param) {
 }
 
 /**
- * write author details to html
+ * write publisher details to html
  */
-async function populateAuthorDetails() {
-  const authorID = getQueryParam('authorID');
-  const authorArticlesSnapshot = await getDoc(doc(firestore, 'authors', authorID));
-  const author = authorArticlesSnapshot.data();
-  document.getElementById('author-name').innerHTML = author.name;
-  document.getElementById('ai-gauge').style = `width: ${author.aiScore * 100}%`;
-  document.getElementById('bias-gauge').style = `width: ${author.biasScore * 100}%`;
-  const publishers = document.getElementById('author-publishers');
-  publishers.innerHTML = '';
-  if (author.publishedFor.length <= 1)
-    document.getElementById('drop-button').classList.add('hidden');
+async function populatePublisherDetails() {
+  const publisherID = getQueryParam('publisherID');
+  const publisherArticlesSnapshot = await getDoc(doc(firestore, 'publishers', publisherID));
+  const publisher = publisherArticlesSnapshot.data();
+  document.getElementById('publisher-name').innerHTML = publisher.name;
+  document.getElementById('ai-gauge').style = `width: ${publisher.aiScore * 100}%`;
+  document.getElementById('bias-gauge').style = `width: ${publisher.biasScore * 100}%`;
+  const authorsHTML = document.getElementById('publisher-authors');
+  authorsHTML.innerHTML = '';
+  if (publisher.authors.length <= 1) document.getElementById('drop-button').classList.add('hidden');
 
   document.getElementById('drop-button').addEventListener('click', () => {
-    publishers.classList.toggle('line-clamp-1');
+    authorsHTML.classList.toggle('line-clamp-1');
     document.getElementById('drop-button').classList.toggle('rotate-180');
   });
-  author.publishedFor.forEach(async (publisher) => {
-    const publisherCard = document.createElement('p');
-    const publisherSnapshot = await getDoc(doc(firestore, 'publishers', publisher));
-    publisherCard.innerHTML = publisherSnapshot.data().name;
-    publisherCard.addEventListener('click', () => {
-      console.log(publisher);
+  publisher.authors.forEach(async (author) => {
+    const authorCard = document.createElement('p');
+    const authorSnapshot = await getDoc(doc(firestore, 'authors', author));
+    authorCard.innerHTML = authorSnapshot.data().name;
+    authorCard.addEventListener('click', () => {
+      console.log(author);
     });
-    publishers.appendChild(publisherCard);
+    authorsHTML.appendChild(authorCard);
   });
 }
 
 /**
- * write author articles to html
+ * write publisher articles to html
  */
-async function writeAuthorArticles() {
-  const authorID = getQueryParam('authorID');
+async function writePublisherArticles() {
+  const publisherID = getQueryParam('publisherID');
   const loggedInUser = await currentUser;
   const userID = loggedInUser.uid;
 
   const savedSnapshot = await getDoc(doc(firestore, 'users', userID));
   const savedArticles = savedSnapshot.data().savedArticles;
 
-  const authorArticlesSnapshot = await getDoc(doc(firestore, 'authors', authorID));
-  const authorArticles = authorArticlesSnapshot.data().articles;
-  authorArticles.forEach(async (article) => {
+  const publisherArticlesSnapshot = await getDoc(doc(firestore, 'publishers', publisherID));
+  const publisherArticles = publisherArticlesSnapshot.data().articles;
+  publisherArticles.forEach(async (article) => {
     const articleID = article;
     let articleBody;
 
@@ -78,12 +77,12 @@ async function writeAuthorArticles() {
     buttonElement.addEventListener('click', () => {
       saveArticleToggle(articleID);
     });
-    document.getElementById('author-cards').appendChild(newCard);
+    document.getElementById('publisher-cards').appendChild(newCard);
   });
 }
 
-if (window.location.href.match('author.html') != null)
+if (window.location.href.match('publisher.html') != null)
   window.addEventListener('load', async () => {
-    writeAuthorArticles();
-    populateAuthorDetails();
+    writePublisherArticles();
+    populatePublisherDetails();
   });

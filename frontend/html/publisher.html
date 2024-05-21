@@ -32,7 +32,7 @@
     class="font-roboto bg-gradient-to-b from-white to-gray-300 bg-auto bg-no-repeat min-h-screen"
   >
     <header id="header-placeholder"></header>
-    <h1 id="author-name" class="text-3xl text-primary font-extrabold text-center">First Last</h1>
+    <h1 id="publisher-name" class="text-3xl text-primary font-extrabold text-center">First Last</h1>
 
     <div class="flex justify-around lg:justify-center lg:gap-24">
       <div class="flex flex-col items-center w-[130px]">
@@ -76,15 +76,18 @@
           <path d="M6 10l6 6l6 -6h-12" />
         </svg>
       </button>
-      <h1>Writes for:</h1>
-      <div class="line-clamp-1" id="author-publishers">
-        <p>fake news 101</p>
-        <p>cbc</p>
+
+      <h1>Authors:</h1>
+      <div class="line-clamp-1" id="publisher-authors">
+        <p>John Smith</p>
       </div>
     </div>
     <h1>Recent Articles</h1>
     <div class="items-center text-center container mx-auto">
-      <div class="overflow-y-scroll mx-6 mb-20 max-h-[80vh] rounded-3xl lg:mx-60" id="author-cards">
+      <div
+        class="overflow-y-scroll mx-6 mb-20 max-h-[80vh] rounded-3xl lg:mx-60"
+        id="publisher-cards"
+      >
         <template id="saved-card">
           <a class="my-2 shadow-md border-2 py-4 rounded-3xl block" href="#">
             <header class="flex items-center px-2">
@@ -177,6 +180,6 @@
     </div>
     <footer id="footer-placeholder"></footer>
     <script type="module" src="/frontend/scripts/nav-bar-logic.js"></script>
-    <script type="module" src="/frontend/scripts/authors.js"></script>
+    <script type="module" src="/frontend/scripts/publisher.js"></script>
   </body>
 </html>
