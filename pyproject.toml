@@ -41,12 +41,16 @@ analysis-manager.env = { PORT = "8080" }
 "components/veritasai/firebase" = "veritasai/firebase"
 "components/veritasai/cache" = "veritasai/cache"
 "components/veritasai/articles" = "veritasai/articles"
+"components/veritasai/protocol" = "veritasai/protocol"
 
 [tool.pyright]
 extraPaths = ["bases", "components"]
 
 [tool.pytest.ini_options]
-markers = ["function: mark a test as requiring an instance of a handler function"]
+markers = [
+  "function: mark a test as requiring an instance of a handler function",
+  "cloud_event: specify the content of a cloud event",
+]
 
 [tool.ruff]
 line-length = 100
