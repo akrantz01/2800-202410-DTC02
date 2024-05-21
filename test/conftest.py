@@ -104,3 +104,14 @@ def set_articles_bucket(monkeypatch: MonkeyPatch):
         m.setenv("ARTICLES_BUCKET", "test-bucket")
 
         yield
+
+
+@pytest.fixture(autouse=True)
+def set_project_id(monkeypatch: MonkeyPatch):
+    """
+    Set the GOOGLE_CLOUD_PROJECT environment variable to "test-project".
+    """
+    with monkeypatch.context() as m:
+        m.setenv("GOOGLE_CLOUD_PROJECT", "test-project")
+
+        yield
