@@ -115,6 +115,18 @@ class Article:
 
         return content
 
+    def to_dict(self) -> dict[str, str]:
+        serialized = {"id": self.id}
+
+        if self.author:
+            serialized["author"] = self.author
+        if self.publisher:
+            serialized["publisher"] = self.publisher
+        if self.url:
+            serialized["url"] = self.url
+
+        return serialized
+
     def __repr__(self) -> str:
         return (
             "Article("
