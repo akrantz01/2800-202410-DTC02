@@ -1,4 +1,4 @@
-from veritasai.articles import generate_id
+from veritasai.articles.dedup import generate_id
 
 
 def test_empty_content():
