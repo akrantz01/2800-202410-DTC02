@@ -21,10 +21,8 @@ def handler(request: Request) -> typing.ResponseReturnValue:
 
     article = Article.from_input(body.content, body.author, body.publisher, body.source_url)
 
-    if has_article(article.id):
-        # TODO: return a response indicating that the document has already been processed
-        return "", 204
+    cached = has_article(article.id)
+    if not cached:
+        analysis_requests.publish(article)
 
-    analysis_requests.publish(article)
-
-    return "", 204
+    return {"id": article.id, "cached": cached}
