@@ -6,6 +6,8 @@ from flask.testing import FlaskClient
 from functions_framework import create_app
 from pytest import FixtureRequest, MonkeyPatch
 
+pytest_plugins = "development.testsupport"
+
 
 @pytest.fixture(scope="session")
 def project_root() -> Path:
@@ -72,17 +74,6 @@ def client(app: Flask) -> FlaskClient:
 
 
 @pytest.fixture(autouse=True)
-def disable_dotenv(monkeypatch: MonkeyPatch):
-    """
-    Disable the loading of the .env file for all tests.
-    """
-    with monkeypatch.context() as m:
-        m.setattr("dotenv.load_dotenv", lambda: None)
-
-        yield
-
-
-@pytest.fixture(autouse=True)
 def disable_firebase_admin_sdk_initialization(monkeypatch: MonkeyPatch):
     """
     Disables the initialization process for the Firebase Admin SDK.
@@ -91,27 +82,5 @@ def disable_firebase_admin_sdk_initialization(monkeypatch: MonkeyPatch):
     """
     with monkeypatch.context() as m:
         m.setattr("firebase_admin.initialize_app", lambda *args, **kwargs: None)
-
-        yield
-
-
-@pytest.fixture(autouse=True)
-def set_articles_bucket(monkeypatch: MonkeyPatch):
-    """
-    Set the ARTICLES_BUCKET environment variable to "test-bucket".
-    """
-    with monkeypatch.context() as m:
-        m.setenv("ARTICLES_BUCKET", "test-bucket")
-
-        yield
-
-
-@pytest.fixture(autouse=True)
-def set_project_id(monkeypatch: MonkeyPatch):
-    """
-    Set the GOOGLE_CLOUD_PROJECT environment variable to "test-project".
-    """
-    with monkeypatch.context() as m:
-        m.setenv("GOOGLE_CLOUD_PROJECT", "test-project")
 
         yield

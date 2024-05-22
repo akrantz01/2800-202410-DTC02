@@ -1,8 +1,8 @@
 import json
-from os import environ
 from typing import Protocol
 
 from google.cloud.pubsub import PublisherClient
+from veritasai.config import env
 
 
 class Serializable(Protocol):
@@ -34,7 +34,7 @@ class Publisher:
         """
 
         if project is None:
-            project = environ.get("GOOGLE_CLOUD_PROJECT")
+            project = env.get("GOOGLE_CLOUD_PROJECT")
         if project is None:
             raise ValueError("unknown project ID")
 
