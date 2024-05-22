@@ -41,6 +41,13 @@ class Publisher:
         self.__topic = f"projects/{project}/topics/{topic}"
         self.__client = PublisherClient()
 
+    @property
+    def topic(self) -> str:
+        """
+        The fully qualified name of the topic.
+        """
+        return self.__topic
+
     def publish(self, message: Serializable):
         """
         Publish the message to the appropriate topic.

@@ -5,6 +5,7 @@ from flask import Flask
 from flask.testing import FlaskClient
 from functions_framework import create_app
 from pytest import FixtureRequest, MonkeyPatch
+from pytest_mock import MockerFixture
 
 pytest_plugins = "development.testsupport"
 
@@ -84,3 +85,11 @@ def disable_firebase_admin_sdk_initialization(monkeypatch: MonkeyPatch):
         m.setattr("firebase_admin.initialize_app", lambda *args, **kwargs: None)
 
         yield
+
+
+@pytest.fixture(autouse=True)
+def mock_pubsub(mocker: MockerFixture):
+    """
+    Mock the `PublisherClient` class from the `google.cloud.pubsub` module.
+    """
+    return mocker.patch("veritasai.pubsub.publisher.PublisherClient")
