@@ -39,7 +39,7 @@ class Publisher:
             raise ValueError("unknown project ID")
 
         self.__topic = f"projects/{project}/topics/{topic}"
-        self.__client = PublisherClient()
+        self.__client = None
 
     @property
     def topic(self) -> str:
@@ -54,6 +54,9 @@ class Publisher:
 
         :param message: The message to publish.
         """
+        if self.__client is None:
+            self.__client = PublisherClient()
+
         data = json.dumps(message.to_dict()).encode("utf-8")
         result = self.__client.publish(topic=self.__topic, data=data)
 
