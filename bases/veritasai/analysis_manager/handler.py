@@ -3,6 +3,7 @@ from flask import Request, typing
 from veritasai.articles import Article
 from veritasai.cache import has_article
 from veritasai.input_validation import AnalyzeText, ValidationError, response_from_validation_error
+from veritasai.pubsub import analysis_requests
 
 
 @functions_framework.http
@@ -24,6 +25,6 @@ def handler(request: Request) -> typing.ResponseReturnValue:
         # TODO: return a response indicating that the document has already been processed
         return "", 204
 
-    # TODO: send pubsub message to analysis worker(s)
+    analysis_requests.publish(article)
 
     return "", 204
