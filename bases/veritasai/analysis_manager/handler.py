@@ -2,11 +2,13 @@ import functions_framework
 from flask import Request, typing
 from veritasai.articles import Article
 from veritasai.cache import has_article
+from veritasai.cors import handle_cors
 from veritasai.input_validation import AnalyzeText, ValidationError, response_from_validation_error
 from veritasai.pubsub import analysis_requests
 
 
 @functions_framework.http
+@handle_cors
 def handler(request: Request) -> typing.ResponseReturnValue:
     """
     Initiate the analysis process for a document.
