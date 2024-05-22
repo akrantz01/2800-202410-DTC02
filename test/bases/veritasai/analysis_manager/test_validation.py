@@ -1,7 +1,16 @@
 import pytest
 from flask.testing import FlaskClient
+from pytest import MonkeyPatch
 
 pytestmark = pytest.mark.function("analysis_manager")
+
+
+@pytest.fixture(autouse=True)
+def disable_authentication(monkeypatch: MonkeyPatch):
+    """
+    Disable authentication for testing purposes.
+    """
+    monkeypatch.setattr("veritasai.authentication.login_required", lambda func: func)
 
 
 @pytest.fixture

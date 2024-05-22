@@ -25,6 +25,7 @@ includes = ["main.py", "requirements.txt"]
 [tool.polylith.bricks]
 "../../bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
 "../../components/veritasai/articles" = "veritasai/articles"
+"../../components/veritasai/authentication" = "veritasai/authentication"
 "../../components/veritasai/cache" = "veritasai/cache"
 "../../components/veritasai/config" = "veritasai/config"
 "../../components/veritasai/cors" = "veritasai/cors"
