@@ -4,10 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="../styles/output.css" rel="stylesheet" />
+
+    <!-- Import Flowbite via CDN -->
+
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
       rel="stylesheet"
     />
+
     <title>Bias Analysis</title>
     <link
       rel="apple-touch-icon"
@@ -36,6 +40,8 @@
     class="font-roboto bg-gradient-to-b from-white to-gray-300 bg-auto bg-no-repeat min-h-screen"
   >
     <header id="header-placeholder"></header>
+
+    <div id="pagination-placeholder"></div>
 
     <!-- Bias Types -->
     <div id="fact-cards" class="flex flex-col space-y-2 p-4 mb-20">
@@ -196,7 +202,7 @@
             data-accordion-target="#accordion-collapse-body-1"
             aria-expanded="true"
             aria-controls="accordion-collapse-body-1"
-            class="flex flex-wrap justify-between w-full items-center text-md font-semibold text-white border-b border-gray-600 rounded-t-lg p-4 bg-secondary"
+            class="flex flex-wrap justify-between w-full items-center text-md font-semibold text-white border-b border-gray-600 rounded-t-lg p-4 hover:bg-blue-600"
           >
             <span>Confirmation Bias</span>
             <svg
