@@ -1,7 +1,6 @@
-from os import environ
-
 from google.cloud import storage
 from google.cloud.exceptions import NotFound, PreconditionFailed
+from veritasai.config import env
 
 _client = None
 
@@ -32,7 +31,7 @@ def _get_bucket() -> storage.Bucket:
     """
     client = _get_client()
 
-    bucket_name = environ.get("ARTICLES_BUCKET")
+    bucket_name = env.get("ARTICLES_BUCKET")
     if bucket_name is None:
         raise ValueError("environment variable ARTICLES_BUCKET is not set")
 

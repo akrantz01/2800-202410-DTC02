@@ -14,6 +14,7 @@ dependencies = [
   "python-dotenv>=1.0.1",
   "firebase-admin>=6.5.0",
   "google-cloud-storage>=2.16.0",
+  "google-cloud-pubsub>=2.21.1",
 ]
 
 [build-system]
@@ -37,11 +38,14 @@ analysis-manager.cmd = "functions-framework --target=handler --source projects/a
 analysis-manager.env = { PORT = "8080" }
 
 [tool.polylith.bricks]
-"components/veritasai/input_validation" = "veritasai/input_validation"
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
-"components/veritasai/firebase" = "veritasai/firebase"
-"components/veritasai/cache" = "veritasai/cache"
 "components/veritasai/articles" = "veritasai/articles"
+"components/veritasai/cache" = "veritasai/cache"
+"components/veritasai/config" = "veritasai/config"
+"components/veritasai/firebase" = "veritasai/firebase"
+"components/veritasai/input_validation" = "veritasai/input_validation"
+"components/veritasai/protocol" = "veritasai/protocol"
+"components/veritasai/pubsub" = "veritasai/pubsub"
 
 [tool.pyright]
 extraPaths = ["bases", "components"]
