@@ -1,6 +1,11 @@
+import { currentUser } from './user.js';
+
 const BACKEND_URL = 'http://localhost:5000';
 
 const form = document.getElementById('form');
+
+const user = await currentUser;
+if (user === null) window.location.href = 'login.html';
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -12,7 +17,10 @@ form.addEventListener('submit', async (event) => {
 
   const response = await fetch(BACKEND_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${await user.getIdToken()}`,
+    },
     body: JSON.stringify(data),
   });
   if (!response.ok) {
