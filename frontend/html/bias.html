@@ -38,7 +38,7 @@
     <header id="header-placeholder"></header>
 
     <!-- Bias Types -->
-    <div id="fact-cards" class="flex flex-col space-y-2 p-4">
+    <div id="fact-cards" class="flex flex-col space-y-2 p-4 mb-20">
       <div
         role="status"
         class="flex items-center justify-center h-56 max-w-sm rounded-lg animate-pulse bg-gray-700"
@@ -186,7 +186,9 @@
       <div
         id="accordion-parent"
         data-accordion="collapse"
-        class="min-w-sm bg-secondary border border-gray-600 border-separate rounded-t-lg text-left justify-between"
+        data-active-classes="bg-blue-600"
+        data-inactive-classes="bg-blue-500"
+        class="min-w-sm border border-gray-600 border-separate rounded-t-lg text-left justify-between"
       >
         <h2 id="accordion-collapse-heading-1">
           <button
@@ -266,7 +268,7 @@
     </div>
 
     <footer id="footer-placeholder"></footer>
-    <!-- <script type="module" src="/frontend/scripts/nav-bar-logic.js"></script> -->
+    <script type="module" src="/frontend/scripts/nav-bar-logic.js"></script>
     <script
       type="module"
       src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"
