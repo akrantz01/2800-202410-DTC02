@@ -42,6 +42,7 @@ analysis-manager.env = { PORT = "8080" }
 "components/veritasai/articles" = "veritasai/articles"
 "components/veritasai/cache" = "veritasai/cache"
 "components/veritasai/config" = "veritasai/config"
+"components/veritasai/cors" = "veritasai/cors"
 "components/veritasai/firebase" = "veritasai/firebase"
 "components/veritasai/input_validation" = "veritasai/input_validation"
 "components/veritasai/protocol" = "veritasai/protocol"
