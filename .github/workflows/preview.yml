@@ -1,0 +1,92 @@
+name: Preview
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    branches-ignore:
+      - main
+
+jobs:
+  hosting:
+    name: Hosting
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: pnpm
+
+      - run: pnpm install
+      - run: pnpm build
+
+      - name: firebase hosting:channel:deploy
+        id: deploy
+        run: |
+          set -x
+
+          branch=$(echo ${{ github.head_ref }} | tr / - | tr "[:upper:]" "[:lower:]")
+          channel=pr${{ github.event.number }}-$branch
+
+          FORCE_COLOR=1 pnpm firebase hosting:channel:deploy $channel \
+              --project ${{ secrets.PROJECT_ID }} \
+              --expires 1d \
+            | tee /tmp/deploy.log
+
+          url=$(tail -n 1 /tmp/deploy.log | awk -F' ' '{ print $6 }')
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const signature = 'Preview deployment for this PR is ready!';
+
+            const expiration = new Date(Date.now() + 24 * 60 * 60 * 1000);
+            const url = "${{ steps.deploy.outputs.url }}";
+            const body = `
+            ${signature}
+
+            <a href="${url}" target="_blank">${url.substring(8)}</a>
+
+            <sub>Created for commit \`${context.payload.pull_request.head.sha.substring(0, 7)}\`</sub>
+            <sub>Expires on ${expiration.toUTCString()}</sub>
+            `;
+
+            let commentId;
+            const { data: comments } = await github.rest.issues.listComments({
+              ...context.repo,
+              issue_number: context.issue.number,
+            });
+            for (const comment of comments) {
+              if (comment.user.type === 'Bot' && comment.body.includes(signature)) {
+                commentId = comment.id;
+                break;
+              }
+            }
+
+            if (commentId) {
+              await github.rest.issues.updateComment({
+                ...context.repo,
+                comment_id: commentId,
+                body,
+              });
+            } else {
+                await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: context.issue.number,
+                body,
+              })
+            }

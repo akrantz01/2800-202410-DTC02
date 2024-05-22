@@ -1,10 +1,9 @@
-from os import environ
-
 import firebase_admin
 from dotenv import load_dotenv
 from firebase_admin import firestore
 from firebase_admin.credentials import ApplicationDefault, Base, Certificate
 from google.cloud.firestore import Client
+from veritasai.config import env
 
 load_dotenv()
 
@@ -15,7 +14,7 @@ def _get_credentials() -> Base:
     """
     credentials = ApplicationDefault()
 
-    if (service_account := environ.get("FIREBASE_SERVICE_ACCOUNT")) is not None:
+    if (service_account := env.get("FIREBASE_SERVICE_ACCOUNT")) is not None:
         credentials = Certificate(service_account)
 
     return credentials

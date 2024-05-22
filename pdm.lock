@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:1ee3237af6863ab45ca99df62354bbcdab7d624f024f5b50c901c06bb21fc4d0"
+content_hash = "sha256:f5cc7b5fd7fbeb722be6d45a03677def9ef9285b3de58abf36bfc81883acc5b1"
 
 [[package]]
 name = "annotated-types"
@@ -453,6 +453,27 @@ files = [
 ]
 
 [[package]]
+name = "google-cloud-pubsub"
+version = "2.21.1"
+requires_python = ">=3.7"
+summary = "Google Cloud Pub/Sub API client library"
+groups = ["default"]
+dependencies = [
+    "google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.10.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,!=2.8.*,!=2.9.*,<3.0.0dev,>=1.34.0",
+    "google-auth<3.0.0dev,>=2.14.1",
+    "grpc-google-iam-v1<1.0.0dev,>=0.12.4",
+    "grpcio-status>=1.33.2",
+    "grpcio<2.0dev,>=1.51.3",
+    "proto-plus<2.0.0dev,>=1.22.0",
+    "proto-plus<2.0.0dev,>=1.22.2; python_version >= \"3.11\"",
+    "protobuf!=3.20.0,!=3.20.1,!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<5.0.0dev,>=3.19.5",
+]
+files = [
+    {file = "google-cloud-pubsub-2.21.1.tar.gz", hash = "sha256:31fcf07444b7f813a616c4b650e1fbf1dc998a088fe0059a76164855ac17f05c"},
+    {file = "google_cloud_pubsub-2.21.1-py2.py3-none-any.whl", hash = "sha256:55a3602ec45bc09626604d712032288a8ee3566145cb83523cff908938f69a4b"},
+]
+
+[[package]]
 name = "google-cloud-storage"
 version = "2.16.0"
 requires_python = ">=3.7"
@@ -542,6 +563,38 @@ dependencies = [
 files = [
     {file = "googleapis-common-protos-1.63.0.tar.gz", hash = "sha256:17ad01b11d5f1d0171c06d3ba5c04c54474e883b66b949722b4938ee2694ef4e"},
     {file = "googleapis_common_protos-1.63.0-py2.py3-none-any.whl", hash = "sha256:ae45f75702f7c08b541f750854a678bd8f534a1a6bace6afe975f1d0a82d6632"},
+]
+
+[[package]]
+name = "googleapis-common-protos"
+version = "1.63.0"
+extras = ["grpc"]
+requires_python = ">=3.7"
+summary = "Common protobufs used in Google APIs"
+groups = ["default"]
+dependencies = [
+    "googleapis-common-protos==1.63.0",
+    "grpcio<2.0.0.dev0,>=1.44.0",
+]
+files = [
+    {file = "googleapis-common-protos-1.63.0.tar.gz", hash = "sha256:17ad01b11d5f1d0171c06d3ba5c04c54474e883b66b949722b4938ee2694ef4e"},
+    {file = "googleapis_common_protos-1.63.0-py2.py3-none-any.whl", hash = "sha256:ae45f75702f7c08b541f750854a678bd8f534a1a6bace6afe975f1d0a82d6632"},
+]
+
+[[package]]
+name = "grpc-google-iam-v1"
+version = "0.13.0"
+requires_python = ">=3.7"
+summary = "IAM API client library"
+groups = ["default"]
+dependencies = [
+    "googleapis-common-protos[grpc]<2.0.0dev,>=1.56.0",
+    "grpcio<2.0.0dev,>=1.44.0",
+    "protobuf!=3.20.0,!=3.20.1,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<5.0.0dev,>=3.19.5",
+]
+files = [
+    {file = "grpc-google-iam-v1-0.13.0.tar.gz", hash = "sha256:fad318608b9e093258fbf12529180f400d1c44453698a33509cc6ecf005b294e"},
+    {file = "grpc_google_iam_v1-0.13.0-py2.py3-none-any.whl", hash = "sha256:53902e2af7de8df8c1bd91373d9be55b0743ec267a7428ea638db3775becae89"},
 ]
 
 [[package]]

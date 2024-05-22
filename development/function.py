@@ -1,7 +1,7 @@
-from os import environ
 from pathlib import Path
 
 from functions_framework import create_app
+from veritasai.config import env
 
 
 def find_project_root_directory() -> Path:
@@ -18,7 +18,7 @@ def find_project_root_directory() -> Path:
     raise FileNotFoundError("Could not find the project root directory")
 
 
-FUNCTION = environ.get("FUNCTION")
+FUNCTION = env.get("FUNCTION")
 if FUNCTION is None or len(FUNCTION) == 0:
     raise ValueError("The FUNCTION environment variable must be set")
 

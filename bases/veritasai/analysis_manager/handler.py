@@ -3,6 +3,7 @@ from flask import Request, typing
 from veritasai.articles import Article
 from veritasai.cache import has_article
 from veritasai.input_validation import AnalyzeText, ValidationError, response_from_validation_error
+from veritasai.pubsub import analysis_requests
 
 
 @functions_framework.http
@@ -20,10 +21,8 @@ def handler(request: Request) -> typing.ResponseReturnValue:
 
     article = Article.from_input(body.content, body.author, body.publisher, body.source_url)
 
-    if has_article(article.id):
-        # TODO: return a response indicating that the document has already been processed
-        return "", 204
+    cached = has_article(article.id)
+    if not cached:
+        analysis_requests.publish(article)
 
-    # TODO: send pubsub message to analysis worker(s)
-
-    return "", 204
+    return {"id": article.id, "cached": cached}
