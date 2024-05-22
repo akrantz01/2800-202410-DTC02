@@ -2,13 +2,12 @@ import json
 from unittest.mock import MagicMock
 
 import pytest
+from pytest import MonkeyPatch
 from veritasai.pubsub.publisher import Publisher
 
-from development.testsupport import ConfigPatch
 
-
-def test_raises_error_when_project_id_is_undefined(env_var: ConfigPatch):
-    env_var.remove("GOOGLE_CLOUD_PROJECT")
+def test_raises_error_when_project_id_is_undefined(monkeypatch: MonkeyPatch):
+    monkeypatch.setattr("veritasai.pubsub.publisher.project_id", None)
 
     with pytest.raises(ValueError):
         Publisher("topic")
