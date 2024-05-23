@@ -12,6 +12,7 @@ export default defineConfig(async () => {
     root: 'frontend',
     build: {
       target: 'es2022',
+      sourcemap: true,
       rollupOptions: {
         input: Object.fromEntries(
           pages.map((file) => [file.replace(/\.html$/, ''), resolve(root, file)]),
