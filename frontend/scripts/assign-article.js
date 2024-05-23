@@ -6,7 +6,7 @@ import {
   getDoc,
   getDocs,
   updateDoc,
-} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
+} from 'firebase/firestore';
 
 import { firestore } from './firebase.js';
 

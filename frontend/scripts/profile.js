@@ -8,13 +8,8 @@ import {
   signOut,
   updateEmail,
   updateProfile,
-} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
-import {
-  deleteDoc,
-  doc,
-  getDoc,
-  updateDoc,
-} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
+} from 'firebase/auth';
+import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 
 import { redirectToHome, redirectToIndex } from './authentication/shared.js';
 import { auth, firestore } from './firebase.js';

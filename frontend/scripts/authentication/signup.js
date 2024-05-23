@@ -1,8 +1,5 @@
-import {
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
-import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 import { displayError, enableSignInWithGoogle, redirectToHome } from './shared.js';
 import { auth, firestore } from '../firebase.js';
