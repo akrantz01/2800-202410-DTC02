@@ -1,26 +1,45 @@
-from google.cloud import language_v2
+import json
+import os
 
-# check date of writing vs date of topic
-# scan for articles on same topic?
-# scan for type of language used
-# check if all sides are shown
+from dotenv import load_dotenv
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_watson import NaturalLanguageUnderstandingV1
+from ibm_watson.natural_language_understanding_v1 import (
+    ConceptsOptions,
+    EmotionOptions,
+    EntitiesOptions,
+    Features,
+    KeywordsOptions,
+    SemanticRolesOptions,
+    SentimentOptions,
+    SyntaxOptions,
+    SyntaxOptionsTokens,
+)
 
+load_dotenv()
 
-def analyze_sentiment_sample():
-    # Instantiates a client
-    client = language_v2.LanguageServiceClient()
+authenticator = IAMAuthenticator(os.environ.get("WatsonKey"))
+natural_language_understanding = NaturalLanguageUnderstandingV1(
+    version="2022-04-07", authenticator=authenticator
+)
 
-    # The text to analyze
-    text = "Analyze this text"
-    document = language_v2.types.Document(
-        content=text, type_=language_v2.types.Document.Type.PLAIN_TEXT
-    )
+natural_language_understanding.set_service_url(os.environ.get("WatsonURL"))
 
-    # Detects the sentiment of the text
-    sentiment = client.analyze_sentiment(request={"document": document}).document_sentiment
+response = natural_language_understanding.analyze(
+    url="www.ibm.com",
+    features=Features(
+        concepts=ConceptsOptions(limit=10),
+        emotion=EmotionOptions(document=True),
+        entities=EntitiesOptions(limit=20, mentions=True, sentiment=True, emotion=True),
+        keywords=KeywordsOptions(limit=20, sentiment=True, emotion=True),
+        semantic_roles=SemanticRolesOptions(limit=20, keywords=True, entities=True),
+        sentiment=SentimentOptions(),
+        syntax=SyntaxOptions(
+            sentences=True,
+            tokens=SyntaxOptionsTokens(lemma=True, part_of_speech=True),
+        ),
+        metadata={},
+    ),
+).get_result()
 
-    print(f"Text: {text}")
-    print(f"Sentiment: {sentiment.score}, {sentiment.magnitude}")
-
-
-analyze_sentiment_sample()
+print(json.dumps(response, indent=2))
