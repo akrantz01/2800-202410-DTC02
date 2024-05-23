@@ -18,6 +18,13 @@ from veritasai.config import env
 
 
 def interpret_text(url_input: str = "", text_input: str = "") -> str:
+    """
+    interpret text using IBM Watson
+
+    :param url_input: a url string
+    :param text_input: a text input string
+    :return: json string
+    """
     load_dotenv()
 
     authenticator = IAMAuthenticator(env.get("apikey"))
@@ -50,14 +57,29 @@ def interpret_text(url_input: str = "", text_input: str = "") -> str:
             url=url_input, features=analysis_features
         ).get_result()
 
-    print(json.dumps(response, indent=2))
+    return json.dumps(response, indent=2)
+
+
+def get_relevant_entities(analysis: str) -> list[dict]:
+    """
+    extract the important entities from the ai response
+
+    :param analysis: json string
+    :return: relevant_entities as a list of dictionaries
+    """
+    relevance_cutoff = 0.6
+    ai_analysis = json.loads(analysis)
+    entities = ai_analysis["entities"]
+    relevant_entities = filter(lambda entity: (entity["relevance"] >= relevance_cutoff), entities)
+    return list(relevant_entities)
 
 
 def main():
     # my_input = "IBM has one of the largest workforces in the world"
     my_url = "www.ibm.com"
-    interpret_text(url_input=my_url)
+    analysis = interpret_text(url_input=my_url)
     # interpret_text(text_input=my_input)
+    get_relevant_entities(analysis)
 
 
 if __name__ == "__main__":
