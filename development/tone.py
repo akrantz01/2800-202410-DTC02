@@ -4,7 +4,6 @@ import os
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_watson.natural_language_understanding_v1 import (
-    CategoriesOptions,
     EmotionOptions,
     EntitiesOptions,
     Features,
@@ -285,6 +284,7 @@ def main():
     parsed_analysis = parse_analysis_fields(title | analysis)
     print(parsed_analysis)
     plutchik_emotions = return_plutchik_strings(parsed_analysis)
+    print(plutchik_emotions)
 
 
 main()
