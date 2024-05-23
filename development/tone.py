@@ -1,6 +1,5 @@
 import json
 import os
-from typing import Callable
 
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson import NaturalLanguageUnderstandingV1
