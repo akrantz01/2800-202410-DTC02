@@ -1,22 +1,38 @@
----
-name: Functions
+name: Deploy
 
 on:
   push:
     branches:
       - dev
 
-permissions:
-  contents: read
-  id-token: write
-
 env:
   REGION: us-central1
   RUNTIME: python312
 
 jobs:
+  firestore:
+    name: Firestore
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: pnpm
+
+      - run: pnpm install
+
+      - name: firebase deploy --only firestore
+        run: pnpm firebase deploy --only firestore --project ${{ secrets.PROJECT_ID }}
+
   http:
-    name: Deploy ${{ matrix.name }} (HTTP)
+    name: ${{ matrix.name }} (HTTP)
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.ref_name }}_${{ matrix.name }}
@@ -27,6 +43,9 @@ jobs:
     env:
       PDM_PROJECT: projects/${{ matrix.name }}
       PDM_LOCKFILE: ${{ github.workspace }}/pdm.lock
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: google-github-actions/auth@v2
