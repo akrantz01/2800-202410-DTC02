@@ -14,6 +14,146 @@ from ibm_watson.natural_language_understanding_v1 import (
 from veritasai.config import env
 
 
+def evaluate_trust(item: dict) -> str | None:
+    """
+    Establish if item meets the threshold for trust, or admiration emotions.
+
+    :param item: a dictionary containing nested dictionaries
+                with emotion and sentiment keys and float values
+    :return: either a string with value of trust or None
+    """
+    return "trust" if item["emotion"]["disgust"] < 0.05 else None
+
+
+def return_combined_emotion(emotions: tuple) -> str:
+    """
+    Match strings inside a tuple and return corresponding string value.
+
+    :param emotions: a tuple with two string values
+    :return: a string representing a combination of the two values
+    """
+    emotion_map = {
+        ("joy", "anger"): "cynicism",
+        ("disgust", "anger"): "contempt",
+        ("sadness", "disgust"): "remorse",
+        ("joy", "fear"): "guilt",
+        ("fear", "disgust"): "shame",
+        ("disgust", "joy"): "morbidness",
+    }
+    return emotion_map.get(emotions, "unknown combination")
+
+
+def return_dominant_emotion(emotion: str) -> str:
+    """
+    Match a string and return a corresponding one.
+
+    :param emotion: A string representing an emotion
+    :return: A string representing a more intense version of that emotion
+    """
+    match emotion:
+        case "joy":
+            return "ecstasy"
+        case "fear":
+            return "terror"
+        case "anger":
+            return "rage"
+        case "disgust":
+            return "loathing"
+        case "sadness":
+            return "grief"
+
+
+def return_lesser_emotions(emotions: tuple) -> str:
+    """
+    Match a string and return a corrsponding one.
+
+    :param emotion: A string representing an emotion
+    :return: A string representing a less intense version of that emotion
+    """
+    updated_text = []
+    emotion_map = (
+        ("joy", "serenity"),
+        ("sadness", "pensiveness"),
+        ("fear", "apprehension"),
+        ("anger", "annoyance"),
+        ("disgust", "boredom"),
+    )
+    for emotion, replacement in emotion_map:
+        updated_text.append(replacement if emotion in emotions else emotion)
+
+    return tuple(updated_text)
+
+
+def evaluate_emotion_thresholds(
+    primary_emotion: tuple[str, float],
+    secondary_emotion: tuple[str, float],
+    emotion_difference: float,
+) -> str | tuple[str, str]:
+    """
+    Compare values in primary and secondary emotions and return a different string or
+    a tuple of strings with an updated emotion.
+
+    :param primary_emotion: A tuple with a string representing an emotion and a float
+                            representing the emotion's strength
+    :param seconary_emotion: A tuple with a string representing an emotion and a float
+                            representing the emotion's strength
+    :param emotion_difference: A float representing the difference between both emotion's values
+    :return: a string representing an updated emotion or
+            a tuple of strings if both emotions are updated
+    """
+    if primary_emotion[1] > 0.5 and emotion_difference > 0.6:
+        print("dominant emotion: {}".format(primary_emotion[0]))
+        return return_dominant_emotion(primary_emotion[0])
+    elif primary_emotion[1] > 0.2 and emotion_difference < 0.06:
+        print("combined emotions: {}, {}".format(primary_emotion[0], secondary_emotion[0]))
+        return return_combined_emotion((primary_emotion[0], secondary_emotion[0]))
+    elif primary_emotion[1] > 0.1:
+        print("unchanged emotions: {}, {}".format(primary_emotion[0], secondary_emotion[0]))
+        return (primary_emotion[0], secondary_emotion[0])
+    else:
+        print(
+            "lower primary, secondary emotions: {}, {}".format(
+                primary_emotion[0], secondary_emotion[0]
+            )
+        )
+        return return_lesser_emotions((primary_emotion[0], secondary_emotion[0]))
+
+
+def return_plutchik_strings(analysis: dict):
+    """
+    Return combinations of emotions according to Plutchik's emotion dyads.
+
+    :param: A dict with keys for title, document, keywords and entities
+            and dict values that contain keys of emotion and sentiment
+    """
+    # TODO: run title, document, keywords, entities through each of these
+    # TODO: add plutchik strings to dictionaries
+    categories = ["title", "document", "keywords", "entities"]
+    for category in categories:
+        if "emotion" in analysis[category]:
+            trust = evaluate_trust(analysis[category])
+            # first element is threshold, second is the amount of difference between two emotions
+            primary_emotion = max(analysis[category]["emotion"].items(), key=lambda x: x[1])
+            secondary_emotion = min(analysis[category]["emotion"].items(), key=lambda x: x[1])
+            emotion_difference = primary_emotion[1] - secondary_emotion[1]
+            processed_emotions = evaluate_emotion_thresholds(
+                primary_emotion, secondary_emotion, emotion_difference
+            )
+            print(processed_emotions)
+            print(trust)
+        else:
+            for name, data in analysis[category].items():
+                trust = evaluate_trust(analysis[category][name])
+                primary_emotion = max(data["emotion"].items(), key=lambda x: x[1])
+                secondary_emotion = min(data["emotion"].items(), key=lambda x: x[1])
+                emotion_difference = primary_emotion[1] - secondary_emotion[1]
+                processed_emotions = evaluate_emotion_thresholds(
+                    primary_emotion, secondary_emotion, emotion_difference
+                )
+                print(processed_emotions)
+                print(trust)
+
+
 def return_top_emotions(emotions: dict):
     """
     Return the top emotions and disgust for any elements passed in.
@@ -104,12 +244,12 @@ def retrieve_tone_analysis(url: str, text: str | None = None) -> dict:
         sentiment=SentimentOptions(document=True),
     )
 
-    # Add empty metadata only when text is None
+    # Add metadata, keywords and entities only when text is None
     if not text:
         features.metadata = {}
-        features.categores = CategoriesOptions(limit=3, explanation=True)
         features.entities = EntitiesOptions(emotion=True, sentiment=True)
         features.keywords = KeywordsOptions(sentiment=True, emotion=True)
+
     natural_language_understanding.set_service_url(env["url"])
 
     response = natural_language_understanding.analyze(
@@ -144,6 +284,7 @@ def main():
     }
     parsed_analysis = parse_analysis_fields(title | analysis)
     print(parsed_analysis)
+    plutchik_emotions = return_plutchik_strings(parsed_analysis)
 
 
 main()
