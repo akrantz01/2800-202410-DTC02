@@ -6,28 +6,6 @@ on:
       - dev
 
 jobs:
-  hosting:
-    name: Hosting
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: package.json
-          cache: pnpm
-
-      - run: pnpm install
-      - run: pnpm build
-
-      - name: firebase deploy --only hosting
-        run: pnpm firebase deploy --only hosting --project ${{ secrets.PROJECT_ID }}
-
   firestore:
     name: Firestore
     runs-on: ubuntu-latest
