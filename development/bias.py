@@ -1,5 +1,4 @@
 import json
-import os
 
 from dotenv import load_dotenv
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -15,15 +14,16 @@ from ibm_watson.natural_language_understanding_v1 import (
     SyntaxOptions,
     SyntaxOptionsTokens,
 )
+from veritasai.config import env
 
 load_dotenv()
 
-authenticator = IAMAuthenticator(os.environ.get("WatsonKey"))
+authenticator = IAMAuthenticator(env.get("apikey"))
 natural_language_understanding = NaturalLanguageUnderstandingV1(
     version="2022-04-07", authenticator=authenticator
 )
 
-natural_language_understanding.set_service_url(os.environ.get("WatsonURL"))
+natural_language_understanding.set_service_url(env.get("url"))
 
 response = natural_language_understanding.analyze(
     url="www.ibm.com",
