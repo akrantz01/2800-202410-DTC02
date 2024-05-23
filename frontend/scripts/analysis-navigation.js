@@ -1,6 +1,6 @@
 async function loadPaginationTemplate() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', '/frontend/html/templates/analysis-navigation-template.html', true);
+  xhr.open('GET', '/templates/analysis-navigation-template.html', true);
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {

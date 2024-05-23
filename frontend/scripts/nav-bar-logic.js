@@ -1,9 +1,10 @@
-import { auth } from '../scripts/firebase.js';
+import { auth } from './firebase.js';
+
 async function loadSkeleton() {
   const headerRequest = new XMLHttpRequest();
   const footerRequest = new XMLHttpRequest();
 
-  await headerRequest.open('get', '/frontend/html/templates/header-template.html', true);
+  await headerRequest.open('get', '/templates/header-template.html', true);
   headerRequest.onreadystatechange = () => {
     if (headerRequest.readyState === 4 && headerRequest.status === 200) {
       document.getElementById('header-placeholder').innerHTML = headerRequest.responseText;
@@ -13,18 +14,10 @@ async function loadSkeleton() {
 
   auth.onAuthStateChanged(async function (user) {
     if (user) {
-      await footerRequest.open(
-        'get',
-        '/frontend/html/templates/footer-logged-in-template.html',
-        true,
-      );
+      await footerRequest.open('get', '/templates/footer-logged-in-template.html', true);
     } else {
       // No user is signed in.
-      await footerRequest.open(
-        'get',
-        '/frontend/html/templates/footer-logged-out-template.html',
-        true,
-      );
+      await footerRequest.open('get', '/templates/footer-logged-out-template.html', true);
     }
     footerRequest.onreadystatechange = () => {
       if (footerRequest.readyState === 4 && footerRequest.status === 200) {
