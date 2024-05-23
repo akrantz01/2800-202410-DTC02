@@ -68,10 +68,24 @@ def get_relevant_entities(analysis: str) -> list[dict]:
     :return: relevant_entities as a list of dictionaries
     """
     relevance_cutoff = 0.6
+
     ai_analysis = json.loads(analysis)
     entities = ai_analysis["entities"]
     relevant_entities = filter(lambda entity: (entity["relevance"] >= relevance_cutoff), entities)
     return list(relevant_entities)
+
+
+def get_confident_mentions(relevant_entity: dict):
+    """
+    extract the entity mentions from the relevant entities
+    """
+    confidence_cutoff = 0.75
+
+    mentions = relevant_entity["mentions"]
+    confident_mentions = filter(
+        lambda mention: (mention["confidence"] >= confidence_cutoff), mentions
+    )
+    return list(confident_mentions)
 
 
 def main():
