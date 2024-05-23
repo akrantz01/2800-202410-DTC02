@@ -29,14 +29,16 @@ def return_combined_emotion(emotions: tuple) -> str:
     Match strings inside a tuple and return corresponding string value.
 
     :param emotions: a tuple with two string values
-    :return: a string representing a combination of the two values
+    :return: a list representing a combination of the two values
     """
     emotion_map = {
-        ("anger", "joy"): ["cynicism"],
+        ("anger", "joy"): ["pride"],
+        ("anger", "sadness"): ["envy"],
         ("joy", "sadness"): ["melancholy"],
         ("anger", "disgust"): ["contempt"],
         ("disgust", "sadness"): ["remorse"],
         ("fear", "joy"): ["guilt"],
+        ("fear", "sadness"): ["despair"],
         ("disgust", "fear"): ["shame"],
         ("disgust", "joy"): ["morbidness"],
     }
@@ -101,21 +103,13 @@ def evaluate_emotion_thresholds(
     :return: a string representing an updated emotion or
             a tuple of strings if both emotions are updated
     """
-    if primary_emotion[1] > 0.5 and emotion_difference > 0.6:
-        # print("dominant emotion: {}".format(primary_emotion[0]))
+    if primary_emotion[1] > 0.5 and emotion_difference > 0.8:
         return return_dominant_emotion([primary_emotion[0]])
-    elif primary_emotion[1] > 0.2 and emotion_difference < 0.06:
-        # print("combined emotions: {}, {}".format(primary_emotion[0], secondary_emotion[0]))
+    elif primary_emotion[1] > 0.3 and emotion_difference < 0.8:
         return return_combined_emotion((primary_emotion[0], secondary_emotion[0]))
     elif primary_emotion[1] > 0.1:
-        # print("unchanged emotions: {}, {}".format(primary_emotion[0], secondary_emotion[0]))
         return [primary_emotion[0], secondary_emotion[0]]
     else:
-        # print(
-        # "lower primary, secondary emotions: {}, {}".format(
-        #    primary_emotion[0], secondary_emotion[0]
-        # )
-        # )
         return return_lesser_emotions((primary_emotion[0], secondary_emotion[0]))
 
 
