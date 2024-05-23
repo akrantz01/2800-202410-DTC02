@@ -2,7 +2,7 @@
   "installCommand": "pnpm install",
   "devCommand": "pnpm dev",
   "buildCommand": "pnpm build",
-  "outputDirectory": "frontend",
+  "outputDirectory": "frontend/dist",
   "cleanUrls": true,
   "trailingSlash": false
 }
