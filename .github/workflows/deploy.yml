@@ -13,6 +13,8 @@ jobs:
   firestore:
     name: Firestore
     runs-on: ubuntu-latest
+    concurrency:
+      group: firestore
     steps:
       - uses: actions/checkout@v4
 
@@ -35,7 +37,7 @@ jobs:
     name: ${{ matrix.name }} (HTTP)
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.ref_name }}_${{ matrix.name }}
+      group: http_${{ matrix.name }}
     strategy:
       matrix:
         name:
