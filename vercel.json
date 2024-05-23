@@ -1,0 +1,8 @@
+{
+  "installCommand": "pnpm install",
+  "devCommand": "pnpm dev",
+  "buildCommand": "pnpm build",
+  "outputDirectory": "frontend",
+  "cleanUrls": true,
+  "trailingSlash": false
+}
