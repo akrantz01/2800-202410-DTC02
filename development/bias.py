@@ -16,18 +16,18 @@ from ibm_watson.natural_language_understanding_v1 import (
 )
 from veritasai.config import env
 
-load_dotenv()
 
-authenticator = IAMAuthenticator(env.get("apikey"))
-natural_language_understanding = NaturalLanguageUnderstandingV1(
-    version="2022-04-07", authenticator=authenticator
-)
+def interpret_text(url_input: str = "", text_input: str = "") -> str:
+    load_dotenv()
 
-natural_language_understanding.set_service_url(env.get("url"))
+    authenticator = IAMAuthenticator(env.get("apikey"))
+    natural_language_understanding = NaturalLanguageUnderstandingV1(
+        version="2022-04-07", authenticator=authenticator
+    )
 
-response = natural_language_understanding.analyze(
-    url="www.ibm.com",
-    features=Features(
+    natural_language_understanding.set_service_url(env.get("url"))
+
+    analysis_features = Features(
         concepts=ConceptsOptions(limit=10),
         emotion=EmotionOptions(document=True),
         entities=EntitiesOptions(limit=20, mentions=True, sentiment=True, emotion=True),
@@ -38,8 +38,27 @@ response = natural_language_understanding.analyze(
             sentences=True,
             tokens=SyntaxOptionsTokens(lemma=True, part_of_speech=True),
         ),
-        metadata={},
-    ),
-).get_result()
+    )
 
-print(json.dumps(response, indent=2))
+    if text_input:
+        response = natural_language_understanding.analyze(
+            text=text_input, features=analysis_features
+        ).get_result()
+    else:
+        analysis_features.metadata = {}
+        response = natural_language_understanding.analyze(
+            url=url_input, features=analysis_features
+        ).get_result()
+
+    print(json.dumps(response, indent=2))
+
+
+def main():
+    # my_input = "IBM has one of the largest workforces in the world"
+    my_url = "www.ibm.com"
+    interpret_text(url_input=my_url)
+    # interpret_text(text_input=my_input)
+
+
+if __name__ == "__main__":
+    main()
