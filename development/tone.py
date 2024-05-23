@@ -32,14 +32,14 @@ def return_combined_emotion(emotions: tuple) -> str:
     :return: a string representing a combination of the two values
     """
     emotion_map = {
-        ("joy", "anger"): "cynicism",
-        ("disgust", "anger"): "contempt",
-        ("sadness", "disgust"): "remorse",
-        ("joy", "fear"): "guilt",
-        ("fear", "disgust"): "shame",
-        ("disgust", "joy"): "morbidness",
+        ("anger", "joy"): ["cynicism"],
+        ("anger", "disgust"): ["contempt"],
+        ("disgust", "sadness"): ["remorse"],
+        ("fear", "joy"): ["guilt"],
+        ("disgust", "fear"): ["shame"],
+        ("disgust", "joy"): ["morbidness"],
     }
-    return emotion_map.get(emotions, "unknown combination")
+    return emotion_map.get(tuple(sorted(emotions)), "unknown combination")
 
 
 def return_dominant_emotion(emotion: str) -> str:
@@ -80,7 +80,7 @@ def return_lesser_emotions(emotions: tuple) -> str:
     for emotion, replacement in emotion_map:
         updated_text.append(replacement if emotion in emotions else emotion)
 
-    return tuple(updated_text)
+    return updated_text
 
 
 def evaluate_emotion_thresholds(
@@ -101,24 +101,24 @@ def evaluate_emotion_thresholds(
             a tuple of strings if both emotions are updated
     """
     if primary_emotion[1] > 0.5 and emotion_difference > 0.6:
-        print("dominant emotion: {}".format(primary_emotion[0]))
-        return return_dominant_emotion(primary_emotion[0])
+        # print("dominant emotion: {}".format(primary_emotion[0]))
+        return return_dominant_emotion([primary_emotion[0]])
     elif primary_emotion[1] > 0.2 and emotion_difference < 0.06:
-        print("combined emotions: {}, {}".format(primary_emotion[0], secondary_emotion[0]))
+        # print("combined emotions: {}, {}".format(primary_emotion[0], secondary_emotion[0]))
         return return_combined_emotion((primary_emotion[0], secondary_emotion[0]))
     elif primary_emotion[1] > 0.1:
-        print("unchanged emotions: {}, {}".format(primary_emotion[0], secondary_emotion[0]))
-        return (primary_emotion[0], secondary_emotion[0])
+        # print("unchanged emotions: {}, {}".format(primary_emotion[0], secondary_emotion[0]))
+        return [primary_emotion[0], secondary_emotion[0]]
     else:
-        print(
-            "lower primary, secondary emotions: {}, {}".format(
-                primary_emotion[0], secondary_emotion[0]
-            )
-        )
+        # print(
+        # "lower primary, secondary emotions: {}, {}".format(
+        #    primary_emotion[0], secondary_emotion[0]
+        # )
+        # )
         return return_lesser_emotions((primary_emotion[0], secondary_emotion[0]))
 
 
-def return_plutchik_strings(analysis: dict):
+def plutchik_analyser(analysis: dict):
     """
     Return combinations of emotions according to Plutchik's emotion dyads.
 
@@ -138,8 +138,8 @@ def return_plutchik_strings(analysis: dict):
             processed_emotions = evaluate_emotion_thresholds(
                 primary_emotion, secondary_emotion, emotion_difference
             )
-            print(processed_emotions)
-            print(trust)
+            analysis[category]["trust"] = "no" if not trust else "yes"
+            analysis[category]["plutchik"] = processed_emotions
         else:
             for name, data in analysis[category].items():
                 trust = evaluate_trust(analysis[category][name])
@@ -149,8 +149,9 @@ def return_plutchik_strings(analysis: dict):
                 processed_emotions = evaluate_emotion_thresholds(
                     primary_emotion, secondary_emotion, emotion_difference
                 )
-                print(processed_emotions)
-                print(trust)
+                analysis[category][name]["trust"] = "no" if not trust else "yes"
+                analysis[category][name]["plutchik"] = processed_emotions
+    return analysis
 
 
 def return_top_emotions(emotions: dict):
@@ -282,8 +283,7 @@ def main():
         }
     }
     parsed_analysis = parse_analysis_fields(title | analysis)
-    print(parsed_analysis)
-    plutchik_emotions = return_plutchik_strings(parsed_analysis)
+    plutchik_emotions = plutchik_analyser(parsed_analysis)
     print(plutchik_emotions)
 
 
