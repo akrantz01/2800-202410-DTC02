@@ -5,7 +5,10 @@ from veritasai.authentication import login_required
 from veritasai.cache import has_article
 from veritasai.cors import handle_cors
 from veritasai.input_validation import AnalyzeText, ValidationError, response_from_validation_error
+from veritasai.logging import get_logger
 from veritasai.pubsub import analysis_requests
+
+logger = get_logger("veritasai.analysis_manager")
 
 
 @functions_framework.http
@@ -26,6 +29,9 @@ def handler(request: Request) -> typing.ResponseReturnValue:
     article = Article.from_input(body.content, body.author, body.publisher, body.source_url)
 
     cached = has_article(article.id)
+
+    logger.info("Received article %(id)s for analysis", {"id": article.id, "cached": cached})
+
     if not cached:
         analysis_requests.publish(article)
 

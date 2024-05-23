@@ -4,6 +4,9 @@ from typing import Callable
 from firebase_admin.auth import InvalidIdTokenError
 from flask import Request, make_response, typing
 from veritasai.firebase import get_auth
+from veritasai.logging import get_logger
+
+logger = get_logger("veritasai.authentication.decorator")
 
 
 def login_required(
@@ -19,10 +22,11 @@ def login_required(
             return make_response({"error": "bearer token required"}, 401)
 
         try:
-            get_auth().verify_id_token(request.authorization.token)
+            request.user = get_auth().verify_id_token(request.authorization.token)
         except InvalidIdTokenError:
             return make_response({"error": "invalid bearer token"}, 401)
 
+        logger.info("User %(sub)s authenticated", {"sub": request.user["sub"]})
         return func(request)
 
     return wrapper
