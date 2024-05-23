@@ -33,6 +33,7 @@ def return_combined_emotion(emotions: tuple) -> str:
     """
     emotion_map = {
         ("anger", "joy"): ["cynicism"],
+        ("joy", "sadness"): ["melancholy"],
         ("anger", "disgust"): ["contempt"],
         ("disgust", "sadness"): ["remorse"],
         ("fear", "joy"): ["guilt"],
@@ -132,6 +133,8 @@ def plutchik_analyser(analysis: dict):
         if "emotion" in analysis[category]:
             trust = evaluate_trust(analysis[category])
             # first element is threshold, second is the amount of difference between two emotions
+            if len(analysis[category]["emotion"]) == 3:
+                analysis[category]["emotion"].pop("disgust")
             primary_emotion = max(analysis[category]["emotion"].items(), key=lambda x: x[1])
             secondary_emotion = min(analysis[category]["emotion"].items(), key=lambda x: x[1])
             emotion_difference = primary_emotion[1] - secondary_emotion[1]
@@ -143,6 +146,8 @@ def plutchik_analyser(analysis: dict):
         else:
             for name, data in analysis[category].items():
                 trust = evaluate_trust(analysis[category][name])
+                if len(data["emotion"]) == 3:
+                    data["emotion"].pop("disgust")
                 primary_emotion = max(data["emotion"].items(), key=lambda x: x[1])
                 secondary_emotion = min(data["emotion"].items(), key=lambda x: x[1])
                 emotion_difference = primary_emotion[1] - secondary_emotion[1]
@@ -265,7 +270,8 @@ def retrieve_tone_analysis(url: str, text: str | None = None) -> dict:
 def main():
     # TODO: combine emotions according to Plutchik's wheel of emotion
     # TODO return summary based on Plutchik results
-    url = "https://www.foxnews.com/politics/michael-cohen-testifies-he-secretly-recorded-trump-lead-up-2016-election"
+    url = "https://www.goodnewsnetwork.org/grandson-surprises-grandfather-by-restoring-1954-pickup-i-never-thought-id-live-to-see-that/"
+    #
     # text = "IBM is the worst company on earth"
     analysis = ""
     if not os.path.exists("results.txt"):
