@@ -3,27 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="../styles/output.css" rel="stylesheet" />
+    <link href="styles/output.css" rel="stylesheet" />
     <title>VeritasAI</title>
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/frontend/images/favicon/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/frontend/images/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/frontend/images/favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="/frontend/images/favicon/site.webmanifest" />
-    <link rel="mask-icon" href="/frontend/images/favicon/safari-pinned-tab.svg" color="#5bbad5" />
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="images/favicon/site.webmanifest" />
+    <link rel="mask-icon" href="images/favicon/safari-pinned-tab.svg" color="#5bbad5" />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
   </head>
@@ -32,10 +18,13 @@
     class="font-roboto bg-gradient-to-b from-white to-gray-300 bg-auto bg-no-repeat min-h-screen"
   >
     <header id="header-placeholder"></header>
-    <h1 class="text-5xl text-slate-600 font-extrabold text-center">Saved</h1>
+    <h1 class="text-5xl text-slate-600 font-extrabold text-center">History</h1>
     <div class="items-center text-center container mx-auto">
-      <div class="overflow-y-scroll mx-6 mb-20 max-h-[80vh] rounded-3xl lg:mx-60" id="saved-cards">
-        <template id="saved-card">
+      <div
+        class="overflow-y-scroll mx-6 mb-20 max-h-[80vh] rounded-3xl lg:mx-60"
+        id="history-cards"
+      >
+        <template id="history-card">
           <a class="my-2 shadow-md border-2 py-4 rounded-3xl block" href="#">
             <header class="flex items-center px-2">
               <h1
@@ -105,7 +94,7 @@
               </div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-heart save-button stroke-primary fill-primary"
+                class="icon icon-tabler icon-tabler-heart save-button stroke-primary"
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -126,7 +115,7 @@
       </div>
     </div>
     <footer id="footer-placeholder"></footer>
-    <script type="module" src="/frontend/scripts/nav-bar-logic.js"></script>
-    <script type="module" src="/frontend/scripts/saved.js"></script>
+    <script type="module" src="scripts/nav-bar-logic.js"></script>
+    <script type="module" src="scripts/history.js"></script>
   </body>
 </html>
