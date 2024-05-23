@@ -19,7 +19,7 @@ from veritasai.config import env
 
 def interpret_text(url_input: str = "", text_input: str = "") -> str:
     """
-    interpret text using IBM Watson
+    Interpret text using IBM Watson.
 
     :param url_input: a url string
     :param text_input: a text input string
@@ -62,7 +62,7 @@ def interpret_text(url_input: str = "", text_input: str = "") -> str:
 
 def get_relevant_entities(analysis: str) -> list[dict]:
     """
-    extract the important entities from the ai response
+    Extract the important entities from the ai response.
 
     :param analysis: json string
     :return: relevant_entities as a list of dictionaries
@@ -77,7 +77,7 @@ def get_relevant_entities(analysis: str) -> list[dict]:
 
 def get_confident_mentions(relevant_entity: dict):
     """
-    extract the entity mentions from the relevant entities
+    Extract the entity mentions from the relevant entities.
     """
     confidence_cutoff = 0.75
 
@@ -86,6 +86,25 @@ def get_confident_mentions(relevant_entity: dict):
         lambda mention: (mention["confidence"] >= confidence_cutoff), mentions
     )
     return list(confident_mentions)
+
+
+def get_mention_sentences(confident_mentions: list[dict], sentences: list[dict]):
+    """
+    Extract sentences that contain relevant keyword mentions.
+    """
+    mention_locations = map(lambda mention: (mention["location"]), confident_mentions)
+    sentences_with_mentions = []
+    for mention in mention_locations:
+        mention_start = mention["location"][0]
+        mention_end = mention["location"][1]
+        sentences_with_mentions += filter(
+            lambda sentence: (
+                (mention_start >= sentence["location"][0])
+                and (mention_end <= sentence["location"][1])
+                and sentence not in sentences_with_mentions
+            )
+        )
+    return sentences_with_mentions
 
 
 def main():
