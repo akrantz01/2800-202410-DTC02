@@ -69,7 +69,7 @@ def return_lesser_emotions(emotions: tuple) -> list[str]:
     Match a string and return a corrsponding one.
 
     :param emotion: A string representing an emotion
-    :return: A string representing a less intense version of that emotion
+    :return: A list with a string string representing a less intense version of that emotion
     """
     updated_text = []
     emotion_map = (
