@@ -2,54 +2,59 @@ import { doc, getDoc } from 'firebase/firestore';
 
 import { firestore } from './firebase.js';
 
-// Function to get URL parameters
-function getQueryParam(param) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(param);
-}
+const errorContainer = document.getElementById('error-message');
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const uid = getQueryParam('uid');
-  const errorContainer = document.getElementById('error-message');
+const title = document.getElementById('title');
+const articleInfo = document.getElementById('article-info');
+const author = document.getElementById('author');
+const publisher = document.getElementById('publisher');
+const url = document.getElementById('url');
+const summary = document.getElementById('summary');
 
-  function displayError(message) {
-    errorContainer.querySelector('span').textContent = message;
-    errorContainer.classList.remove('hidden');
+const params = new URLSearchParams(window.location.search);
+const uid = params.get('uid');
+if (!uid) window.location.href = 'home.html';
+
+try {
+  const articleDoc = await getDoc(doc(firestore, 'articles', uid));
+  if (!articleDoc.exists()) {
+    throw new Error('Article document does not exist');
   }
 
-  if (!uid) {
-    displayError('Article UID not provided.');
-    return;
-  }
+  const articleData = articleDoc.data();
 
-  try {
-    const articleDoc = await getDoc(doc(firestore, 'articles', uid));
-    if (!articleDoc.exists()) {
-      throw new Error('Article document does not exist');
-    }
+  if (articleData.title) {
+    title.textContent = articleData.title;
 
-    const articleData = articleDoc.data();
-    const articleInfoContainer = document.getElementById('article-info');
-    articleInfoContainer.innerHTML = `
-      <h2 class="text-2xl font-bold">${articleData.title}</h2>
-      <p class="text-gray-700">${articleData.publisher}</p>
-      <a href="${articleData.originalUrl}" target="_blank" class="text-blue-500 hover:underline">Original article</a>
-      <p class="mt-4">${articleData.summary}</p>
-    `;
+    articleInfo.classList.remove('hidden');
+    author.textContent = articleData.author;
+    publisher.textContent = articleData.publisher;
+    url.href = articleData.url;
+    summary.textContent = articleData.summary;
+  } else title.textContent = 'Processing...';
 
-    // Set up progress bars
+  if (articleData.status.ai === 'complete') {
     const aiDetectionProgress = document.getElementById('ai-detection-progress');
     const aiDetectionText = document.getElementById('ai-detection-text');
     aiDetectionProgress.style.width = `${articleData.aiDetection}%`;
-    // aiDetectionProgress.textContent = `${articleData.aiDetection}%`;
     aiDetectionText.textContent = `${articleData.aiDetection}%`;
 
+    linkCardToPage('ai-detection-card', 'ai-detect.html');
+    hideSpinner('ai-detection-card');
+  }
+
+  if (articleData.status.accuracy === 'complete') {
     const analysisProgress = document.getElementById('analysis-progress');
     const analysisText = document.getElementById('analysis-text');
     analysisProgress.style.width = `${articleData.analysis}%`;
     // analysisProgress.textContent = `${articleData.analysis}%`;
     analysisText.textContent = `${articleData.analysis}% factual`;
 
+    linkCardToPage('factual-analysis-card', 'analysis.html');
+    hideSpinner('factual-analysis-card');
+  }
+
+  if (articleData.status.bias === 'complete') {
     // Set up bias indicator
     const biasLeft = document.getElementById('bias-left');
     const biasNeutral = document.getElementById('bias-neutral');
@@ -77,17 +82,39 @@ document.addEventListener('DOMContentLoaded', async () => {
       biasText.textContent = 'Bias: Neutral';
     }
 
-    // Add event listeners to the cards to navigate to detailed pages
-    document.getElementById('ai-detection-card').addEventListener('click', () => {
-      window.location.href = `ai-detect.html?uid=${uid}`;
-    });
-    document.getElementById('factual-analysis-card').addEventListener('click', () => {
-      window.location.href = `analysis.html?uid=${uid}`;
-    });
-    document.getElementById('bias-detection-card').addEventListener('click', () => {
-      window.location.href = `bias.html?uid=${uid}`;
-    });
-  } catch (error) {
-    displayError(error.message);
+    linkCardToPage('bias-detection-card', 'bias.html');
+    hideSpinner('bias-detection-card');
   }
-});
+} catch (error) {
+  displayError(error.message);
+}
+
+/**
+ * Link a card to a page.
+ *
+ * @param {string} cardId the id of the card to add the event listener to
+ * @param {string} page the page to navigate to when the card is clicked
+ */
+function linkCardToPage(cardId, page) {
+  document.getElementById(cardId).addEventListener('click', () => {
+    window.location.href = `${page}?uid=${uid}`;
+  });
+}
+
+function hideSpinner(cardId) {
+  const card = document.getElementById(cardId);
+  card.querySelector('.spinner').style.display = 'none';
+  card.querySelectorAll('.result').forEach((result) => {
+    result.classList.remove('hidden');
+  });
+}
+
+/**
+ * Display an error message on the page.
+ *
+ * @param {string} message the error message to display
+ */
+function displayError(message) {
+  errorContainer.querySelector('span').textContent = message;
+  errorContainer.classList.remove('hidden');
+}
