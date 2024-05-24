@@ -425,3 +425,6 @@ projects/*/requirements.txt
 
 # Firebase Admin SDK credentials
 *-firebase-adminsdk-*.json
+
+# Vercel deployment
+.vercel

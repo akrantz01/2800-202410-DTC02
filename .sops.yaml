@@ -1,0 +1,6 @@
+keys:
+  - &project projects/sharp-bivouac-422118-s5/locations/global/keyRings/sops/cryptoKeys/sops
+
+creation_rules:
+  - path_regex: environments/[^/]+\.yaml
+    gcp_kms: *project

@@ -40,14 +40,15 @@
 
       <h2 class="text-slate-500 text-xl mb-2">Reveal the Truth</h2>
 
-      <form class="flex flex-col justify-center items-center" method="post">
+      <form id="form" class="flex flex-col justify-center items-center">
         <textarea
           type="text"
-          name="text-to-analyze"
-          id="text-to-analyze"
+          name="content"
+          id="content"
           placeholder="Paste text here"
           rows="6"
           class="block rounded-lg border lg:max-w-96 w-full max-w-64 placeholder-slate-600 text-slate-600 focus:ring-primary border-primary"
+          required
         ></textarea>
         <div class="lg:max-w-96 w-full max-w-64 flex items-center">
           <svg
@@ -122,23 +123,24 @@
             <path d="M20.2 20.2l1.8 1.8" />
           </svg>
           <input
-            type="text"
+            type="url"
             name="source-url"
             id="source-url"
             placeholder="URL"
             class="block w-full rounded-lg border placeholder-slate-600 text-slate-600 focus:ring-primary border-primary"
           />
         </div>
-        <a
+        <button
+          type="submit"
           class="group shadow-md hover:shadow-primary rounded-lg text-4xl py-2 px-4 text-white hover:bg-secondary bg-primary"
-          href="../html/summary.html?uid=demo"
         >
           Analyze
-        </a>
+        </button>
       </form>
     </div>
     <footer id="footer-placeholder"></footer>
 
-    <script type="module" src="/frontend/scripts/nav-bar-logic.js"></script>
+    <script type="module" src="../scripts/home.js"></script>
+    <script type="module" src="../scripts/nav-bar-logic.js"></script>
   </body>
 </html>
