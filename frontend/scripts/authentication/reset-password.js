@@ -1,8 +1,4 @@
-import {
-  EmailAuthProvider,
-  reauthenticateWithCredential,
-  updatePassword,
-} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
+import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from 'firebase/auth';
 
 import { displayError } from './shared.js';
 import { currentUser } from '../user.js';

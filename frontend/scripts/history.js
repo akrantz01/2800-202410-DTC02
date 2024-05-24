@@ -8,7 +8,7 @@ import {
   getDocs,
   setDoc,
   updateDoc,
-} from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
+} from 'firebase/firestore';
 
 import { firestore } from './firebase.js';
 import { currentUser } from './user.js';

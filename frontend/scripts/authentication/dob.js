@@ -1,5 +1,5 @@
-import { deleteUser } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
-import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
+import { deleteUser } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 import { displayError, redirectToHome, redirectToIndex } from './shared.js';
 import { auth, firestore } from '../firebase.js';

@@ -1,4 +1,4 @@
-import { sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
+import { sendPasswordResetEmail } from 'firebase/auth';
 
 import { redirectToHome } from './shared.js';
 import { auth } from '../firebase.js';

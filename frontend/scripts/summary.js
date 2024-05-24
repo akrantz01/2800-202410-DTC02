@@ -1,4 +1,4 @@
-import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js';
+import { doc, getDoc } from 'firebase/firestore';
 
 import { firestore } from './firebase.js';
 
