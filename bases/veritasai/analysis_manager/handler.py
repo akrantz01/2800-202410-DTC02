@@ -1,9 +1,11 @@
 import functions_framework
 from flask import Request, typing
+from google.cloud.firestore import SERVER_TIMESTAMP
 from veritasai.articles import Article
 from veritasai.authentication import login_required
 from veritasai.cache import has_article
 from veritasai.cors import handle_cors
+from veritasai.firebase import get_db
 from veritasai.input_validation import AnalyzeText, ValidationError, response_from_validation_error
 from veritasai.logging import get_logger
 from veritasai.pubsub import analysis_requests
@@ -34,5 +36,23 @@ def handler(request: Request) -> typing.ResponseReturnValue:
 
     if not cached:
         analysis_requests.publish(article)
+
+        get_db().collection("articles").document(article.id).set(
+            {
+                "status": {
+                    "extract": "pending",
+                    "ai": "pending",
+                    "accuracy": "pending",
+                    "bias": "pending",
+                    "tone": "pending",
+                    "entities": "pending",
+                    "sentences": "pending",
+                },
+                "author": article.author,
+                "publisher": article.publisher,
+                "url": article.url,
+                "timestamp": SERVER_TIMESTAMP,
+            }
+        )
 
     return {"id": article.id, "cached": cached}

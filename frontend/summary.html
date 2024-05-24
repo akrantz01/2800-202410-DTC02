@@ -11,16 +11,42 @@
     <main class="container p-4 mx-auto">
       <div class="max-w-2xl p-6 mx-auto bg-white rounded-lg shadow-md">
         <h1 class="mb-6 text-3xl font-bold text-center text-green-600">Article Summary</h1>
-        <div id="article-info" class="mb-6">
-          <!-- Article information will be inserted here -->
+        <div class="mb-6">
+          <h2 id="title" class="text-2xl font-bold">Processing...</h2>
+          <div id="article-info" class="hidden">
+            <p class="text-gray-700">
+              <span id="author"></span>
+              (<span id="publisher"></span>)
+            </p>
+            <a id="url" target="_blank" class="text-blue-500 hover:underline">URL</a>
+            <p id="summary" class="mt-4"></p>
+          </div>
         </div>
         <div class="space-y-8">
-          <div id="ai-detection-card" class="p-4 bg-blue-100 rounded-lg shadow-md cursor-pointer">
+          <div
+            id="ai-detection-card"
+            class="p-4 bg-blue-100 hover:bg-blue-200 rounded-lg shadow-md cursor-pointer"
+          >
             <div class="flex items-center justify-between mb-2">
               <h2 class="text-lg font-bold text-blue-600">AI Detection</h2>
-              <p id="ai-detection-text" class="text-lg font-bold text-blue-600"></p>
+              <p id="ai-detection-text" class="result hidden text-lg font-bold text-blue-600"></p>
             </div>
-            <div class="w-full h-6 mb-2 bg-gray-200 rounded-full">
+            <div class="spinner flex justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+                class="h-10 w-10 animate-spin"
+              >
+                <path
+                  opacity=".4"
+                  d="M256 64C150 64 64 150 64 256s86 192 192 192c70.1 0 131.3-37.5 164.9-93.6l.1 .1c-6.9 14.9-1.5 32.8 13 41.2c15.3 8.9 34.9 3.6 43.7-11.7c.2-.3 .4-.6 .5-.9l0 0C434.1 460.1 351.1 512 256 512C114.6 512 0 397.4 0 256S114.6 0 256 0c-17.7 0-32 14.3-32 32s14.3 32 32 32z"
+                />
+                <path
+                  d="M224 32c0-17.7 14.3-32 32-32C397.4 0 512 114.6 512 256c0 46.6-12.5 90.4-34.3 128c-8.8 15.3-28.4 20.5-43.7 11.7s-20.5-28.4-11.7-43.7c16.3-28.2 25.7-61 25.7-96c0-106-86-192-192-192c-17.7 0-32-14.3-32-32z"
+                />
+              </svg>
+            </div>
+            <div class="result hidden w-full h-6 mb-2 bg-gray-200 rounded-full">
               <div
                 id="ai-detection-progress"
                 class="h-6 text-center text-white bg-blue-500 rounded-full"
@@ -29,25 +55,58 @@
           </div>
           <div
             id="factual-analysis-card"
-            class="p-4 bg-green-100 rounded-lg shadow-md cursor-pointer"
+            class="p-4 bg-green-100 hover:bg-green-200 rounded-lg shadow-md cursor-pointer"
           >
             <div class="flex items-center justify-between mb-2">
               <h2 class="text-lg font-bold text-green-600">Factual Analysis</h2>
-              <p id="analysis-text" class="text-lg font-bold text-green-600"></p>
+              <p id="analysis-text" class="result hidden text-lg font-bold text-green-600"></p>
             </div>
-            <div class="w-full h-6 mb-2 bg-gray-200 rounded-full">
+            <div class="spinner flex justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+                class="h-10 w-10 animate-spin"
+              >
+                <path
+                  opacity=".4"
+                  d="M256 64C150 64 64 150 64 256s86 192 192 192c70.1 0 131.3-37.5 164.9-93.6l.1 .1c-6.9 14.9-1.5 32.8 13 41.2c15.3 8.9 34.9 3.6 43.7-11.7c.2-.3 .4-.6 .5-.9l0 0C434.1 460.1 351.1 512 256 512C114.6 512 0 397.4 0 256S114.6 0 256 0c-17.7 0-32 14.3-32 32s14.3 32 32 32z"
+                />
+                <path
+                  d="M224 32c0-17.7 14.3-32 32-32C397.4 0 512 114.6 512 256c0 46.6-12.5 90.4-34.3 128c-8.8 15.3-28.4 20.5-43.7 11.7s-20.5-28.4-11.7-43.7c16.3-28.2 25.7-61 25.7-96c0-106-86-192-192-192c-17.7 0-32-14.3-32-32z"
+                />
+              </svg>
+            </div>
+            <div class="result hidden w-full h-6 mb-2 bg-gray-200 rounded-full">
               <div
                 id="analysis-progress"
                 class="h-6 text-center text-white bg-green-500 rounded-full"
               ></div>
             </div>
           </div>
-          <div id="bias-detection-card" class="p-4 bg-red-100 rounded-lg shadow-md cursor-pointer">
+          <div
+            id="bias-detection-card"
+            class="p-4 bg-red-100 hover:bg-red-200 rounded-lg shadow-md cursor-pointer"
+          >
             <div class="flex items-center justify-between mb-2">
               <h2 class="text-lg font-bold text-red-600">Bias Detection</h2>
-              <p id="bias-text" class="text-lg font-bold text-red-600"></p>
+              <p id="bias-text" class="result hidden text-lg font-bold text-red-600"></p>
             </div>
-            <div class="flex w-full h-6 mb-2 bg-gray-200 rounded-full">
+            <div class="spinner flex justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+                class="h-10 w-10 animate-spin"
+              >
+                <path
+                  opacity=".4"
+                  d="M256 64C150 64 64 150 64 256s86 192 192 192c70.1 0 131.3-37.5 164.9-93.6l.1 .1c-6.9 14.9-1.5 32.8 13 41.2c15.3 8.9 34.9 3.6 43.7-11.7c.2-.3 .4-.6 .5-.9l0 0C434.1 460.1 351.1 512 256 512C114.6 512 0 397.4 0 256S114.6 0 256 0c-17.7 0-32 14.3-32 32s14.3 32 32 32z"
+                />
+                <path
+                  d="M224 32c0-17.7 14.3-32 32-32C397.4 0 512 114.6 512 256c0 46.6-12.5 90.4-34.3 128c-8.8 15.3-28.4 20.5-43.7 11.7s-20.5-28.4-11.7-43.7c16.3-28.2 25.7-61 25.7-96c0-106-86-192-192-192c-17.7 0-32-14.3-32-32z"
+                />
+              </svg>
+            </div>
+            <div class="result hidden flex w-full h-6 mb-2 bg-gray-200 rounded-full">
               <div id="bias-left" class="flex-grow h-6"></div>
               <div id="bias-neutral" class="flex-grow h-6"></div>
               <div id="bias-right" class="flex-grow h-6"></div>

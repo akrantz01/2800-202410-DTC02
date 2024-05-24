@@ -1,4 +1,8 @@
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl
+from typing import Annotated
+
+from pydantic import AfterValidator, BaseModel, ConfigDict, Field, HttpUrl
+
+StringHttpUrl = Annotated[HttpUrl, AfterValidator(str)]
 
 
 class AnalyzeText(BaseModel):
@@ -11,4 +15,4 @@ class AnalyzeText(BaseModel):
     content: str = Field(min_length=5)
     author: str | None = Field(default=None, min_length=2)
     publisher: str | None = Field(default=None, min_length=5)
-    source_url: HttpUrl | None = None
+    source_url: StringHttpUrl | None = None
