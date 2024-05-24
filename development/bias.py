@@ -67,7 +67,7 @@ def get_relevant_entities(analysis: str) -> list[dict]:
     :param analysis: json string
     :return: relevant_entities as a list of dictionaries
     """
-    relevance_cutoff = 0.6
+    relevance_cutoff = 0.4
 
     ai_analysis = json.loads(analysis)
     entities = ai_analysis["entities"]
@@ -129,13 +129,13 @@ def get_mention_sentences(confident_mentions: list[dict], sentences: list[dict])
 
 
 def main():
-    # my_input = "IBM has one of the largest workforces in the world"
-    my_url = (
-        "https://www.cbc.ca/news/canada/first-person-generation-gap-boomers-millennials-1.7211033"
-    )
-    analysis = interpret_text(url_input=my_url)
-    print("scanned")
-    # interpret_text(text_input=my_input)
+    my_input = "IBM has one of the largest workforces in the world"
+    # my_url = (
+    #     "https://www.cbc.ca/news/canada/first-person-generation-gap-boomers-millennials-1.7211033"
+    # )
+    # analysis = interpret_text(url_input=my_url)
+    # print(json.loads(analysis)["keywords"])
+    analysis = interpret_text(text_input=my_input)
     sentences = get_sentences(analysis)
     entities = get_relevant_entities(analysis)
     entity_results = {}
@@ -143,7 +143,8 @@ def main():
         entity_results[entity["text"]] = get_mention_sentences(
             get_confident_mentions(entity), sentences
         )
-    print(entity_results)
+    for each in entity_results:
+        print(each)
 
 
 if __name__ == "__main__":
