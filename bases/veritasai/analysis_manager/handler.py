@@ -1,10 +1,11 @@
 import functions_framework
-from flask import Request, typing
+from flask import Request, jsonify, typing
 from google.cloud.firestore import SERVER_TIMESTAMP
 from veritasai.articles import Article
 from veritasai.authentication import login_required
 from veritasai.cache import has_article
 from veritasai.cors import handle_cors
+from veritasai.fact_check.fact_check import verify_article_factuality
 from veritasai.firebase import get_db
 from veritasai.input_validation import AnalyzeText, ValidationError, response_from_validation_error
 from veritasai.logging import get_logger
@@ -63,3 +64,28 @@ def handler(request: Request) -> typing.ResponseReturnValue:
         )
 
     return {"id": article.id, "cached": cached}
+
+
+@functions_framework.http
+@handle_cors
+@login_required
+def analyze_article(request: Request) -> typing.ResponseReturnValue:
+    """
+    Analyze the factuality of an article.
+
+    :param request: the incoming request containing article text
+    :return: the factuality score as JSON
+    """
+    try:
+        data = request.get_json(silent=True)
+        if not data or "text" not in data:
+            return jsonify({"error": "No text provided"}), 400
+
+        article_text = data["text"]
+        factuality_score = verify_article_factuality(article_text)
+
+        return jsonify({"factuality_score": factuality_score}), 200
+
+    except Exception as e:
+        logger.error("Error analyzing article: %s", str(e))
+        return jsonify({"error": "Internal Server Error"}), 500
