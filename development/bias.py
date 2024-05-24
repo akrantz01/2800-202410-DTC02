@@ -189,6 +189,42 @@ def get_keyword_sentences(keyword: str, sentences: list[dict]) -> list[dict]:
     return sentences_with_keywords
 
 
+def get_overall_sentiment(analysis: str) -> dict:
+    """
+    Get the overall sentiment from the scanned text.
+    """
+    ai_analysis = json.loads(analysis)
+    return ai_analysis["sentiment"]["document"]
+
+
+def get_overall_relevant_emotions(analysis: str) -> dict:
+    """
+    Get the relevant emotions from the scanned text.
+
+    relevant emotions are whichever emotion(s) have scored above the threshold.
+    """
+    relevance_threshold = 0.3
+    ai_analysis = json.loads(analysis)
+    emotions = ai_analysis["emotion"]["document"]["emotion"]
+
+    emotions = filter(lambda emotion: (emotions[emotion] >= relevance_threshold))
+    if not emotions:
+        return {"neutral": 0}
+    emotions["max"] = max(emotions, key=emotions.get)
+    # Case for equal
+    other_emotions = emotions.keys()
+    other_emotions.remove("max")
+    other_emotions.remove(emotions["max"])
+    if other_emotions:
+        for emotion in other_emotions:
+            if emotions[emotion] == emotions[emotions["max"]]:
+                try:
+                    emotions["max"].append(emotion)
+                except AttributeError:
+                    emotions["max"] = [emotions["max"], emotion]
+    return emotions
+
+
 def main():
     # my_input = "IBM has one of the largest workforces in the world"
     my_url = (
