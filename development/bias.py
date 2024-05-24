@@ -89,7 +89,7 @@ def get_sentences(analysis: str) -> list[dict]:
     for sentence in sentences:
         sentence_end = sentence["location"][1]
         sentence["tokens"] = []
-        while tokens[token_index]["location"][1] <= sentence_end:
+        while token_index < len(tokens) and tokens[token_index]["location"][1] <= sentence_end:
             sentence["tokens"] += [tokens[token_index]]
             token_index += 1
     return sentences
@@ -130,9 +130,13 @@ def get_mention_sentences(confident_mentions: list[dict], sentences: list[dict])
 
 def main():
     # my_input = "IBM has one of the largest workforces in the world"
-    my_url = "www.ibm.com"
+    my_url = (
+        "https://www.cbc.ca/news/canada/first-person-generation-gap-boomers-millennials-1.7211033"
+    )
     analysis = interpret_text(url_input=my_url)
+    print("scanned")
     # interpret_text(text_input=my_input)
+    print(len(get_sentences(analysis)))
     get_relevant_entities(analysis)
 
 
