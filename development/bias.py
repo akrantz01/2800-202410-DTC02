@@ -75,7 +75,27 @@ def get_relevant_entities(analysis: str) -> list[dict]:
     return list(relevant_entities)
 
 
-def get_confident_mentions(relevant_entity: dict):
+def get_sentences(analysis: str) -> list[dict]:
+    """
+    Extract a list of semantically detected sentences.
+
+    :param analysis: json string
+    :return: sentences as a list of dictionaries
+    """
+    ai_analysis = json.loads(analysis)
+    tokens = ai_analysis["syntax"]["tokens"]
+    sentences = ai_analysis["syntax"]["sentences"]
+    token_index = 0
+    for sentence in sentences:
+        sentence_end = sentence["location"][1]
+        sentence["tokens"] = []
+        while tokens[token_index]["location"][1] <= sentence_end:
+            sentence["tokens"] += [tokens[token_index]]
+            token_index += 1
+    return sentences
+
+
+def get_confident_mentions(relevant_entity: dict) -> list[dict]:
     """
     Extract the entity mentions from the relevant entities.
     """
@@ -88,7 +108,7 @@ def get_confident_mentions(relevant_entity: dict):
     return list(confident_mentions)
 
 
-def get_mention_sentences(confident_mentions: list[dict], sentences: list[dict]):
+def get_mention_sentences(confident_mentions: list[dict], sentences: list[dict]) -> list[dict]:
     """
     Extract sentences that contain relevant keyword mentions.
     """
@@ -102,7 +122,8 @@ def get_mention_sentences(confident_mentions: list[dict], sentences: list[dict])
                 (mention_start >= sentence["location"][0])
                 and (mention_end <= sentence["location"][1])
                 and sentence not in sentences_with_mentions
-            )
+            ),
+            sentences,
         )
     return sentences_with_mentions
 
