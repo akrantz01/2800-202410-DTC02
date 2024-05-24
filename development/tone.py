@@ -1,5 +1,4 @@
-import json
-import os
+from typing import Callable
 
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson import NaturalLanguageUnderstandingV1
@@ -24,7 +23,7 @@ def evaluate_trust(item: dict) -> str | None:
     return "trust" if item["emotion"]["disgust"] < 0.05 else None
 
 
-def return_combined_emotion(emotions: tuple) -> str:
+def return_combined_emotion(emotions: tuple) -> list[str]:
     """
     Match strings inside a tuple and return corresponding string value.
 
@@ -45,7 +44,7 @@ def return_combined_emotion(emotions: tuple) -> str:
     return emotion_map.get(tuple(sorted(emotions)), "unknown combination")
 
 
-def return_dominant_emotion(emotion: str) -> str:
+def return_dominant_emotion(emotion: str) -> list[str]:
     """
     Match a string and return a corresponding one.
 
@@ -54,18 +53,18 @@ def return_dominant_emotion(emotion: str) -> str:
     """
     match emotion:
         case "joy":
-            return "ecstasy"
+            return ["ecstasy"]
         case "fear":
-            return "terror"
+            return ["terror"]
         case "anger":
-            return "rage"
+            return ["rage"]
         case "disgust":
-            return "loathing"
+            return ["loathing"]
         case "sadness":
-            return "grief"
+            return ["grief"]
 
 
-def return_lesser_emotions(emotions: tuple) -> str:
+def return_lesser_emotions(emotions: tuple) -> list[str]:
     """
     Match a string and return a corrsponding one.
 
@@ -86,22 +85,31 @@ def return_lesser_emotions(emotions: tuple) -> str:
     return updated_text
 
 
+def return_key_emotion_metrics(emotion_dict: dict) -> list[str]:
+    """
+    Sort
+    """
+    primary_emotion = max(emotion_dict.items(), key=lambda x: x[1])
+    secondary_emotion = min(emotion_dict.items(), key=lambda x: x[1])
+    emotion_difference = primary_emotion[1] - secondary_emotion[1]
+    return evaluate_emotion_thresholds(primary_emotion, secondary_emotion, emotion_difference)
+
+
 def evaluate_emotion_thresholds(
     primary_emotion: tuple[str, float],
     secondary_emotion: tuple[str, float],
     emotion_difference: float,
-) -> str | tuple[str, str]:
+) -> list[str]:
     """
     Compare values in primary and secondary emotions and return a different string or
-    a tuple of strings with an updated emotion.
+    a list of strings with an updated emotion.
 
     :param primary_emotion: A tuple with a string representing an emotion and a float
                             representing the emotion's strength
     :param seconary_emotion: A tuple with a string representing an emotion and a float
                             representing the emotion's strength
     :param emotion_difference: A float representing the difference between both emotion's values
-    :return: a string representing an updated emotion or
-            a tuple of strings if both emotions are updated
+    :return: a list with one or two strings representing updated emotions
     """
     if primary_emotion[1] > 0.5 and emotion_difference > 0.8:
         return return_dominant_emotion([primary_emotion[0]])
@@ -113,52 +121,40 @@ def evaluate_emotion_thresholds(
         return return_lesser_emotions((primary_emotion[0], secondary_emotion[0]))
 
 
-def plutchik_analyser(analysis: dict):
+def plutchik_analyser(analysis: dict) -> dict:
     """
     Return combinations of emotions according to Plutchik's emotion dyads.
 
-    :param: A dict with keys for title, document, keywords and entities
+    :param analysis: A dict with keys for title, document, keywords and entities
             and dict values that contain keys of emotion and sentiment
+    :return: A dict resembling analysis param with a key of trust with a boolean value
+            and a key of plutchik whose value is a list of one or more strings
     """
-    # TODO: run title, document, keywords, entities through each of these
-    # TODO: add plutchik strings to dictionaries
-    categories = ["title", "document", "keywords", "entities"]
-    for category in categories:
+    for category in ["title", "document", "keywords", "entities"]:
         if "emotion" in analysis[category]:
-            trust = evaluate_trust(analysis[category])
-            # first element is threshold, second is the amount of difference between two emotions
+            analysis[category]["trust"] = "no" if not evaluate_trust(analysis[category]) else "yes"
             if len(analysis[category]["emotion"]) == 3:
                 analysis[category]["emotion"].pop("disgust")
-            primary_emotion = max(analysis[category]["emotion"].items(), key=lambda x: x[1])
-            secondary_emotion = min(analysis[category]["emotion"].items(), key=lambda x: x[1])
-            emotion_difference = primary_emotion[1] - secondary_emotion[1]
-            processed_emotions = evaluate_emotion_thresholds(
-                primary_emotion, secondary_emotion, emotion_difference
+            analysis[category]["plutchik"] = return_key_emotion_metrics(
+                analysis[category]["emotion"]
             )
-            analysis[category]["trust"] = "no" if not trust else "yes"
-            analysis[category]["plutchik"] = processed_emotions
         else:
             for name, data in analysis[category].items():
-                trust = evaluate_trust(analysis[category][name])
+                analysis[category][name]["trust"] = (
+                    "no" if not evaluate_trust(analysis[category][name]) else "yes"
+                )
                 if len(data["emotion"]) == 3:
                     data["emotion"].pop("disgust")
-                primary_emotion = max(data["emotion"].items(), key=lambda x: x[1])
-                secondary_emotion = min(data["emotion"].items(), key=lambda x: x[1])
-                emotion_difference = primary_emotion[1] - secondary_emotion[1]
-                processed_emotions = evaluate_emotion_thresholds(
-                    primary_emotion, secondary_emotion, emotion_difference
-                )
-                analysis[category][name]["trust"] = "no" if not trust else "yes"
-                analysis[category][name]["plutchik"] = processed_emotions
+                analysis[category][name]["plutchik"] = return_key_emotion_metrics(data["emotion"])
     return analysis
 
 
-def return_top_emotions(emotions: dict):
+def return_top_emotions(emotions: dict) -> dict:
     """
     Return the top emotions and disgust for any elements passed in.
 
     :param emotions: a dictionary of emotions whose keys are strings and whose values are floats
-    :return:
+    :return: a dictionary containing the top two or three values
     """
     top_emotions = {
         key: value for key, value in sorted(emotions.items(), key=lambda x: x[1], reverse=True)[:2]
@@ -171,33 +167,34 @@ def return_top_emotions(emotions: dict):
     )
 
 
-def generate_stats(analysis, key, condition):
+def generate_stats(analysis: dict, key_name: str, condition: Callable) -> dict:
     """
     Run stats against a condition to determine cutoff for inclusion in data.
 
     :param analysis: a dict with emotion and sentiment keys
     :param key: a string representing the name of a key
     :condition: a lambda function to evaluate item values against
+    :return: a dict with items filtered based on the condition variable
     """
     return {
-        key: {
+        key_name: {
             item["text"]: {
                 "emotion": return_top_emotions(item["emotion"]),
                 "sentiment": item["sentiment"],
             }
-            for item in analysis[key]
+            for item in analysis[key_name]
             if condition(item)
         }
     }
 
 
-def parse_analysis_fields(analysis: dict):
+def parse_analysis_fields(analysis: dict) -> dict:
     """
     Analyse the dict returned by Watson API and return shortened JSON data for summary generation.
 
     :param analysis: a dictionary whose strings are keys and whose values are lists, dicts, ints
                     or floats
-
+    :return: A pared down version of analysis dictionary
     """
     metadata = {"metadata": analysis["metadata"]}
     document_stats = {
@@ -210,7 +207,7 @@ def parse_analysis_fields(analysis: dict):
     entity_stats = generate_stats(
         analysis,
         "entities",
-        lambda entity: entity["confidence"] > 0.9 and entity["relevance"] > 0.1,
+        lambda entity: entity["confidence"] > 0.9 and entity["relevance"] > 0.4,
     )
     return metadata | {"title": analysis["title"]} | document_stats | keyword_stats | entity_stats
 
@@ -224,11 +221,13 @@ def retrieve_tone_analysis(url: str, text: str | None = None) -> dict:
     :return: a dictionary whose strings are keys and whose values are lists, dicts, ints
             or floats
     """
+    # Required for accessing the API
     authenticator = IAMAuthenticator(env["apikey"])
     natural_language_understanding = NaturalLanguageUnderstandingV1(
         version="2022-04-07", authenticator=authenticator
     )
-    #
+    natural_language_understanding.set_service_url(env["url"])
+
     # if text is provided use it for analysis, otherwise use the url
     source = (
         {"text": text}
@@ -249,30 +248,23 @@ def retrieve_tone_analysis(url: str, text: str | None = None) -> dict:
         features.entities = EntitiesOptions(emotion=True, sentiment=True)
         features.keywords = KeywordsOptions(sentiment=True, emotion=True)
 
-    natural_language_understanding.set_service_url(env["url"])
-
     response = natural_language_understanding.analyze(
         features=features,
         **source,
     ).get_result()
-    if not os.path.exists("results.txt"):
-        with open("results.txt", "w") as f:
-            f.write(json.dumps(response))
     return response
 
 
-def main():
-    # TODO: combine emotions according to Plutchik's wheel of emotion
-    # TODO return summary based on Plutchik results
-    url = "https://www.goodnewsnetwork.org/grandson-surprises-grandfather-by-restoring-1954-pickup-i-never-thought-id-live-to-see-that/"
-    #
-    # text = "IBM is the worst company on earth"
-    analysis = ""
-    if not os.path.exists("results.txt"):
-        analysis = retrieve_tone_analysis(url)
-    else:
-        with open("results.txt") as f:
-            analysis = json.loads(f.read())
+def tone_analyser(url: str, text: str | None = None) -> dict:
+    """
+    Drives the... forget it.
+
+    :param url: A string representing a url or empty if using text
+    :param text: A string of text to analyze, or None if a url is to be used
+    :return: a dictionary whose strings are keys and whose values are lists, dicts, ints
+            or floats
+    """
+    analysis = retrieve_tone_analysis(url, text if text else None)
     title_analysis = retrieve_tone_analysis("", text=analysis["metadata"]["title"])
 
     title = {
@@ -284,7 +276,9 @@ def main():
     }
     parsed_analysis = parse_analysis_fields(title | analysis)
     plutchik_emotions = plutchik_analyser(parsed_analysis)
-    print(plutchik_emotions)
+    return plutchik_emotions
 
 
-main()
+tone_analyser(
+    "https://www.goodnewsnetwork.org/france-celebrates-baguette-on-scratch-and-sniff-stamp-honoring-the-world-heritage-declared-food/"
+)
