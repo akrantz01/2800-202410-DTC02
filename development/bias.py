@@ -60,7 +60,7 @@ def interpret_text(url_input: str = "", text_input: str = "") -> str:
     return json.dumps(response, indent=2)
 
 
-def sentence_scan(sentence: dict) -> str:
+def sentence_scan(sentence: str) -> str:
     """
     Interpret relevant sentences using IBM Watson.
 
@@ -76,19 +76,14 @@ def sentence_scan(sentence: dict) -> str:
 
     natural_language_understanding.set_service_url(env.get("url"))
 
-    tokens = sentence[0]["tokens"]
-    tokens_list = []
-    for token in tokens:
-        tokens_list.append(token["text"])
-
     analysis_features = Features(
-        emotion=EmotionOptions(document=True, targets=tokens_list),
+        emotion=EmotionOptions(document=True),
         # semantic_roles=SemanticRolesOptions(limit=20, keywords=True, entities=True),
-        sentiment=SentimentOptions(targets=tokens_list),
+        sentiment=SentimentOptions(),
     )
 
     response = natural_language_understanding.analyze(
-        text=sentence[0]["text"], features=analysis_features
+        text=sentence, features=analysis_features
     ).get_result()
 
     return json.dumps(response, indent=2)
@@ -132,15 +127,8 @@ def get_sentences(analysis: str) -> list[dict]:
     :return: sentences as a list of dictionaries
     """
     ai_analysis = json.loads(analysis)
-    tokens = ai_analysis["syntax"]["tokens"]
     sentences = ai_analysis["syntax"]["sentences"]
-    token_index = 0
-    for sentence in sentences:
-        sentence_end = sentence["location"][1]
-        sentence["tokens"] = []
-        while token_index < len(tokens) and tokens[token_index]["location"][1] <= sentence_end:
-            sentence["tokens"] += [tokens[token_index]]
-            token_index += 1
+
     return sentences
 
 
@@ -197,6 +185,27 @@ def get_overall_sentiment(analysis: str) -> dict:
     return ai_analysis["sentiment"]["document"]
 
 
+def scan_tokens(sentence: str):
+    """ """
+    minimum_scan_size = 15
+    tokens = sentence.split(" ")
+    segments_to_scan = []
+    current_segment = ""
+    for token in tokens:
+        if len(current_segment < minimum_scan_size):
+            current_segment += " "
+        else:
+            segments_to_scan.push(current_segment)
+            current_segment = ""
+
+        current_segment += token
+
+    if segments_to_scan[-1] < minimum_scan_size:
+        segments_to_scan[-2] = segments_to_scan[-2] + " " + segments_to_scan[-1]
+
+    return [sentence_scan(segment) for segment in segments_to_scan]
+
+
 def get_overall_relevant_emotions(analysis: str) -> dict:
     """
     Get the relevant emotions from the scanned text.
@@ -246,7 +255,8 @@ def main():
             get_confident_mentions(entity), sentences
         )
     for keyword in keyword_results:
-        sentence_results = sentence_scan(keyword_results[keyword])
+        sentence_results = sentence_scan(keyword_results[keyword][0]["text"])
+        print(keyword_results[keyword])
         print(get_overall_sentiment(sentence_results))
         print(get_overall_relevant_emotions(sentence_results))
 
