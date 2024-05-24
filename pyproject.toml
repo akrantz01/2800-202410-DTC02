@@ -16,6 +16,7 @@ dependencies = [
   "google-cloud-storage>=2.16.0",
   "google-cloud-pubsub>=2.21.1",
   "ibm-watson>=8.0.0",
+  "google-cloud-logging>=3.10.0",
 ]
 
 [build-system]
@@ -47,6 +48,7 @@ analysis-manager.env = { PORT = "8080" }
 "components/veritasai/cors" = "veritasai/cors"
 "components/veritasai/firebase" = "veritasai/firebase"
 "components/veritasai/input_validation" = "veritasai/input_validation"
+"components/veritasai/logging" = "veritasai/logging"
 "components/veritasai/protocol" = "veritasai/protocol"
 "components/veritasai/pubsub" = "veritasai/pubsub"
 
@@ -70,4 +72,7 @@ line-ending = "auto"
 docstring-code-format = true
 
 [tool.ruff.lint]
-select = ["A", "B", "E4", "E501", "E7", "E9", "F", "I", "N", "RUF"]
+select = ["A", "B", "E4", "E501", "E7", "E9", "F", "G", "I", "LOG", "N", "T20", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"development/**.py" = ["T20"]

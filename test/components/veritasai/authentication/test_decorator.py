@@ -54,7 +54,7 @@ def test_returns_error_when_token_is_invalid(mocker: MockerFixture):
 
 def test_passes_through_when_token_is_valid(mocker: MockerFixture):
     auth = mocker.patch("veritasai.authentication.decorator.get_auth")
-    auth.return_value.verify_id_token.return_value = {}
+    auth.return_value.verify_id_token.return_value = {"sub": "user-id"}
 
     response = dummy_handler(Request.from_values(headers={"Authorization": "Bearer valid"}))
 
