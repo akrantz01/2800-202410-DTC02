@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from firebase_admin.credentials import ApplicationDefault, Certificate
-from veritasai.firebase import _get_credentials
+from veritasai.firebase.app import _get_credentials
 
 from development.testsupport import ConfigPatch
 

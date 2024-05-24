@@ -81,10 +81,7 @@ def disable_firebase_admin_sdk_initialization(monkeypatch: MonkeyPatch):
 
     This ensures that credentials are not required to run tests.
     """
-    with monkeypatch.context() as m:
-        m.setattr("firebase_admin.initialize_app", lambda *args, **kwargs: None)
-
-        yield
+    monkeypatch.setattr("veritasai.firebase.init_app", lambda: None)
 
 
 @pytest.fixture(autouse=True)

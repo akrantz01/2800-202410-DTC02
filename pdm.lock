@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:8136b5311005175a50372848c0c4267e7bc494ab5ca8e0f8a9f3c7bc9c9df420"
+content_hash = "sha256:57ac06e6396fa85bb7146634e20298f2d9674f3756fa41906151d1e4ee831e49"
 
 [[package]]
 name = "annotated-types"
@@ -417,6 +417,38 @@ files = [
 ]
 
 [[package]]
+name = "google-cloud-appengine-logging"
+version = "1.4.3"
+requires_python = ">=3.7"
+summary = "Google Cloud Appengine Logging API client library"
+groups = ["default"]
+dependencies = [
+    "google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.10.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,!=2.8.*,!=2.9.*,<3.0.0dev,>=1.34.1",
+    "google-auth!=2.24.0,!=2.25.0,<3.0.0dev,>=2.14.1",
+    "proto-plus<2.0.0dev,>=1.22.3",
+    "protobuf!=3.20.0,!=3.20.1,!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<5.0.0dev,>=3.19.5",
+]
+files = [
+    {file = "google-cloud-appengine-logging-1.4.3.tar.gz", hash = "sha256:fb504e6199fe8de85baa9d31cecf6776877851fe58867de603317ec7cc739987"},
+    {file = "google_cloud_appengine_logging-1.4.3-py2.py3-none-any.whl", hash = "sha256:8e30af51d853f219caf29e8b8b342b9ce8214b29f334dafae38d39aaaff7d372"},
+]
+
+[[package]]
+name = "google-cloud-audit-log"
+version = "0.2.5"
+requires_python = ">=3.7"
+summary = "Google Cloud Audit Protos"
+groups = ["default"]
+dependencies = [
+    "googleapis-common-protos<2.0dev,>=1.56.2",
+    "protobuf!=3.20.0,!=3.20.1,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<5.0.0dev,>=3.19.5",
+]
+files = [
+    {file = "google-cloud-audit-log-0.2.5.tar.gz", hash = "sha256:86e2faba3383adc8fd04a5bd7fd4f960b3e4aedaa7ed950f2f891ce16902eb6b"},
+    {file = "google_cloud_audit_log-0.2.5-py2.py3-none-any.whl", hash = "sha256:18b94d4579002a450b7902cd2e8b8fdcb1ea2dd4df3b41f8f82be6d9f7fcd746"},
+]
+
+[[package]]
 name = "google-cloud-core"
 version = "2.4.1"
 requires_python = ">=3.7"
@@ -449,6 +481,45 @@ dependencies = [
 files = [
     {file = "google-cloud-firestore-2.16.0.tar.gz", hash = "sha256:e61ae70229a6e532e439c8d16447a32024447f2ee4a2303fc4d054c258d6877f"},
     {file = "google_cloud_firestore-2.16.0-py2.py3-none-any.whl", hash = "sha256:3347ac38346c2702134d4c81f652a5e3451c840a6237f28b844501bd528e5fd8"},
+]
+
+[[package]]
+name = "google-cloud-language"
+version = "2.13.3"
+requires_python = ">=3.7"
+summary = "Google Cloud Language API client library"
+groups = ["default"]
+dependencies = [
+    "google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.10.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,!=2.8.*,!=2.9.*,<3.0.0dev,>=1.34.1",
+    "google-auth!=2.24.0,!=2.25.0,<3.0.0dev,>=2.14.1",
+    "proto-plus<2.0.0dev,>=1.22.3",
+    "protobuf!=3.20.0,!=3.20.1,!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<5.0.0dev,>=3.19.5",
+]
+files = [
+    {file = "google-cloud-language-2.13.3.tar.gz", hash = "sha256:569d35260af906de25b8e2a76b6364e05809b8453afd89da738d4a4fcb90846f"},
+    {file = "google_cloud_language-2.13.3-py2.py3-none-any.whl", hash = "sha256:b060de20d8ed2b20b7b7ebd8a46ae240df36c9977db383db5155276d2b1f6b9a"},
+]
+
+[[package]]
+name = "google-cloud-logging"
+version = "3.10.0"
+requires_python = ">=3.7"
+summary = "Stackdriver Logging API client library"
+groups = ["default"]
+dependencies = [
+    "google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.10.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,!=2.8.*,!=2.9.*,<3.0.0dev,>=1.34.1",
+    "google-auth!=2.24.0,!=2.25.0,<3.0.0dev,>=2.14.1",
+    "google-cloud-appengine-logging<2.0.0dev,>=0.1.0",
+    "google-cloud-audit-log<1.0.0dev,>=0.1.0",
+    "google-cloud-core<3.0.0dev,>=2.0.0",
+    "grpc-google-iam-v1<1.0.0dev,>=0.12.4",
+    "proto-plus<2.0.0dev,>=1.22.0",
+    "proto-plus<2.0.0dev,>=1.22.2; python_version >= \"3.11\"",
+    "protobuf!=3.20.0,!=3.20.1,!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<5.0.0dev,>=3.19.5",
+]
+files = [
+    {file = "google-cloud-logging-3.10.0.tar.gz", hash = "sha256:d93d347351240ddb14cfe201987a2d32cf9d7f478b8b2fabed3015b425b3274f"},
+    {file = "google_cloud_logging-3.10.0-py2.py3-none-any.whl", hash = "sha256:132192beb45731130a2ffbcd4b2b5cbd87370e7dcfa7397ae4002154f542bd20"},
 ]
 
 [[package]]
