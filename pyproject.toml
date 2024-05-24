@@ -60,6 +60,7 @@ summary-analyzer.env = { PORT = "8003" }
 "components/veritasai/cache" = "veritasai/cache"
 "components/veritasai/config" = "veritasai/config"
 "components/veritasai/cors" = "veritasai/cors"
+"components/veritasai/fact_check" = "veritasai/fact_check"
 "components/veritasai/firebase" = "veritasai/firebase"
 "components/veritasai/input_validation" = "veritasai/input_validation"
 "components/veritasai/logging" = "veritasai/logging"
