@@ -210,20 +210,25 @@ def get_segment_scores(segments: dict):
     segment_scores = {}
     for segment in segments:
         segment_scores[segment] = {}
-        segment_scores[segment]["emotion"] = get_overall_relevant_emotions(segments[segment])
+        segment_scores[segment]["emotion"] = get_overall_relevant_emotions(
+            analysis=segments[segment]
+        )
         segment_scores[segment]["sentiment"] = get_overall_sentiment(segments[segment])
     return segment_scores
 
 
-def get_overall_relevant_emotions(analysis: str) -> dict:
+def get_overall_relevant_emotions(analysis: str = "", keyword=None) -> dict:
     """
     Get the relevant emotions from the scanned text.
 
     relevant emotions are whichever emotion(s) have scored above the threshold.
     """
     relevance_threshold = 0.3
-    ai_analysis = json.loads(analysis)
-    emotions = ai_analysis["emotion"]["document"]["emotion"]
+    if keyword:
+        emotions = keyword["emotion"]
+    else:
+        ai_analysis = json.loads(analysis)
+        emotions = ai_analysis["emotion"]["document"]["emotion"]
     emotions_copy = emotions.copy()
     for emotion in emotions_copy:
         if emotions_copy[emotion] <= relevance_threshold:
@@ -248,7 +253,7 @@ def get_overall_relevant_emotions(analysis: str) -> dict:
 def main():
     # my_input = "IBM has one of the largest workforces in the world"
     my_url = (
-        "https://www.cbc.ca/news/canada/first-person-generation-gap-boomers-millennials-1.7211033"
+        "https://www.theonion.com/report-school-shootings-either-way-down-or-too-depress-1851499800"
     )
     analysis = interpret_text(url_input=my_url)
     # print(json.loads(analysis)["keywords"])
@@ -257,17 +262,29 @@ def main():
     keywords = get_relevant_keywords(analysis)
     keyword_results = {}
     for keyword in keywords:
-        keyword_results[keyword["text"]] = get_keyword_sentences(keyword["text"], sentences)
+        keyword_results[keyword["text"]] = {}
+        keyword_results[keyword["text"]]["sentences"] = get_keyword_sentences(
+            keyword["text"], sentences
+        )
+        keyword_results[keyword["text"]]["emotion"] = get_overall_relevant_emotions(keyword=keyword)
+        keyword_results[keyword["text"]]["sentiment"] = keyword["sentiment"]
     entities = get_relevant_entities(analysis)
     for entity in entities:
-        keyword_results[entity["text"]] = get_mention_sentences(
+        keyword_results[entity["text"]] = {}
+        keyword_results[entity["text"]]["sentences"] = get_mention_sentences(
             get_confident_mentions(entity), sentences
         )
+        keyword_results[entity["text"]]["emotion"] = get_overall_relevant_emotions(keyword=entity)
+        keyword_results[entity["text"]]["sentiment"] = entity["sentiment"]
     for keyword in keyword_results:
-        sentence_results = sentence_scan(keyword_results[keyword][0]["text"])
-        print(get_segment_scores(scan_segments(keyword_results[keyword][0]["text"])))
-        print(get_overall_sentiment(sentence_results))
-        print(get_overall_relevant_emotions(sentence_results))
+        print(keyword)
+        print(keyword_results[keyword]["emotion"])
+        print(keyword_results[keyword]["sentiment"])
+        for sentence in keyword_results[keyword]["sentences"]:
+            sentence_results = sentence_scan(sentence["text"])
+            print(get_segment_scores(scan_segments(sentence["text"])))
+            print(get_overall_sentiment(sentence_results))
+            print(get_overall_relevant_emotions(analysis=sentence_results))
 
 
 if __name__ == "__main__":
