@@ -60,6 +60,40 @@ def interpret_text(url_input: str = "", text_input: str = "") -> str:
     return json.dumps(response, indent=2)
 
 
+def sentence_scan(sentence: dict) -> str:
+    """
+    Interpret relevant sentences using IBM Watson.
+
+    :param text_input: a sentence input string
+    :return: json string
+    """
+    load_dotenv()
+
+    authenticator = IAMAuthenticator(env.get("apikey"))
+    natural_language_understanding = NaturalLanguageUnderstandingV1(
+        version="2022-04-07", authenticator=authenticator
+    )
+
+    natural_language_understanding.set_service_url(env.get("url"))
+
+    tokens = sentence[0]["tokens"]
+    tokens_list = []
+    for token in tokens:
+        tokens_list.append(token["text"])
+
+    analysis_features = Features(
+        emotion=EmotionOptions(document=True, targets=tokens_list),
+        # semantic_roles=SemanticRolesOptions(limit=20, keywords=True, entities=True),
+        sentiment=SentimentOptions(targets=tokens_list),
+    )
+
+    response = natural_language_understanding.analyze(
+        text=sentence[0]["text"], features=analysis_features
+    ).get_result()
+
+    return json.dumps(response, indent=2)
+
+
 def get_relevant_entities(analysis: str) -> list[dict]:
     """
     Extract the important entities from the ai response.
@@ -164,13 +198,18 @@ def main():
     # print(json.loads(analysis)["keywords"])
     # analysis = interpret_text(text_input=my_input)
     sentences = get_sentences(analysis)
-    entities = get_relevant_keywords(analysis)
-    entity_results = {}
+    keywords = get_relevant_keywords(analysis)
+    keyword_results = {}
+    for keyword in keywords:
+        keyword_results[keyword["text"]] = get_keyword_sentences(keyword["text"], sentences)
+    entities = get_relevant_entities(analysis)
     for entity in entities:
-        entity_results[entity["text"]] = get_keyword_sentences(entity["text"], sentences)
-    for each in entity_results:
-        print(each)
-        print(entity_results[each])
+        keyword_results[entity["text"]] = get_mention_sentences(
+            get_confident_mentions(entity), sentences
+        )
+    for keyword in keyword_results:
+        print("starting next scan")
+        print(sentence_scan(keyword_results[keyword]))
 
 
 if __name__ == "__main__":
