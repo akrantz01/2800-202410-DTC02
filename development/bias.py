@@ -185,25 +185,34 @@ def get_overall_sentiment(analysis: str) -> dict:
     return ai_analysis["sentiment"]["document"]
 
 
-def scan_tokens(sentence: str):
+def scan_segments(sentence: str) -> dict:
     """ """
     minimum_scan_size = 15
     tokens = sentence.split(" ")
     segments_to_scan = []
     current_segment = ""
     for token in tokens:
-        if len(current_segment < minimum_scan_size):
+        if len(current_segment) < minimum_scan_size:
             current_segment += " "
         else:
-            segments_to_scan.push(current_segment)
+            segments_to_scan.append(current_segment)
             current_segment = ""
 
         current_segment += token
 
-    if segments_to_scan[-1] < minimum_scan_size:
+    if len(segments_to_scan[-1]) < minimum_scan_size:
         segments_to_scan[-2] = segments_to_scan[-2] + " " + segments_to_scan[-1]
 
-    return [sentence_scan(segment) for segment in segments_to_scan]
+    return {segment: sentence_scan(segment) for segment in segments_to_scan}
+
+
+def get_segment_scores(segments: dict):
+    segment_scores = {}
+    for segment in segments:
+        segment_scores[segment] = {}
+        segment_scores[segment]["emotion"] = get_overall_relevant_emotions(segments[segment])
+        segment_scores[segment]["sentiment"] = get_overall_sentiment(segments[segment])
+    return segment_scores
 
 
 def get_overall_relevant_emotions(analysis: str) -> dict:
@@ -256,7 +265,7 @@ def main():
         )
     for keyword in keyword_results:
         sentence_results = sentence_scan(keyword_results[keyword][0]["text"])
-        print(keyword_results[keyword])
+        print(get_segment_scores(scan_segments(keyword_results[keyword][0]["text"])))
         print(get_overall_sentiment(sentence_results))
         print(get_overall_relevant_emotions(sentence_results))
 
