@@ -9,7 +9,7 @@ from ibm_watson.natural_language_understanding_v1 import (
     KeywordsOptions,
     SentimentOptions,
 )
-from update import firestore_update
+from update import firestore_create
 from veritasai.config import env
 
 
@@ -199,7 +199,8 @@ def parse_analysis_fields(analysis: dict) -> dict:
     document_stats = {
         "document": {
             "sentiment": analysis["sentiment"]["document"],
-            "emotion": return_top_emotions(analysis["emotion"]["document"]["emotion"]),
+            # Leave all emotions intact just for document
+            "emotion": analysis["emotion"]["document"]["emotion"],
         }
     }
     keyword_stats = generate_stats(analysis, "keywords", lambda keyword: keyword["relevance"] > 0.8)
@@ -275,7 +276,7 @@ def tone_analyser(url: str, text: str | None = None) -> dict:
     }
     parsed_analysis = parse_analysis_fields(title | analysis)
     plutchik_emotions = plutchik_analyser(parsed_analysis)
-    firestore_update("tone", plutchik_emotions)
+    firestore_create("tone", plutchik_emotions)
 
 
 tone_analyser(
