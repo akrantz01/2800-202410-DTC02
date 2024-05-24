@@ -23,7 +23,7 @@ try {
 
   const articleData = articleDoc.data();
 
-  if (articleData.title) {
+  if (articleData.status.extract === 'complete') {
     title.textContent = articleData.title;
 
     articleInfo.classList.remove('hidden');
@@ -31,7 +31,7 @@ try {
     publisher.textContent = articleData.publisher;
     url.href = articleData.url;
     summary.textContent = articleData.summary;
-  } else title.textContent = 'Processing...';
+  }
 
   if (articleData.status.ai === 'complete') {
     const aiDetectionProgress = document.getElementById('ai-detection-progress');
