@@ -436,8 +436,7 @@ def fact_check_query(query: str) -> dict:
         response = request.execute()
         return response
     except Exception as e:
-        print(f"Error querying FactCheck API: {e}")  # noqa: T201
-        return {}
+        return f"Error querying FactCheck API: {e}"
 
 
 def calculate_factuality_score(results: List[Dict]) -> float:
