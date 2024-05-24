@@ -206,13 +206,15 @@ def get_overall_relevant_emotions(analysis: str) -> dict:
     relevance_threshold = 0.3
     ai_analysis = json.loads(analysis)
     emotions = ai_analysis["emotion"]["document"]["emotion"]
-
-    emotions = filter(lambda emotion: (emotions[emotion] >= relevance_threshold))
+    emotions_copy = emotions.copy()
+    for emotion in emotions_copy:
+        if emotions_copy[emotion] <= relevance_threshold:
+            del emotions[emotion]
     if not emotions:
         return {"neutral": 0}
     emotions["max"] = max(emotions, key=emotions.get)
     # Case for equal
-    other_emotions = emotions.keys()
+    other_emotions = list(emotions.keys())
     other_emotions.remove("max")
     other_emotions.remove(emotions["max"])
     if other_emotions:
@@ -244,8 +246,9 @@ def main():
             get_confident_mentions(entity), sentences
         )
     for keyword in keyword_results:
-        print("starting next scan")
-        print(sentence_scan(keyword_results[keyword]))
+        sentence_results = sentence_scan(keyword_results[keyword])
+        print(get_overall_sentiment(sentence_results))
+        print(get_overall_relevant_emotions(sentence_results))
 
 
 if __name__ == "__main__":
