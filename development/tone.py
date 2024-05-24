@@ -129,14 +129,23 @@ def plutchik_analyser(analysis: dict) -> dict:
     :return: A dict resembling analysis param with a key of trust with a boolean value
             and a key of plutchik whose value is a list of one or more strings
     """
-    for category in ["title", "document", "keywords", "entities"]:
+    categories = (
+        ["title", "document", "keywords", "entities"]
+        if analysis.get("metadata")
+        else ["document", "keywords", "entities"]
+    )
+    for category in categories:
         if "emotion" in analysis[category]:
             analysis[category]["trust"] = "no" if not evaluate_trust(analysis[category]) else "yes"
-            if len(analysis[category]["emotion"]) == 3:
-                analysis[category]["emotion"].pop("disgust")
-            analysis[category]["plutchik"] = return_key_emotion_metrics(
+            category_emotions = (
                 analysis[category]["emotion"]
+                if not category == "document"
+                else return_top_emotions(analysis[category]["emotion"])
             )
+            if len(category_emotions) == 3:
+                category_emotions.pop("disgust")
+            # document still has all of it's emotions stored, so grab the top two first
+            analysis[category]["plutchik"] = return_key_emotion_metrics(category_emotions)
         else:
             for name, data in analysis[category].items():
                 analysis[category][name]["trust"] = (
@@ -195,7 +204,7 @@ def parse_analysis_fields(analysis: dict) -> dict:
                     or floats
     :return: A pared down version of analysis dictionary
     """
-    metadata = {"metadata": analysis["metadata"]}
+    metadata = {"metadata": analysis["metadata"]} if analysis.get("metadata") else None
     document_stats = {
         "document": {
             "sentiment": analysis["sentiment"]["document"],
@@ -209,7 +218,11 @@ def parse_analysis_fields(analysis: dict) -> dict:
         "entities",
         lambda entity: entity["confidence"] > 0.9 and entity["relevance"] > 0.4,
     )
-    return metadata | {"title": analysis["title"]} | document_stats | keyword_stats | entity_stats
+    return (
+        metadata | {"title": analysis["title"]} | document_stats | keyword_stats | entity_stats
+        if metadata
+        else document_stats | keyword_stats | entity_stats
+    )
 
 
 def retrieve_tone_analysis(url: str, text: str | None = None) -> dict:
@@ -240,13 +253,15 @@ def retrieve_tone_analysis(url: str, text: str | None = None) -> dict:
     features = Features(
         emotion=EmotionOptions(document=True),
         sentiment=SentimentOptions(document=True),
+        entities=EntitiesOptions(emotion=True, sentiment=True),
+        keywords=KeywordsOptions(sentiment=True, emotion=True),
     )
 
     # Add metadata, keywords and entities only when text is None
     if not text:
         features.metadata = {}
-        features.entities = EntitiesOptions(emotion=True, sentiment=True)
-        features.keywords = KeywordsOptions(sentiment=True, emotion=True)
+        # features.entities = EntitiesOptions(emotion=True, sentiment=True)
+        # features.keywords = KeywordsOptions(sentiment=True, emotion=True)
 
     response = natural_language_understanding.analyze(
         features=features,
@@ -265,20 +280,23 @@ def tone_analyser(url: str, text: str | None = None) -> dict:
             or floats
     """
     analysis = retrieve_tone_analysis(url, text if text else None)
-    title_analysis = retrieve_tone_analysis("", text=analysis["metadata"]["title"])
+    if not text:
+        title_analysis = retrieve_tone_analysis("", text=analysis["metadata"]["title"])
 
-    title = {
-        "title": {
-            "text": analysis["metadata"]["title"],
-            "sentiment": title_analysis["sentiment"]["document"],
-            "emotion": return_top_emotions(title_analysis["emotion"]["document"]["emotion"]),
+        title = {
+            "title": {
+                "text": analysis["metadata"]["title"],
+                "sentiment": title_analysis["sentiment"]["document"],
+                "emotion": return_top_emotions(title_analysis["emotion"]["document"]["emotion"]),
+            }
         }
-    }
-    parsed_analysis = parse_analysis_fields(title | analysis)
+        parsed_analysis = parse_analysis_fields(title | analysis)
+    parsed_analysis = parse_analysis_fields(analysis)
     plutchik_emotions = plutchik_analyser(parsed_analysis)
     firestore_create("tone", plutchik_emotions)
 
 
 tone_analyser(
-    "https://www.goodnewsnetwork.org/france-celebrates-baguette-on-scratch-and-sniff-stamp-honoring-the-world-heritage-declared-food/"
+    "https://www.goodnewsnetwork.org/france-celebrates-baguette-on-scratch-and-sniff-stamp-honoring-the-world-heritage-declared-food/",
+    "bunch of text blah blah blah blah this is some text",
 )
