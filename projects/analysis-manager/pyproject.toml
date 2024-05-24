@@ -33,3 +33,4 @@ includes = ["main.py", "requirements.txt"]
 "../../components/veritasai/input_validation" = "veritasai/input_validation"
 "../../components/veritasai/logging" = "veritasai/logging"
 "../../components/veritasai/pubsub" = "veritasai/pubsub"
+"../../components/veritasai/fact_check" = "veritasai/fact_check"
