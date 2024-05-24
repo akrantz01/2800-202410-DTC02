@@ -6,12 +6,11 @@ from googleapiclient.discovery import build
 
 def extract_claims(text: str) -> List[str]:
     """
-    Extract potential claims from the text using regex.
+    Extract potential claims from the text using regex and heuristic rules.
 
     :param text: The text to analyze
     :return: A list of extracted claims
     """
-    # Basic approach: split text into sentences and filter for claims
     sentences = re.split(r"(?<=[.!?]) +", text)
     claims = [sentence for sentence in sentences if is_claim(sentence)]
     return claims
@@ -24,8 +23,39 @@ def is_claim(sentence: str) -> bool:
     :param sentence: The sentence to evaluate
     :return: True if the sentence is considered a claim, False otherwise
     """
-    # Simple heuristic: assume a sentence is a claim if it ends with a period and is not too short
-    return sentence.endswith(".") and len(sentence.split()) > 3
+    # Define common assertion verbs
+    assertion_verbs = [
+        "is",
+        "are",
+        "was",
+        "were",
+        "be",
+        "being",
+        "been",
+        "has",
+        "have",
+        "had",
+        "claims",
+        "said",
+        "states",
+        "argues",
+        "asserts",
+        "believes",
+        "contends",
+        "maintains",
+        "notes",
+        "reports",
+    ]
+
+    # Tokenize the sentence
+    words = sentence.split()
+
+    # Simple heuristic: a sentence is a claim if it contains an assertion verb and is not too short
+    return (
+        len(words) > 3  # Exclude very short sentences
+        and any(verb in words for verb in assertion_verbs)  # Contains an assertion verb
+        and sentence[-1] in ".!?"  # Ends with a period, exclamation mark, or question mark
+    )
 
 
 def fact_check_query(query: str) -> dict:
