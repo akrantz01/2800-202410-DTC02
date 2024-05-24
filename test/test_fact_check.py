@@ -46,7 +46,10 @@ class TestFactCheck(unittest.TestCase):
             },
             {
                 "claims": [
-                    {"text": "Climate change is not real!", "claimReview": [{"textualRating": "False"}]}
+                    {
+                        "text": "Climate change is not real!",
+                        "claimReview": [{"textualRating": "False"}],
+                    }
                 ]
             },
         ]
