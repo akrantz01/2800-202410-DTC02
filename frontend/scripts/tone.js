@@ -20,7 +20,7 @@ const options = {
     stepSize: 20,
   },
   xaxis: {
-    categories: ['January', 'February', 'March', 'April', 'May', 'June'],
+    categories: ['Joy', 'Anger', 'Disgust', 'Sadness', 'Fear'],
   },
 };
 
