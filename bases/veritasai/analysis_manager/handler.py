@@ -40,10 +40,11 @@ def handler(request: Request) -> typing.ResponseReturnValue:
         get_db().collection("articles").document(article.id).set(
             {
                 "status": {
-                    "tone": "pending",
-                    "bias": "pending",
+                    "extract": "pending",
                     "ai": "pending",
                     "accuracy": "pending",
+                    "bias": "pending",
+                    "tone": "pending",
                     "entities": "pending",
                     "sentences": "pending",
                 },
