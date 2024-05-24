@@ -16,6 +16,7 @@ dependencies = [
   "ibm-watson>=8.1.0",
   "ibm-cloud-sdk-core>=3.20.0",
   "google-cloud-pubsub>=2.21.1",
+  "ibm-watson>=8.0.0",
   "google-cloud-logging>=3.10.0",
 ]
 

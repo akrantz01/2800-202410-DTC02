@@ -22,8 +22,8 @@
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-prettier": "^5.1.3",
-    "firebase-tools": "^13.8.3",
-    "globals": "^15.1.0",
+    "firebase-tools": "^13.9.0",
+    "globals": "^15.2.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
@@ -33,8 +33,5 @@
   "engines": {
     "node": ">=20"
   },
-  "packageManager": "pnpm@9.1.0+sha256.22e36fba7f4880ecf749a5ca128b8435da085ecd49575e7fb9e64d6bf4fad394",
-  "dependencies": {
-    "pdm": "^0.3.0"
-  }
+  "packageManager": "pnpm@9.1.0+sha256.22e36fba7f4880ecf749a5ca128b8435da085ecd49575e7fb9e64d6bf4fad394"
 }
