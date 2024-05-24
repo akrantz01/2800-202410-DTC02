@@ -3,6 +3,10 @@ import { currentUser } from './user.js';
 const form = document.getElementById('form');
 const error = document.getElementById('error');
 
+const submit = document.getElementById('submit');
+const submitText = document.getElementById('submit-text');
+const submitSpinner = document.getElementById('submit-spinner');
+
 const user = await currentUser;
 if (user === null) window.location.href = 'login.html';
 
@@ -12,9 +16,9 @@ form.addEventListener('submit', async (event) => {
   const data = Object.fromEntries(new FormData(form));
   for (const key in data) if (data[key].trim().length === 0) delete data[key];
 
-  // TODO: show loading spinner
-
   try {
+    spinner(true);
+
     const result = await send(data);
     window.location.href = `summary.html?uid=${result.id}`;
   } catch (e) {
@@ -22,6 +26,8 @@ form.addEventListener('submit', async (event) => {
 
     error.querySelector('span').textContent = e.message;
     error.classList.remove('hidden');
+  } finally {
+    spinner(false);
   }
 });
 
@@ -46,4 +52,15 @@ async function send(data) {
   }
 
   return await response.json();
+}
+
+/**
+ * Toggle the visibility of the loading spinner
+ *
+ * @param {boolean} enabled whether to show the spinner
+ */
+function spinner(enabled) {
+  submitText.style.display = enabled ? 'none' : 'block';
+  submitSpinner.style.display = enabled ? 'flex' : 'none';
+  submit.disabled = enabled;
 }
