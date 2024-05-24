@@ -260,6 +260,7 @@ def main():
     # analysis = interpret_text(text_input=my_input)
     sentences = get_sentences(analysis)
     keywords = get_relevant_keywords(analysis)
+    print(keywords)
     keyword_results = {}
     for keyword in keywords:
         keyword_results[keyword["text"]] = {}
@@ -282,6 +283,7 @@ def main():
         print(keyword_results[keyword]["sentiment"])
         for sentence in keyword_results[keyword]["sentences"]:
             sentence_results = sentence_scan(sentence["text"])
+            print(sentence_results)
             print(get_segment_scores(scan_segments(sentence["text"])))
             print(get_overall_sentiment(sentence_results))
             print(get_overall_relevant_emotions(analysis=sentence_results))
