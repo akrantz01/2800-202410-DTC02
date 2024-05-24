@@ -1,8 +1,8 @@
 import re
+import urllib.parse
 from typing import Dict, List
 
 from googleapiclient.discovery import build
-from veritasai.config import env
 
 
 def extract_claims(text: str) -> List[str]:
@@ -13,7 +13,7 @@ def extract_claims(text: str) -> List[str]:
     :return: A list of extracted claims
     """
     sentences = re.split(r"(?<=[.!?]) +", text)
-    claims = [sentence for sentence in sentences if is_claim(sentence)]
+    claims = [sentence.strip() for sentence in sentences if is_claim(sentence)]
     return claims
 
 
@@ -428,10 +428,16 @@ def fact_check_query(query: str) -> dict:
     :param query: The query string to check
     :return: A dictionary with the fact-checking results
     """
-    service = build("factchecktools", "v1alpha1", developerKey=env.get("GOOGLE_CLOUD_PROJECT"))
-    request = service.claims().search(query=query)
-    response = request.execute()
-    return response
+    service = build(
+        "factchecktools", "v1alpha1", developerKey="AIzaSyCtF2QCk-s0xqwAzswSg8Fj_mdmf0bpsyU"
+    )
+    try:
+        request = service.claims().search(query=urllib.parse.quote(query))
+        response = request.execute()
+        return response
+    except Exception as e:
+        print(f"Error querying FactCheck API: {e}")  # noqa: T201
+        return {}
 
 
 def calculate_factuality_score(results: List[Dict]) -> float:
@@ -446,7 +452,7 @@ def calculate_factuality_score(results: List[Dict]) -> float:
         1
         for result in results
         if any(
-            review.get("textualRating") in ["True", "False"]
+            review.get("textualRating") in ["True", "False", "Mostly True", "Mostly False"]
             for review in result.get("claimReview", [])
         )
     )
@@ -472,8 +478,9 @@ def verify_article_factuality(text: str) -> float:
 
 # Example usage
 if __name__ == "__main__":
-    article_text = """
-    The Earth is flat. Vaccines cause autism. Climate change is not real.
-    """  # Replace this with a large text from an actual news article
-    score = verify_article_factuality(article_text)
-    print(f"Factuality Score: {score}%")
+    pass
+    # article_text = """
+    # The Earth is flat. Vaccines cause autism. Climate change is not real.
+    # """  # Replace this with a large text from an actual news article
+    # score = verify_article_factuality(article_text)
+    # print(f"Factuality Score: {score}%")
