@@ -92,5 +92,4 @@ export async function saveArticleToggle(articleID) {
   }
 }
 
-if (window.location.href.match('history.html') != null)
-  window.addEventListener('load', writeHistory);
+if (window.location.href.match('history') != null) window.addEventListener('load', writeHistory);

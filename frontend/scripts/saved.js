@@ -42,4 +42,4 @@ async function writeSaves() {
   });
 }
 
-if (window.location.href.match('saved.html') != null) window.addEventListener('load', writeSaves);
+if (window.location.href.match('saved') != null) window.addEventListener('load', writeSaves);
