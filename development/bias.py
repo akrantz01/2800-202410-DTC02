@@ -67,12 +67,27 @@ def get_relevant_entities(analysis: str) -> list[dict]:
     :param analysis: json string
     :return: relevant_entities as a list of dictionaries
     """
-    relevance_cutoff = 0.4
+    relevance_cutoff = 0.6
 
     ai_analysis = json.loads(analysis)
     entities = ai_analysis["entities"]
     relevant_entities = filter(lambda entity: (entity["relevance"] >= relevance_cutoff), entities)
     return list(relevant_entities)
+
+
+def get_relevant_keywords(analysis: str) -> list[dict]:
+    """
+    Extract the important keywords from the ai response.
+
+    :param analysis: json string
+    :return: relevant_keywords as a list of dictionaries
+    """
+    relevance_cutoff = 0.6
+
+    ai_analysis = json.loads(analysis)
+    keywords = ai_analysis["keywords"]
+    relevant_keywords = filter(lambda entity: (entity["relevance"] >= relevance_cutoff), keywords)
+    return list(relevant_keywords)
 
 
 def get_sentences(analysis: str) -> list[dict]:
@@ -128,23 +143,34 @@ def get_mention_sentences(confident_mentions: list[dict], sentences: list[dict])
     return sentences_with_mentions
 
 
+def get_keyword_sentences(keyword: str, sentences: list[dict]) -> list[dict]:
+    """
+    Extract sentences that contain relevant keyword mentions.
+    """
+    sentences_with_keywords = []
+    sentences_with_keywords += filter(
+        lambda sentence: (keyword in sentence["text"] and sentence not in sentences_with_keywords),
+        sentences,
+    )
+    return sentences_with_keywords
+
+
 def main():
-    my_input = "IBM has one of the largest workforces in the world"
-    # my_url = (
-    #     "https://www.cbc.ca/news/canada/first-person-generation-gap-boomers-millennials-1.7211033"
-    # )
-    # analysis = interpret_text(url_input=my_url)
+    # my_input = "IBM has one of the largest workforces in the world"
+    my_url = (
+        "https://www.cbc.ca/news/canada/first-person-generation-gap-boomers-millennials-1.7211033"
+    )
+    analysis = interpret_text(url_input=my_url)
     # print(json.loads(analysis)["keywords"])
-    analysis = interpret_text(text_input=my_input)
+    # analysis = interpret_text(text_input=my_input)
     sentences = get_sentences(analysis)
-    entities = get_relevant_entities(analysis)
+    entities = get_relevant_keywords(analysis)
     entity_results = {}
     for entity in entities:
-        entity_results[entity["text"]] = get_mention_sentences(
-            get_confident_mentions(entity), sentences
-        )
+        entity_results[entity["text"]] = get_keyword_sentences(entity["text"], sentences)
     for each in entity_results:
         print(each)
+        print(entity_results[each])
 
 
 if __name__ == "__main__":
