@@ -81,7 +81,7 @@ async function writePublisherArticles() {
   });
 }
 
-if (window.location.href.match('publisher.html') != null)
+if (window.location.href.match('publisher') != null)
   window.addEventListener('load', async () => {
     writePublisherArticles();
     populatePublisherDetails();

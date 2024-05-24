@@ -82,7 +82,7 @@ async function writeAuthorArticles() {
   });
 }
 
-if (window.location.href.match('author.html') != null)
+if (window.location.href.match('author') != null)
   window.addEventListener('load', async () => {
     writeAuthorArticles();
     populateAuthorDetails();
