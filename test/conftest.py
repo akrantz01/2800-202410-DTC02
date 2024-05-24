@@ -5,6 +5,9 @@ from flask import Flask
 from flask.testing import FlaskClient
 from functions_framework import create_app
 from pytest import FixtureRequest, MonkeyPatch
+from pytest_mock import MockerFixture
+
+pytest_plugins = "development.testsupport"
 
 
 @pytest.fixture(scope="session")
@@ -72,24 +75,18 @@ def client(app: Flask) -> FlaskClient:
 
 
 @pytest.fixture(autouse=True)
-def disable_dotenv(monkeypatch: MonkeyPatch):
-    """
-    Disable the loading of the .env file for all tests.
-    """
-    with monkeypatch.context() as m:
-        m.setattr("dotenv.load_dotenv", lambda: None)
-
-        yield
-
-
-@pytest.fixture(autouse=True)
 def disable_firebase_admin_sdk_initialization(monkeypatch: MonkeyPatch):
     """
     Disables the initialization process for the Firebase Admin SDK.
 
     This ensures that credentials are not required to run tests.
     """
-    with monkeypatch.context() as m:
-        m.setattr("firebase_admin.initialize_app", lambda *args, **kwargs: None)
+    monkeypatch.setattr("veritasai.firebase.init_app", lambda: None)
 
-        yield
+
+@pytest.fixture(autouse=True)
+def mock_pubsub(mocker: MockerFixture):
+    """
+    Mock the `PublisherClient` class from the `google.cloud.pubsub` module.
+    """
+    return mocker.patch("veritasai.pubsub.publisher.PublisherClient")

@@ -1,0 +1,92 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - dev
+
+env:
+  REGION: us-central1
+  RUNTIME: python312
+
+jobs:
+  firestore:
+    name: Firestore
+    runs-on: ubuntu-latest
+    concurrency:
+      group: firestore
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: pnpm
+
+      - run: pnpm install
+
+      - name: firebase deploy --only firestore
+        run: pnpm firebase deploy --only firestore --project ${{ secrets.PROJECT_ID }}
+
+  http:
+    name: ${{ matrix.name }} (HTTP)
+    runs-on: ubuntu-latest
+    concurrency:
+      group: http_${{ matrix.name }}
+    strategy:
+      matrix:
+        name:
+          - analysis-manager
+    env:
+      PDM_PROJECT: projects/${{ matrix.name }}
+      PDM_LOCKFILE: ${{ github.workspace }}/pdm.lock
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          project_id: ${{ secrets.PROJECT_ID }}
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+      - uses: pdm-project/setup-pdm@v4
+        with:
+          python-version-file: projects/${{ matrix.name }}/pyproject.toml
+
+      - name: Install SOPS
+        run: |
+          curl -LO https://github.com/getsops/sops/releases/download/v3.8.1/sops-v3.8.1.linux.amd64
+          sudo mv sops-v3.8.1.linux.amd64 /usr/local/bin/sops
+          sudo chmod +x /usr/local/bin/sops
+
+      - name: Build
+        id: build
+        run: |
+          pdm export --prod --format requirements --output ${{ env.PDM_PROJECT }}/requirements.txt --without-hashes
+          pdm build --no-wheel
+          echo "name=$(pdm show --name)" >> "$GITHUB_OUTPUT"
+          echo "version=$(pdm show --version)" >> "$GITHUB_OUTPUT"
+
+      - name: Package
+        run: tar zxvf ${{ env.PDM_PROJECT }}/dist/${{ steps.build.outputs.name}}-${{ steps.build.outputs.version }}.tar.gz
+
+      # TODO: require authentication for invocation
+      - name: Deploy
+        run: |
+          sops --decrypt environments/${{ matrix.name }}.yaml > env.yaml
+          gcloud functions deploy ${{ matrix.name }} --gen2 \
+            --region=${REGION} \
+            --runtime=${RUNTIME} \
+            --source ${{ steps.build.outputs.name }}-${{ steps.build.outputs.version }} \
+            --entry-point=handler \
+            --trigger-http \
+            --env-vars-file=env.yaml \
+            --allow-unauthenticated \
+            --ignore-file=$(pwd)/.gcloudignore

@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="styles/tailwind.css" rel="stylesheet" />
+    <title>VeritasAI</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+  </head>
+
+  <body
+    class="font-roboto bg-gradient-to-b from-white to-gray-300 bg-auto bg-no-repeat min-h-screen items-center text-center container pt-14 mx-auto"
+  >
+    <header id="header-placeholder"></header>
+
+    <div id="analysis-navigation-placeholder"></div>
+
+    <div class="flex flex-col container justify-center items-center">
+      <h1 class="mb-8 text-4xl font-bold text-center text-primary">AI Detection</h1>
+      <div
+        class="flex flex-col items-center justify-center bg-white shadow-md rounded-lg p-4 mx-auto"
+      >
+        <span class="text-sm">AI Probability:</span>
+        <h1 class="font-bold text-4xl" id="ai-percentage-score">100%</h1>
+        <span class="text-sm" id="ai-probability-score">40 out of 40 points</span>
+      </div>
+      <div
+        id="ai-analysis-breakdown"
+        class="flex flex-col min-w-sm bg-white shadow-md rounded-lg mt-3"
+      >
+        <div
+          class="flex flex-wrap text-md font-semibold text-white border-b rounded-t-lg bg-secondary p-4"
+        >
+          Analysis Breakdown
+        </div>
+        <ul class="flex flex-col font-bold text-xl pb-4">
+          <li class="flex flex-col pt-4">
+            <div class="flex flex-row justify-between">
+              <span class="mr-3 text-primary pl-4">Perplexity</span>
+              <button name="learn-perplexity" type="button" class="pr-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                >
+                  <path
+                    d="M478-240q21 0 35.5-14.5T528-290q0-21-14.5-35.5T478-340q-21 0-35.5 14.5T428-290q0 21 14.5 35.5T478-240Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <ul class="font-normal text-sm flex flex-col pl-4">
+              <li class="relative flex flex-row items-center justify-between">
+                <span>Improbable nouns</span>
+                <div class="flex-grow border-b border-gray-400 mx-1"></div>
+                <span class="font-bold pr-4">5 points</span>
+              </li>
+              <li class="relative flex flex-row items-center justify-between">
+                <span>Tone variance</span>
+                <div class="flex-grow border-b border-gray-400 mx-1"></div>
+                <span class="font-bold pr-4">5 points</span>
+              </li>
+            </ul>
+          </li>
+          <li class="pt-1 flex flex-col">
+            <div class="flex flex-row justify-between">
+              <span class="mr-3 text-primary pl-4">Burstiness</span>
+              <button name="learn-burstiness" type="button" class="pr-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                >
+                  <path
+                    d="M478-240q21 0 35.5-14.5T528-290q0-21-14.5-35.5T478-340q-21 0-35.5 14.5T428-290q0 21 14.5 35.5T478-240Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <ul class="font-normal text-sm pl-4">
+              <li class="relative flex flex-row items-center justify-between">
+                <span>Sentence length variation</span>
+                <div class="flex-grow border-b border-gray-400 mx-1"></div>
+                <span class="font-bold pr-4">5 points</span>
+              </li>
+              <li class="relative flex flex-row items-center justify-between">
+                <span>Vocabulary depth</span>
+                <div class="flex-grow border-b border-gray-400 mx-1"></div>
+                <span class="font-bold pr-4">5 points</span>
+              </li>
+            </ul>
+          </li>
+          <li class="pt-1 flex-flex-col items-start">
+            <div class="flex flex-row justify-between">
+              <span class="mr-3 text-primary pl-4">N-gram Analysis</span>
+              <button name="learn-ngram" type="button" class="pr-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                >
+                  <path
+                    d="M478-240q21 0 35.5-14.5T528-290q0-21-14.5-35.5T478-340q-21 0-35.5 14.5T428-290q0 21 14.5 35.5T478-240Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <ul class="font-normal text-sm pl-4">
+              <li class="relative flex flex-row items-center justify-between">
+                <span>Bi-gram analysis</span>
+                <div class="flex-grow border-b border-gray-400 mx-1"></div>
+                <span class="font-bold pr-4">5 points</span>
+              </li>
+              <li class="relative flex flex-row items-center justify-between">
+                <span>Tri-gram analysis</span>
+                <div class="flex-grow border-b border-gray-400 mx-1"></div>
+                <span class="font-bold pr-4">5 points</span>
+              </li>
+              <li class="relative flex flex-row items-center justify-between">
+                <span>Quad-gram analysis</span>
+                <div class="flex-grow border-b border-gray-400 mx-1"></div>
+                <span class="font-bold pr-4">5 points</span>
+              </li>
+            </ul>
+          </li>
+          <li class="pt-1 flex flex-col">
+            <div class="flex flex-row justify-between">
+              <span class="mr-3 text-primary pl-4">Type-token Ratio</span>
+              <button name="learn-typetoken" type="button" class="pr-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                >
+                  <path
+                    d="M478-240q21 0 35.5-14.5T528-290q0-21-14.5-35.5T478-340q-21 0-35.5 14.5T428-290q0 21 14.5 35.5T478-240Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <ul class="font-normal text-sm pl-4">
+              <li class="relative flex flex-row items-center justify-between">
+                <span>Token-to-text ratio</span>
+                <div class="flex-grow border-b border-gray-400 mx-1"></div>
+                <span class="font-bold pr-4">5 points</span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div
+        id="analyzed-text"
+        class="flex flex-col min-w-sm shadow-md bg-white rounded-lg mt-3 mx-4 md:w-3/5"
+      >
+        <div
+          class="flex flex-wrap text-md font-semibold text-white border-b rounded-t-lg bg-secondary"
+        >
+          <div
+            class="flex flex-wrap text-md font-semibold text-white rounded-t-lg bg-secondary p-4"
+          >
+            Analyzed Text
+          </div>
+          <button name="copy-text" class="ml-2" type="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#e8eaed"
+            >
+              <path
+                d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z"
+              />
+            </svg>
+          </button>
+        </div>
+        <span class="flex text-2xl font-bold text-primary pt-4 pl-4">Article Name</span>
+        <span class="flex text-md font-bold pl-4">Publisher</span>
+        <div class="flex flex-row pl-4 items-center">
+          <a href="#" class="text-blue-400 underline">Original article</a>
+          <svg
+            class="w-3 h-3 ms-2.5 rtl:rotate-[270deg] text-blue-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 18 18"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778"
+            ></path>
+          </svg>
+        </div>
+        <span class="px-4 pb-4 text-left"
+          >Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis quis sint accusantium
+          porro fugit? Quibusdam dolore maiores, dolorem, perspiciatis aspernatur delectus iste
+          consequatur, iusto dicta totam praesentium. Cum, perspiciatis expedita.</span
+        >
+      </div>
+    </div>
+    <footer id="footer-placeholder"></footer>
+    <script type="module" src="scripts/nav-bar-logic.js"></script>
+    <script type="module" src="scripts/analysis-navigation.js"></script>
+  </body>
+</html>

@@ -26,13 +26,14 @@
       {
         "ignoreDeclarationSort": true
       }
-    ],
-    "import/no-unresolved": [
-      "error",
-      {
-        "ignore": ["^https://"]
-      }
     ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {},
+      "exports": {}
+    },
+    "import/ignore": ["firebase/"]
   },
   "overrides": [
     {

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="styles/tailwind.css" rel="stylesheet" />
+    <title>Profile</title>
+  </head>
+  <body class="min-h-screen bg-gradient-to-b from-white to-gray-300 font-roboto">
+    <header id="header-placeholder"></header>
+    <main class="container p-4 mx-auto">
+      <div class="max-w-md p-6 mx-auto bg-white rounded-lg shadow-md">
+        <h1 class="mb-6 text-2xl font-bold text-center text-primary">Profile</h1>
+        <div id="profile-info" class="mb-6">
+          <!-- Profile information will be inserted here -->
+        </div>
+        <button
+          id="change-name-button"
+          type="button"
+          class="hidden w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+        >
+          Change Name
+        </button>
+        <form id="update-name-form" class="hidden mb-6">
+          <label for="new-name" class="block mb-2 text-sm font-bold text-gray-700">New Name:</label>
+          <input
+            id="new-name"
+            type="text"
+            class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          />
+          <button
+            type="submit"
+            class="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+          >
+            Update Name
+          </button>
+        </form>
+        <button
+          id="change-email-button"
+          type="button"
+          class="hidden w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+        >
+          Change Email
+        </button>
+        <form id="update-email-form" class="hidden mb-6">
+          <label for="new-email" class="block mb-2 text-sm font-bold text-gray-700"
+            >New Email:</label
+          >
+          <input
+            id="new-email"
+            type="email"
+            class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          />
+          <label for="password" class="block mb-2 text-sm font-bold text-gray-700">Password:</label>
+          <input
+            id="password"
+            type="password"
+            class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          />
+          <button
+            type="submit"
+            class="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+          >
+            Update Email
+          </button>
+        </form>
+        <button
+          id="reset-password-button"
+          type="button"
+          class="hidden w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+        >
+          Reset Password
+        </button>
+        <button
+          id="logout-button"
+          type="button"
+          class="w-full py-2 mt-4 text-white bg-red-500 rounded-lg hover:bg-red-600"
+        >
+          Logout
+        </button>
+        <button
+          id="delete-account-button"
+          type="button"
+          class="w-full py-2 mt-4 text-white bg-red-500 rounded-lg hover:bg-red-600"
+        >
+          Delete Account
+        </button>
+        <div id="message" class="hidden mt-4 text-center">
+          <span class="text-green-500"></span>
+        </div>
+        <div id="error-message" class="hidden mt-4 text-center text-red-500">
+          <span></span>
+        </div>
+      </div>
+    </main>
+    <footer id="footer-placeholder"></footer>
+    <script type="module" src="scripts/profile.js"></script>
+    <script type="module" src="scripts/nav-bar-logic.js"></script>
+    <!-- Navigation bar logic script -->
+  </body>
+</html>

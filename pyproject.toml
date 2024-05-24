@@ -10,9 +10,14 @@ dependencies = [
   "flask>=3.0.3",
   "functions-framework>=3.5.0",
   "pydantic>=2.7.1",
-  "google-cloud-language>=2.13.3",
   "python-dotenv>=1.0.1",
   "firebase-admin>=6.5.0",
+  "google-cloud-storage>=2.16.0",
+  "ibm-watson>=8.1.0",
+  "ibm-cloud-sdk-core>=3.20.0",
+  "google-cloud-pubsub>=2.21.1",
+  "ibm-watson>=8.0.0",
+  "google-cloud-logging>=3.10.0",
 ]
 
 [build-system]
@@ -36,17 +41,26 @@ analysis-manager.cmd = "functions-framework --target=handler --source projects/a
 analysis-manager.env = { PORT = "8080" }
 
 [tool.polylith.bricks]
-"components/veritasai/document_id" = "veritasai/document_id"
-"components/veritasai/input_validation" = "veritasai/input_validation"
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
-"components/veritasai/firebase" = "veritasai/firebase"
+"components/veritasai/articles" = "veritasai/articles"
+"components/veritasai/authentication" = "veritasai/authentication"
 "components/veritasai/cache" = "veritasai/cache"
+"components/veritasai/config" = "veritasai/config"
+"components/veritasai/cors" = "veritasai/cors"
+"components/veritasai/firebase" = "veritasai/firebase"
+"components/veritasai/input_validation" = "veritasai/input_validation"
+"components/veritasai/logging" = "veritasai/logging"
+"components/veritasai/protocol" = "veritasai/protocol"
+"components/veritasai/pubsub" = "veritasai/pubsub"
 
 [tool.pyright]
 extraPaths = ["bases", "components"]
 
 [tool.pytest.ini_options]
-markers = ["function: mark a test as requiring an instance of a handler function"]
+markers = [
+  "function: mark a test as requiring an instance of a handler function",
+  "cloud_event: specify the content of a cloud event",
+]
 
 [tool.ruff]
 line-length = 100
@@ -59,4 +73,7 @@ line-ending = "auto"
 docstring-code-format = true
 
 [tool.ruff.lint]
-select = ["A", "B", "E4", "E501", "E7", "E9", "F", "I", "N", "RUF"]
+select = ["A", "B", "E4", "E501", "E7", "E9", "F", "G", "I", "LOG", "N", "T20", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"development/**.py" = ["T20"]

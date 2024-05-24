@@ -1,39 +1,21 @@
-from os import environ
-
-import firebase_admin
-from dotenv import load_dotenv
-from firebase_admin import firestore
-from firebase_admin.credentials import ApplicationDefault, Base, Certificate
+from firebase_admin import auth, firestore
 from google.cloud.firestore import Client
 
-load_dotenv()
+from .app import init_app
 
 
-def _get_credentials() -> Base:
+def get_auth() -> auth.Client:
     """
-    Get the credentials for the Firebase Admin SDK.
+    Get the Firebase Authentication client
     """
-    credentials = ApplicationDefault()
-
-    if (service_account := environ.get("FIREBASE_SERVICE_ACCOUNT")) is not None:
-        credentials = Certificate(service_account)
-
-    return credentials
-
-
-_app = None
+    return auth.Client(app=init_app())
 
 
 def get_db() -> Client:
     """
     Get the Firestore client.
     """
-    global _app
-
-    if _app is None:
-        _app = firebase_admin.initialize_app(credential=_get_credentials())
-
-    return firestore.client(app=_app)
+    return firestore.client(app=init_app())
 
 
-__all__ = ["get_db"]
+__all__ = ["get_auth", "get_db", "init_app"]

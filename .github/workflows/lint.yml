@@ -65,7 +65,7 @@ jobs:
       - run: |
           pdm run poly sync
 
-          if ! git diff --quiet HEAD; then
+          if ! find . -name pyproject.toml -print0 | xargs -0 git diff --exit-code HEAD; then
             echo "not all bricks are in sync, please run 'pdm run poly sync' and commit the changes."
             exit 1
           fi

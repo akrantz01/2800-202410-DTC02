@@ -21,6 +21,10 @@ firestore.rules
 __pycache__/
 *.py
 
-
 # Ignore Favicon
-frontend/images/favicon/*
+frontend/public/*.png
+frontend/public/*.ico
+frontend/public/*.xml
+
+# Ignore build files
+frontend/dist
