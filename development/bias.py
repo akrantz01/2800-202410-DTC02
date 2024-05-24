@@ -115,8 +115,8 @@ def get_mention_sentences(confident_mentions: list[dict], sentences: list[dict])
     mention_locations = map(lambda mention: (mention["location"]), confident_mentions)
     sentences_with_mentions = []
     for mention in mention_locations:
-        mention_start = mention["location"][0]
-        mention_end = mention["location"][1]
+        mention_start = mention[0]
+        mention_end = mention[1]
         sentences_with_mentions += filter(
             lambda sentence: (
                 (mention_start >= sentence["location"][0])
@@ -136,8 +136,14 @@ def main():
     analysis = interpret_text(url_input=my_url)
     print("scanned")
     # interpret_text(text_input=my_input)
-    print(len(get_sentences(analysis)))
-    get_relevant_entities(analysis)
+    sentences = get_sentences(analysis)
+    entities = get_relevant_entities(analysis)
+    entity_results = {}
+    for entity in entities:
+        entity_results[entity["text"]] = get_mention_sentences(
+            get_confident_mentions(entity), sentences
+        )
+    print(entity_results)
 
 
 if __name__ == "__main__":
