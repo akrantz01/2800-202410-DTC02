@@ -9,6 +9,7 @@ from ibm_watson.natural_language_understanding_v1 import (
     KeywordsOptions,
     SentimentOptions,
 )
+from update import firestore_update
 from veritasai.config import env
 
 
@@ -86,9 +87,7 @@ def return_lesser_emotions(emotions: tuple) -> list[str]:
 
 
 def return_key_emotion_metrics(emotion_dict: dict) -> list[str]:
-    """
-    Sort
-    """
+    """ """
     primary_emotion = max(emotion_dict.items(), key=lambda x: x[1])
     secondary_emotion = min(emotion_dict.items(), key=lambda x: x[1])
     emotion_difference = primary_emotion[1] - secondary_emotion[1]
@@ -276,7 +275,7 @@ def tone_analyser(url: str, text: str | None = None) -> dict:
     }
     parsed_analysis = parse_analysis_fields(title | analysis)
     plutchik_emotions = plutchik_analyser(parsed_analysis)
-    return plutchik_emotions
+    firestore_update("tone", plutchik_emotions)
 
 
 tone_analyser(
