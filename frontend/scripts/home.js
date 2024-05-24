@@ -1,6 +1,7 @@
 import { currentUser } from './user.js';
 
 const form = document.getElementById('form');
+const error = document.getElementById('error');
 
 const user = await currentUser;
 if (user === null) window.location.href = 'login.html';
@@ -13,6 +14,24 @@ form.addEventListener('submit', async (event) => {
 
   // TODO: show loading spinner
 
+  try {
+    const result = await send(data);
+    window.location.href = `summary.html?uid=${result.id}`;
+  } catch (e) {
+    console.error(e);
+
+    error.querySelector('span').textContent = e.message;
+    error.classList.remove('hidden');
+  }
+});
+
+/**
+ * Send data to the backend for analysis
+ *
+ * @param {object} data the data to send to the backend
+ * @returns {object} the response from the backend
+ */
+async function send(data) {
   const response = await fetch(import.meta.env.VITE_BACKEND_URL, {
     method: 'POST',
     headers: {
@@ -22,12 +41,9 @@ form.addEventListener('submit', async (event) => {
     body: JSON.stringify(data),
   });
   if (!response.ok) {
-    // TODO: handle errors properly
     const message = await response.text();
-    console.error(message);
-    return;
+    throw new Error(message);
   }
 
-  const result = await response.json();
-  window.location.href = `summary.html?uid=${result.id}`;
-});
+  return await response.json();
+}
