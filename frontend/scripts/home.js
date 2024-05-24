@@ -1,7 +1,5 @@
 import { currentUser } from './user.js';
 
-const BACKEND_URL = 'http://localhost:5000';
-
 const form = document.getElementById('form');
 
 const user = await currentUser;
@@ -15,7 +13,7 @@ form.addEventListener('submit', async (event) => {
 
   // TODO: show loading spinner
 
-  const response = await fetch(BACKEND_URL, {
+  const response = await fetch(import.meta.env.VITE_BACKEND_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

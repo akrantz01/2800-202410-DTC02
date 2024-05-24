@@ -10,6 +10,7 @@ export default defineConfig(async () => {
 
   return {
     root: 'frontend',
+    envDir: import.meta.dirname,
     build: {
       target: 'es2022',
       sourcemap: true,
