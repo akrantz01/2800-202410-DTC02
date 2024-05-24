@@ -250,17 +250,9 @@ def get_overall_relevant_emotions(analysis: str = "", keyword=None) -> dict:
     return emotions
 
 
-def main():
-    # my_input = "IBM has one of the largest workforces in the world"
-    my_url = (
-        "https://www.theonion.com/report-school-shootings-either-way-down-or-too-depress-1851499800"
-    )
-    analysis = interpret_text(url_input=my_url)
-    # print(json.loads(analysis)["keywords"])
-    # analysis = interpret_text(text_input=my_input)
+def process_keywords(analysis: str):
     sentences = get_sentences(analysis)
     keywords = get_relevant_keywords(analysis)
-    print(keywords)
     keyword_results = {}
     for keyword in keywords:
         keyword_results[keyword["text"]] = {}
@@ -282,11 +274,42 @@ def main():
         print(keyword_results[keyword]["emotion"])
         print(keyword_results[keyword]["sentiment"])
         for sentence in keyword_results[keyword]["sentences"]:
-            sentence_results = sentence_scan(sentence["text"])
-            print(sentence_results)
+            # sentence_results = sentence_scan(sentence["text"])
+            # print(sentence_results)
             print(get_segment_scores(scan_segments(sentence["text"])))
-            print(get_overall_sentiment(sentence_results))
-            print(get_overall_relevant_emotions(analysis=sentence_results))
+            # print(get_overall_sentiment(sentence_results))
+            # print(get_overall_relevant_emotions(analysis=sentence_results))
+
+
+def average_sentence_length(sentences: dict) -> float:
+    total = 0
+    count = 0
+    for sentence in sentences:
+        total += len(sentence["text"])
+        count += 1
+    return total / count
+
+
+def count_adjectives(analysis: str):
+    ai_analysis = json.loads(analysis)
+    tokens = ai_analysis["syntax"]["tokens"]
+    sentences = get_sentences(analysis)
+    sentence_count = len(sentences)
+    sentence_average_length = average_sentence_length(sentences)
+    adjectives = [token["text"] for token in tokens if token["part_of_speech"] == "ADJ"]
+    print((len(adjectives) / sentence_count) / sentence_average_length)
+
+
+def main():
+    # my_input = "IBM has one of the largest workforces in the world"
+    my_url = (
+        "https://www.theonion.com/report-school-shootings-either-way-down-or-too-depress-1851499800"
+    )
+    analysis = interpret_text(url_input=my_url)
+    # print(json.loads(analysis)["keywords"])
+    # analysis = interpret_text(text_input=my_input)
+    # process_keywords(analysis)
+    count_adjectives(analysis)
 
 
 if __name__ == "__main__":
