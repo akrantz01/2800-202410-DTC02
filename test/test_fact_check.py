@@ -46,7 +46,7 @@ class TestFactCheck(unittest.TestCase):
             },
             {
                 "claims": [
-                    {"text": "Climate change is real!", "claimReview": [{"textualRating": "True"}]}
+                    {"text": "Climate change is not real!", "claimReview": [{"textualRating": "False"}]}
                 ]
             },
         ]
@@ -55,7 +55,7 @@ class TestFactCheck(unittest.TestCase):
         results = [fact_check_query(claim).get("claims", []) for claim in claims]
         results = [item for sublist in results for item in sublist]  # Flatten the list of lists
         factuality_score = calculate_factuality_score(results)
-        self.assertEqual(factuality_score, 80)
+        self.assertEqual(factuality_score, 0)
 
     @patch("veritasai.fact_check.fact_check.fact_check_query")
     def test_verify_article_factuality(self, mock_fact_check_query):
