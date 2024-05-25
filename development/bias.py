@@ -270,15 +270,16 @@ def process_keywords(analysis: str):
         keyword_results[entity["text"]]["emotion"] = get_overall_relevant_emotions(keyword=entity)
         keyword_results[entity["text"]]["sentiment"] = entity["sentiment"]
     for keyword in keyword_results:
-        print(keyword)
-        print(keyword_results[keyword]["emotion"])
-        print(keyword_results[keyword]["sentiment"])
+        # print(keyword)
+        # print(keyword_results[keyword]["emotion"])
+        # print(keyword_results[keyword]["sentiment"])
         for sentence in keyword_results[keyword]["sentences"]:
             # sentence_results = sentence_scan(sentence["text"])
             # print(sentence_results)
-            print(get_segment_scores(scan_segments(sentence["text"])))
+            sentence["scores"] = get_segment_scores(scan_segments(sentence["text"]))
             # print(get_overall_sentiment(sentence_results))
             # print(get_overall_relevant_emotions(analysis=sentence_results))
+    return keyword_results
 
 
 def average_sentence_length(sentences: dict) -> float:
@@ -290,14 +291,37 @@ def average_sentence_length(sentences: dict) -> float:
     return total / count
 
 
-def count_adjectives(analysis: str):
+def score_adjectives(analysis: str) -> float:
     ai_analysis = json.loads(analysis)
     tokens = ai_analysis["syntax"]["tokens"]
     sentences = get_sentences(analysis)
     sentence_count = len(sentences)
     sentence_average_length = average_sentence_length(sentences)
     adjectives = [token["text"] for token in tokens if token["part_of_speech"] == "ADJ"]
-    print((len(adjectives) / sentence_count) / sentence_average_length)
+    return (len(adjectives) / sentence_count) / sentence_average_length
+
+
+def count_pronouns(analysis: str) -> dict:
+    ai_analysis = json.loads(analysis)
+    tokens = ai_analysis["syntax"]["tokens"]
+    pronouns = [token for token in tokens if token["part_of_speech"] == "PRON"]
+    he = [pronoun["lemma"] for pronoun in pronouns if pronoun["lemma"] == "he"]
+    she = [pronoun["lemma"] for pronoun in pronouns if pronoun["lemma"] == "she"]
+    he_count = len(he)
+    she_count = len(she)
+    return {"he": he_count, "she": she_count}
+
+
+def score_pronouns(pronouns: dict) -> float:
+    difference = abs(pronouns["he"] - pronouns["she"])
+    total = abs(pronouns["he"] + pronouns["she"])
+    return difference / total
+
+
+def score_keywords(keywords: dict) -> float:
+    scores = [keyword["sentiment"]["score"] for keyword in keywords]
+    print(scores)
+    directions = [keyword["sentiment"]["label"] for keyword in keywords]
 
 
 def main():
@@ -309,7 +333,8 @@ def main():
     # print(json.loads(analysis)["keywords"])
     # analysis = interpret_text(text_input=my_input)
     # process_keywords(analysis)
-    count_adjectives(analysis)
+    score_adjectives(analysis)
+    score_keywords(process_keywords(analysis))
 
 
 if __name__ == "__main__":
