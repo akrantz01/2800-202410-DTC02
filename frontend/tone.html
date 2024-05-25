@@ -124,7 +124,7 @@
           </div>
         </div>
         <!-- Heading 2 -->
-        <h2 id="accordion-color-heading-2">
+        <h2 id="accordion-color-heading-2" class="hidden">
           <button
             type="button"
             class="flex items-center justify-between w-full p-5 font-bold text-white border border-b-0 border-gray-600 gap-3 hover:bg-blue-600"
@@ -222,22 +222,14 @@
         <!-- Body 3 -->
         <div id="accordion-color-body-3" class="hidden" aria-labelledby="accordion-color-heading-3">
           <div class="p-5 border border-b-0 border-gray-600 bg-white space-y-4">
-            <p id="keyword-results" class="mb-2 text-gray-500 italic">
-              "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita aut odit inventore
-              explicabo, adipisci blanditiis corrupti magnam nemo nobis asperiores, eveniet,
-              suscipit dolorum nihil enim eos doloremque libero aspernatur provident."
-            </p>
+            <ul id="keyword-results" class="mb-2 text-gray-500 italic"></ul>
 
             <div class="flex flex-row space-x-2 flex-wrap text-md text-gray-800 font-semibold">
               <img src="images/logo.svg" width="32" height="32" alt="VeritasAI" />
               <p>VeritasAI Analysis:</p>
             </div>
 
-            <p id="keyword-explanation">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi, doloribus? Ipsa,
-              sapiente iure voluptatem nam deleniti quos id voluptate corporis quis repellat cumque
-              numquam enim recusandae non rem animi tempore!
-            </p>
+            <ul id="keyword-explanation"></ul>
             <a
               href="#"
               class="inline-flex mx-0.5 font-medium items-center text-blue-400 hover:underline"
@@ -292,14 +284,16 @@
         <!-- Body 4 -->
         <div id="accordion-color-body-4" class="hidden" aria-labelledby="accordion-color-heading-4">
           <div class="p-5 border border-gray-600 bg-white space-y-4">
-            <ul id="entities-results-list" class="text-gray-500 italic list-none space-y-2">
-              <li>
-                "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita aut odit
-                inventore
-              </li>
-              <li>explicabo, adipisci blanditiis corrupti magnam nemo nobis asperiores, eveniet</li>
-              <li>suscipit dolorum nihil enim eos doloremque libero aspernatur provident."</li>
-            </ul>
+            <table id="entity-results-list">
+              <tr>
+                <th class="text-xxs text-center">Relevance</th>
+                <th class="text-xxs text-center">Name</th>
+                <th class="text-xxs text-center">Type</th>
+                <th class="text-xxs text-center">Dominant Emotion(s)</th>
+                <th class="text-xxs text-center">Sentiment</th>
+                <th class="text-xxs text-center">Occurences</th>
+              </tr>
+            </table>
 
             <div class="flex flex-row space-x-2 flex-wrap text-md text-gray-800 font-semibold">
               <img src="images/logo.svg" width="32" height="32" alt="VeritasAI" />

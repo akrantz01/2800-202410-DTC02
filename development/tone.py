@@ -187,8 +187,12 @@ def generate_stats(analysis: dict, key_name: str, condition: Callable) -> dict:
     return {
         key_name: {
             item["text"]: {
-                "emotion": return_top_emotions(item["emotion"]),
+                "dominant emotions": return_top_emotions(item["emotion"]),
+                "emotion": item["emotion"],
                 "sentiment": item["sentiment"],
+                "relevance": item["relevance"],
+                "count": item["count"] if key_name == "entities" else None,
+                "type": item["type"] if key_name == "entities" else None,
             }
             for item in analysis[key_name]
             if condition(item)
@@ -212,7 +216,7 @@ def parse_analysis_fields(analysis: dict) -> dict:
             "emotion": analysis["emotion"]["document"]["emotion"],
         }
     }
-    keyword_stats = generate_stats(analysis, "keywords", lambda keyword: keyword["relevance"] > 0.8)
+    keyword_stats = generate_stats(analysis, "keywords", lambda keyword: keyword["relevance"] > 0.6)
     entity_stats = generate_stats(
         analysis,
         "entities",
@@ -223,6 +227,10 @@ def parse_analysis_fields(analysis: dict) -> dict:
         if metadata
         else document_stats | keyword_stats | entity_stats
     )
+
+
+def return_averages(category: dict) -> dict:
+    pass
 
 
 def retrieve_tone_analysis(url: str, text: str | None = None) -> dict:
@@ -253,7 +261,7 @@ def retrieve_tone_analysis(url: str, text: str | None = None) -> dict:
     features = Features(
         emotion=EmotionOptions(document=True),
         sentiment=SentimentOptions(document=True),
-        entities=EntitiesOptions(emotion=True, sentiment=True),
+        entities=EntitiesOptions(emotion=True, sentiment=True, limit=10),
         keywords=KeywordsOptions(sentiment=True, emotion=True),
     )
 
@@ -267,6 +275,7 @@ def retrieve_tone_analysis(url: str, text: str | None = None) -> dict:
         features=features,
         **source,
     ).get_result()
+    print(response)
     return response
 
 
@@ -291,12 +300,13 @@ def tone_analyser(url: str, text: str | None = None) -> dict:
             }
         }
         parsed_analysis = parse_analysis_fields(title | analysis)
-    parsed_analysis = parse_analysis_fields(analysis)
+    else:
+        parsed_analysis = parse_analysis_fields(analysis)
     plutchik_emotions = plutchik_analyser(parsed_analysis)
     firestore_create("tone", plutchik_emotions)
+    print(plutchik_emotions)
 
 
 tone_analyser(
     "https://www.goodnewsnetwork.org/france-celebrates-baguette-on-scratch-and-sniff-stamp-honoring-the-world-heritage-declared-food/",
-    "bunch of text blah blah blah blah this is some text",
 )
