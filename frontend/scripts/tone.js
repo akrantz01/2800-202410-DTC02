@@ -55,6 +55,42 @@ async function fetchArticles() {
   const chart = new ApexCharts(document.querySelector('#chart'), options);
   chart.render();
 
+  const getEmoji = function (category, value) {
+    if (category === 'type') {
+      switch (value) {
+        case 'Money':
+          return '💰';
+        case 'Organization':
+          return '🏢';
+      }
+    } else if (category === 'sentiment') {
+      switch (value) {
+        case 'positive':
+          return '➕';
+        case 'neutral':
+          return '〰';
+        case 'negative':
+          return '➖';
+      }
+    } else if (category === 'emotion') {
+      switch (value) {
+        case 'pride':
+          return '😤';
+        case 'morbidness':
+          return '😏';
+        case 'joy':
+          return '😊';
+        case 'disgust':
+          return '😖';
+        case 'sadness':
+          return '😢';
+        case 'anger':
+          return '😡';
+        case 'fear':
+          return '😨';
+      }
+    }
+  };
   // Grab title page elements
   // if (article.metadata) {
   //  const titleSection = document.getElementById('accordion-color-heading-2')
@@ -118,7 +154,7 @@ async function fetchArticles() {
 
         // Entity type (person, organization, ...)
         if (data === type) {
-          cell.className = 'px-2 py-2 text-center text-lg';
+          cell.className = 'px-2 py-2 text-center text-sm';
           const emoji = (cell.innerHTML = getEmoji('type', type));
           cell.innerHTML = `
           <span class="block">${emoji}</span>
@@ -133,7 +169,7 @@ async function fetchArticles() {
               : sentiment === 'negative'
                 ? 'red-500'
                 : 'gray-500';
-          cell.className = 'px-2 py-2 text-center text-lg';
+          cell.className = 'px-2 py-2 text-center text-sm';
           const span = document.createElement('span');
           span.className = `text-${colour} text-xxs`;
           const emoji = getEmoji('sentiment', sentiment);
@@ -143,11 +179,16 @@ async function fetchArticles() {
         }
         // Emotion
         else if (data === emotion) {
-          const joinString = emotion.join(', ');
-          cell.className = 'px-2 py-2 text-center text-xxs';
-          cell.innerHTML = joinString;
+          cell.className = 'px-2 py-2 text-center text-sm';
+          const container = document.createElement('span'); // Create a container span element
+          if (emotion.length === 2) {
+            container.innerHTML = `<span class="block">${getEmoji('emotion', emotion[0])} / ${getEmoji('emotion', emotion[1])}</span> <span class="text-xxs">${emotion.join(', ')}</span>`; // Include both emojis and the text
+          } else {
+            container.innerHTML = `<span class="block"> ${getEmoji('emotion', emotion[0])}</span><span class="text-xxs">${emotion[0]}</span>`; // Include the emoji and the text
+          }
+          cell.appendChild(container); // Append the container to the cell
         } else {
-          cell.className = 'px-2 py-2 text-center text-xs';
+          cell.className = 'px-2 py-1 text-center text-xs';
           cell.innerHTML = data;
         }
         entityRow.appendChild(cell);
@@ -155,43 +196,6 @@ async function fetchArticles() {
       entityResultsList.appendChild(entityRow);
     },
   );
-
-  function getEmoji(category, value) {
-    if (category === 'type') {
-      switch (value) {
-        case 'Money':
-          return '💰';
-        case 'Organization':
-          return '🏢';
-      }
-    } else if (category === 'sentiment') {
-      switch (value) {
-        case 'positive':
-          return '➕';
-        case 'neutral':
-          return '〰';
-        case 'negative':
-          return '➖';
-      }
-    } else if (category === 'emotion') {
-      switch (value) {
-        case 'pride':
-          return '😤';
-        case 'morbidness':
-          return '😏';
-        case 'joy':
-          return '😊';
-        case 'digust':
-          return '😖';
-        case 'sadness':
-          return '😢';
-        case 'anger':
-          return '😡';
-        case 'fear':
-          return '😨';
-      }
-    }
-  }
 }
 
 // Fetch and display articles on page load
