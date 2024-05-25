@@ -13,6 +13,9 @@ export default {
         secondary: '#00aef4',
         accent: '#00cbf4',
       },
+      fontSize: {
+        xxs: '0.5rem',
+      },
     },
   },
   plugins: [forms],
