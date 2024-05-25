@@ -80,7 +80,6 @@ async function fetchArticles() {
   // Loop through keywords object and print as a list
   Object.entries(article.keywords).forEach((entry) => {
     const { emotion, sentiment } = entry[1];
-    console.log(Object.keys(emotion));
     keywordResults.innerHTML += `<li>"<span class="font-bold">${entry[0]}</span>" - ${Object.keys(emotion)}, sentiment: ${Object.values(sentiment)}"</li>`;
     // return count of highest emotion
   });
@@ -97,7 +96,7 @@ async function fetchArticles() {
         type,
         count,
         sentiment: { label: sentiment },
-        plutchik,
+        plutchik: emotion,
         relevance,
       },
     ]) => {
@@ -108,7 +107,7 @@ async function fetchArticles() {
         Math.round((relevance + Number.EPSILON) * 100) / 100,
         name,
         type,
-        plutchik.join(', '),
+        emotion,
         sentiment,
         count,
       ];
@@ -119,9 +118,11 @@ async function fetchArticles() {
 
         // Entity type (person, organization, ...)
         if (data === type) {
-          cell.className = 'px-2 py-2 text-center text-lg flex flex-col';
-          cell.innerHTML = getEmoji('type', type);
-          cell.innerHTML += `<span class="text-xxs">${data}</span>`;
+          cell.className = 'px-2 py-2 text-center text-lg';
+          const emoji = (cell.innerHTML = getEmoji('type', type));
+          cell.innerHTML = `
+          <span class="block">${emoji}</span>
+          <span class="text-xxs">${data}</span>`;
         }
         // Sentiment (positive, negative, neutral)
         else if (data === sentiment) {
@@ -132,15 +133,19 @@ async function fetchArticles() {
               : sentiment === 'negative'
                 ? 'red-500'
                 : 'gray-500';
-          cell.className = 'px-2 py-2 text-center text-lg flex flex-col';
+          cell.className = 'px-2 py-2 text-center text-lg';
           const span = document.createElement('span');
           span.className = `text-${colour} text-xxs`;
-          cell.innerHTML = getEmoji('sentiment', sentiment);
-          cell.innerHTML += `<span class="text-xxs text-${colour}">${data}</span>`;
+          const emoji = getEmoji('sentiment', sentiment);
+          cell.innerHTML = `
+          <span class='block'>${emoji}</span>
+          <span class="text-xxs text-${colour}">${data}</span>`;
         }
         // Emotion
-        else if (data === plutchik) {
-          cell.className = 'px-2 py-2 text-center text-lg flex flex-col';
+        else if (data === emotion) {
+          const joinString = emotion.join(', ');
+          cell.className = 'px-2 py-2 text-center text-xxs';
+          cell.innerHTML = joinString;
         } else {
           cell.className = 'px-2 py-2 text-center text-xs';
           cell.innerHTML = data;
