@@ -269,16 +269,9 @@ def process_keywords(analysis: str):
         )
         keyword_results[entity["text"]]["emotion"] = get_overall_relevant_emotions(keyword=entity)
         keyword_results[entity["text"]]["sentiment"] = entity["sentiment"]
-    for keyword in keyword_results:
-        # print(keyword)
-        # print(keyword_results[keyword]["emotion"])
-        # print(keyword_results[keyword]["sentiment"])
-        for sentence in keyword_results[keyword]["sentences"]:
-            # sentence_results = sentence_scan(sentence["text"])
-            # print(sentence_results)
-            sentence["scores"] = get_segment_scores(scan_segments(sentence["text"]))
-            # print(get_overall_sentiment(sentence_results))
-            # print(get_overall_relevant_emotions(analysis=sentence_results))
+    # for keyword in keyword_results:
+    # for sentence in keyword_results[keyword]["sentences"]:
+    # sentence["scores"] = get_segment_scores(scan_segments(sentence["text"]))
     return keyword_results
 
 
@@ -319,9 +312,16 @@ def score_pronouns(pronouns: dict) -> float:
 
 
 def score_keywords(keywords: dict) -> float:
-    scores = [keyword["sentiment"]["score"] for keyword in keywords]
-    print(scores)
-    directions = [keyword["sentiment"]["label"] for keyword in keywords]
+    scores = [abs(keywords[keyword]["sentiment"]["score"]) for keyword in keywords]
+    directions = [keywords[keyword]["sentiment"]["label"] for keyword in keywords]
+    positive_count = 0
+    for direction in directions:
+        if direction == "positive":
+            positive_count += 1
+    negative_count = len(directions) - positive_count
+    direction_score = (positive_count - negative_count) / len(directions)
+    total_score = sum(scores) / len(scores)
+    return {"score": total_score, "direction_bias": direction_score}
 
 
 def main():
@@ -334,7 +334,7 @@ def main():
     # analysis = interpret_text(text_input=my_input)
     # process_keywords(analysis)
     score_adjectives(analysis)
-    score_keywords(process_keywords(analysis))
+    print(score_keywords(process_keywords(analysis)))
 
 
 if __name__ == "__main__":
