@@ -159,9 +159,9 @@ def plutchik_analyser(analysis: dict) -> dict:
                 if len(data["emotion"]) == 3:
                     data["emotion"].pop("disgust")
                 analysis[category][name]["plutchik"] = return_key_emotion_metrics(data["emotion"])
-                analysis[category][name]["averaged emotions"] = calculate_average(
-                    analysis[category]
-                )
+
+            averaged_emotions = calculate_average(analysis[category])
+            analysis[category]["averaged emotions"] = averaged_emotions
     return analysis
 
 

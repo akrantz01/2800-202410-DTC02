@@ -46,7 +46,7 @@ async function fetchArticles() {
   const articlesSnapshot = await getDocs(articlesCollection);
   let firestoreDocument;
   articlesSnapshot.forEach((doc) => {
-    if (doc.id === 'qPlbTU5PQmb00egJrqMW') {
+    if (doc.id === 'EWUMe4tlNCka6VybDcwk') {
       firestoreDocument = doc.data();
     }
   });
@@ -60,18 +60,41 @@ async function fetchArticles() {
   // Grab the relevant fields of the document
   const article = firestoreDocument.tone;
   const docEmotion = firestoreDocument.tone.document.emotion;
+  const entityEmotions = firestoreDocument.tone.entities['averaged emotions'];
+  const keywordEmotions = firestoreDocument.tone.entities['averaged emotions'];
+  console.log(entityEmotions);
   // Populate options in radar chart
   const options = {
     // radar chart
     series: [
       {
-        name: 'Series 1',
+        name: 'Entire Article',
         data: [
           docEmotion.joy,
           docEmotion.anger,
           docEmotion.disgust,
           docEmotion.sadness,
           docEmotion.fear,
+        ],
+      },
+      {
+        name: 'Entities',
+        data: [
+          entityEmotions.joy,
+          entityEmotions.anger,
+          entityEmotions.disgust,
+          entityEmotions.sadness,
+          entityEmotions.fear,
+        ],
+      },
+      {
+        name: 'Keywords',
+        data: [
+          keywordEmotions.joy,
+          keywordEmotions.anger,
+          keywordEmotions.disgust,
+          keywordEmotions.sadness,
+          keywordEmotions.fear,
         ],
       },
     ],
@@ -86,9 +109,10 @@ async function fetchArticles() {
     //   text: 'Basic Radar Chart',
     // },
     yaxis: {
-      stepSize: 0.05,
+      forceNiceScale: true,
     },
     xaxis: {
+      forceNiceScale: true,
       categories: ['Joy', 'Anger', 'Disgust', 'Sadness', 'Fear'],
     },
   };
@@ -149,16 +173,13 @@ function populateKeywordsTable(keywords) {
   const keywordResults = document.getElementById('keyword-results');
 
   // loop through every keyword in the object
-  Object.entries(keywords).forEach(
-    // destructure elements for easier reference
-    ([
-      text,
-      {
+  Object.entries(keywords).forEach(([text, keyword]) => {
+    if (text !== 'averaged emotions') {
+      const {
         sentiment: { label: sentiment },
         plutchik: emotion,
         relevance,
-      },
-    ]) => {
+      } = keyword;
       const keywordRow = document.createElement('tr');
       // return count of highest emotion
       const cellData = [
@@ -189,25 +210,24 @@ function populateKeywordsTable(keywords) {
       });
 
       keywordResults.appendChild(keywordRow);
-    },
-  );
+    }
+  });
 }
 
 function populateEntitiesTable(entities) {
   // Grab entity page elements
   const entityResults = document.getElementById('entity-results');
   // Loop through entities object and append elements to a table
-  Object.entries(entities).forEach(
-    ([
-      name,
-      {
+  Object.entries(entities).forEach(([name, keyword]) => {
+    if (name !== 'averaged emotions') {
+      // destructure the object for ease of reference
+      const {
         type,
         count,
         sentiment: { label: sentiment },
         plutchik: emotion,
         relevance,
-      },
-    ]) => {
+      } = keyword;
       // create the row
       const entityRow = document.createElement('tr');
       // Round float to two decimal places
@@ -244,8 +264,8 @@ function populateEntitiesTable(entities) {
         entityRow.appendChild(cell);
       });
       entityResults.appendChild(entityRow);
-    },
-  );
+    }
+  });
 }
 // Fetch and display articles on page load
 fetchArticles();
