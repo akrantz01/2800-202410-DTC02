@@ -276,26 +276,14 @@ def process_keywords(analysis: str):
     return keyword_results
 
 
-def average_sentence_length(sentences: dict) -> float:
-    total = 0
-    count = 0
-    for sentence in sentences:
-        total += len(sentence["text"])
-        count += 1
-    if count != 0:
-        return total / count
-    else:
-        return 0
-
-
 def score_adjectives(analysis: str) -> float:
     ai_analysis = json.loads(analysis)
     tokens = ai_analysis["syntax"]["tokens"]
     sentences = get_sentences(analysis)
     sentence_count = len(sentences)
-    sentence_average_length = average_sentence_length(sentences)
+    high_adjectives = 4 * sentence_count
     adjectives = [token["text"] for token in tokens if token["part_of_speech"] == "ADJ"]
-    return (len(adjectives) / sentence_count) / sentence_average_length
+    return len(adjectives) / high_adjectives
 
 
 def count_pronouns(analysis: str) -> dict:
