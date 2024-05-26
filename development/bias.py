@@ -15,6 +15,7 @@ from ibm_watson.natural_language_understanding_v1 import (
     SyntaxOptionsTokens,
 )
 from veritasai.config import env
+from veritasai.firebase import get_db
 
 
 def interpret_text(url_input: str = "", text_input: str = "") -> str:
@@ -250,17 +251,9 @@ def get_overall_relevant_emotions(analysis: str = "", keyword=None) -> dict:
     return emotions
 
 
-def main():
-    # my_input = "IBM has one of the largest workforces in the world"
-    my_url = (
-        "https://www.theonion.com/report-school-shootings-either-way-down-or-too-depress-1851499800"
-    )
-    analysis = interpret_text(url_input=my_url)
-    # print(json.loads(analysis)["keywords"])
-    # analysis = interpret_text(text_input=my_input)
+def process_keywords(analysis: str):
     sentences = get_sentences(analysis)
     keywords = get_relevant_keywords(analysis)
-    print(keywords)
     keyword_results = {}
     for keyword in keywords:
         keyword_results[keyword["text"]] = {}
@@ -277,16 +270,101 @@ def main():
         )
         keyword_results[entity["text"]]["emotion"] = get_overall_relevant_emotions(keyword=entity)
         keyword_results[entity["text"]]["sentiment"] = entity["sentiment"]
-    for keyword in keyword_results:
-        print(keyword)
-        print(keyword_results[keyword]["emotion"])
-        print(keyword_results[keyword]["sentiment"])
-        for sentence in keyword_results[keyword]["sentences"]:
-            sentence_results = sentence_scan(sentence["text"])
-            print(sentence_results)
-            print(get_segment_scores(scan_segments(sentence["text"])))
-            print(get_overall_sentiment(sentence_results))
-            print(get_overall_relevant_emotions(analysis=sentence_results))
+    # for keyword in keyword_results:
+    # for sentence in keyword_results[keyword]["sentences"]:
+    # sentence["scores"] = get_segment_scores(scan_segments(sentence["text"]))
+    return keyword_results
+
+
+def score_adjectives(analysis: str) -> float:
+    ai_analysis = json.loads(analysis)
+    tokens = ai_analysis["syntax"]["tokens"]
+    sentences = get_sentences(analysis)
+    sentence_count = len(sentences)
+    high_adjectives = 4 * sentence_count
+    adjectives = [token["text"] for token in tokens if token["part_of_speech"] == "ADJ"]
+    return len(adjectives) / high_adjectives
+
+
+def count_pronouns(analysis: str) -> dict:
+    ai_analysis = json.loads(analysis)
+    tokens = ai_analysis["syntax"]["tokens"]
+    pronouns = [token for token in tokens if token["part_of_speech"] == "PRON"]
+    he = [pronoun["lemma"] for pronoun in pronouns if pronoun["lemma"] == "he"]
+    she = [pronoun["lemma"] for pronoun in pronouns if pronoun["lemma"] == "she"]
+    he_count = len(he)
+    she_count = len(she)
+    return {"he": he_count, "she": she_count}
+
+
+def score_pronouns(pronouns: dict) -> float:
+    difference = abs(pronouns["he"] - pronouns["she"])
+    total = abs(pronouns["he"] + pronouns["she"])
+    if total != 0:
+        return difference / total
+    else:
+        return 0
+
+
+def score_keywords(keywords: dict) -> float:
+    scores = [abs(keywords[keyword]["sentiment"]["score"]) for keyword in keywords]
+    directions = [keywords[keyword]["sentiment"]["label"] for keyword in keywords]
+    positive_count = 0
+    for direction in directions:
+        if direction == "positive":
+            positive_count += 1
+    negative_count = len(directions) - positive_count
+    direction_score = (positive_count - negative_count) / len(directions)
+    total_score = sum(scores) / len(scores)
+    return {"score": total_score, "direction_bias": direction_score}
+
+
+def analyse_bias(
+    article_id: str,
+    url: str = "",
+    text_input: str = "",
+    analysis: str = "",
+    display_sentence_scores: bool = False,
+) -> None:
+    if not analysis:
+        analysis = interpret_text(url_input=url, text_input=text_input)
+    adjective_score = score_adjectives(analysis)
+    pronoun_count = count_pronouns(analysis)
+    pronoun_score = score_pronouns(pronoun_count)
+    keywords = process_keywords(analysis)
+    keywords_score = score_keywords(keywords)
+    if display_sentence_scores:
+        for keyword in keywords:
+            for sentence in keywords[keyword]["sentences"]:
+                sentence["scores"] = get_segment_scores(scan_segments(sentence["text"]))
+
+    get_db().collection("articles").document(article_id).update(
+        {
+            "bias": {
+                "adjectiveScore": adjective_score,
+                "pronounCount": pronoun_count,
+                "pronounScore": pronoun_score,
+                "keywords": keywords,
+                "keywordScore": keywords_score,
+                "sentences": display_sentence_scores,
+            }
+        }
+    )
+
+
+def main():
+    # my_input = "IBM has one of the largest workforces in the world"
+    my_url = (
+        "https://www.theonion.com/report-school-shootings-either-way-down-or-too-depress-1851499800"
+    )
+    analysis = interpret_text(url_input=my_url)
+    # print(json.loads(analysis)["keywords"])
+    # analysis = interpret_text(text_input=my_input)
+    # process_keywords(analysis)
+    # score_adjectives(analysis)
+    # print(score_keywords(process_keywords(analysis)))
+    analyse_bias("gL5po1BLAmwEZ9seMnay", analysis=analysis)
+    print("done")
 
 
 if __name__ == "__main__":
