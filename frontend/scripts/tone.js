@@ -42,21 +42,24 @@ const getEmoji = function (category, value) {
 async function fetchArticles() {
   // Get the 'articles' collection from Firestore
   const articlesCollection = collection(firestore, 'articles');
-
   // Fetch all documents from the 'articles' collection
   const articlesSnapshot = await getDocs(articlesCollection);
-
+  let firestoreDocument;
+  articlesSnapshot.forEach((doc) => {
+    if (doc.id === 'qPlbTU5PQmb00egJrqMW') {
+      firestoreDocument = doc.data();
+    }
+  });
   // Map the documents to an array of data
-  const articlesList = articlesSnapshot.docs.map((doc) => doc.data());
+  // const articlesList = articlesSnapshot.docs.map((doc) => doc.data());
 
   // Grab the newest article only
-  const articlesListSorted = articlesList.sort((a, b) => b.timestamp - a.timestamp);
-  const newestArticle = articlesListSorted[0];
+  // const articlesListSorted = articlesList.sort((a, b) => b.timestamp - a.timestamp);
+  // const newestArticle = articlesListSorted[0];
 
   // Grab the relevant fields of the document
-  const article = newestArticle.tone;
-  const docEmotion = newestArticle.tone.document.emotion;
-
+  const article = firestoreDocument.tone;
+  const docEmotion = firestoreDocument.tone.document.emotion;
   // Populate options in radar chart
   const options = {
     // radar chart
@@ -117,11 +120,37 @@ async function fetchArticles() {
   populateEntitiesTable(article.entities);
   // const entityExplanation = document.getElementById('entity-explanation');
 }
+function populateSentimentCell(cell, sentiment, data) {
+  // Colour the text
+  const colour =
+    sentiment === 'positive' ? 'green-500' : sentiment === 'negative' ? 'red-500' : 'gray-500';
+  cell.className = 'px-2 py-2 text-center text-sm';
+  const span = document.createElement('span');
+  span.className = `text-${colour} text-xxs`;
+  const emoji = getEmoji('sentiment', sentiment);
+  cell.innerHTML = `
+            <span class='block'> ${emoji}</span >
+            <span class="text-xxs text-${colour}">${data}</span>`;
+  return cell;
+}
+function populateEmotionCell(cell, emotion) {
+  cell.className = 'px-2 py-2 text-center text-sm';
+  // Check for two emojis and add them both if necessary
+  if (emotion.length === 2) {
+    cell.innerHTML = `<span class="block" > ${getEmoji('emotion', emotion[0])} / ${getEmoji('emotion', emotion[1])}</span><span class="text-sm">${emotion.join(', ')}</span>`;
+  } else {
+    cell.innerHTML = `<span class="block">${getEmoji('emotion', emotion[0])}</span><span class="text-sm">${emotion[0]}</span>`;
+  }
+  return cell;
+}
+
 function populateKeywordsTable(keywords) {
   // Grab keywords page elements
   const keywordResults = document.getElementById('keyword-results');
 
+  // loop through every keyword in the object
   Object.entries(keywords).forEach(
+    // destructure elements for easier reference
     ([
       text,
       {
@@ -139,36 +168,18 @@ function populateKeywordsTable(keywords) {
         sentiment,
       ];
 
+      // loop through each table cell
       cellData.forEach((data) => {
-        const cell = document.createElement('td');
+        let cell = document.createElement('td');
 
         if (data === text) {
           cell.className = 'px-2 py-2 text-center text-md';
           cell.innerHTML = `
           <span class="text-sm">${data}</span>`;
         } else if (data === sentiment) {
-          // Colour the text
-          const colour =
-            sentiment === 'positive'
-              ? 'green-500'
-              : sentiment === 'negative'
-                ? 'red-500'
-                : 'gray-500';
-          cell.className = 'px-2 py-2 text-center text-sm';
-          const span = document.createElement('span');
-          span.className = `text-${colour} text-md`;
-          const emoji = getEmoji('sentiment', sentiment);
-          cell.innerHTML = `
-            <span class='block'>${emoji}</span >
-              <span class="text-sm text-${colour}">${data}</span>`;
+          cell = populateSentimentCell(cell, sentiment, data);
         } else if (data === emotion) {
-          cell.className = 'px-2 py-2 text-center text-sm';
-          // Check for two emojis and add them both if necessary
-          if (emotion.length === 2) {
-            cell.innerHTML = `<span class="block" > ${getEmoji('emotion', emotion[0])} / ${getEmoji('emotion', emotion[1])}</span><span class="text-sm">${emotion.join(', ')}</span>`;
-          } else {
-            cell.innerHTML = `<span class="block">${getEmoji('emotion', emotion[0])}</span><span class="text-sm">${emotion[0]}</span>`;
-          }
+          cell = populateEmotionCell(cell, emotion);
         } else {
           cell.className = 'px-2 py-1 text-center text-md';
           cell.innerHTML = data;
@@ -208,11 +219,9 @@ function populateEntitiesTable(entities) {
         sentiment,
         count,
       ];
-
       // populate the data into table cells
       cellData.forEach((data) => {
-        const cell = document.createElement('td');
-
+        let cell = document.createElement('td');
         // Entity type (person, organization, ...)
         if (data === type) {
           cell.className = 'px-2 py-2 text-center text-sm';
@@ -223,30 +232,11 @@ function populateEntitiesTable(entities) {
         }
         // Sentiment (positive, negative, neutral)
         else if (data === sentiment) {
-          // Colour the text
-          const colour =
-            sentiment === 'positive'
-              ? 'green-500'
-              : sentiment === 'negative'
-                ? 'red-500'
-                : 'gray-500';
-          cell.className = 'px-2 py-2 text-center text-sm';
-          const span = document.createElement('span');
-          span.className = `text-${colour} text-xxs`;
-          const emoji = getEmoji('sentiment', sentiment);
-          cell.innerHTML = `
-            <span class='block'> ${emoji}</span >
-            <span class="text-xxs text-${colour}">${data}</span>`;
+          cell = populateSentimentCell(cell, sentiment);
         }
         // Emotion
         else if (data === emotion) {
-          cell.className = 'px-2 py-2 text-center text-sm';
-          // Check for two emojis and add them both if necessary
-          if (emotion.length === 2) {
-            cell.innerHTML = `<span class="block"> ${getEmoji('emotion', emotion[0])} / ${getEmoji('emotion', emotion[1])}</span> <span class="text-xxs">${emotion.join(', ')}</span>`;
-          } else {
-            cell.innerHTML = `<span class="block"> ${getEmoji('emotion', emotion[0])}</span> <span class="text-xxs">${emotion[0]}</span>`;
-          }
+          cell = populateEmotionCell(cell, emotion, data);
         } else {
           cell.className = 'px-2 py-1 text-center text-xs';
           cell.innerHTML = data;
