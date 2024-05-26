@@ -159,6 +159,9 @@ def plutchik_analyser(analysis: dict) -> dict:
                 if len(data["emotion"]) == 3:
                     data["emotion"].pop("disgust")
                 analysis[category][name]["plutchik"] = return_key_emotion_metrics(data["emotion"])
+                analysis[category][name]["averaged emotions"] = calculate_average(
+                    analysis[category]
+                )
     return analysis
 
 
@@ -234,15 +237,26 @@ def parse_analysis_fields(analysis: dict) -> dict:
     )
 
 
-def return_averages(category: dict) -> dict:
+def calculate_average(category: dict) -> dict:
     """
     Find the average emotions for a group of entities or keywords.
 
     :param category: a dict with string keys and float values
     :return: a dict with string keys and float values representing the average of category
     """
-
-    pass
+    first_entry = next(iter(category.values()))
+    total_sum = {emotion: 0 for emotion in first_entry["emotion"]}
+    total_count = {emotion: 0 for emotion in first_entry["emotion"]}
+    for emotion_dict in category.values():
+        emotions = emotion_dict.get("emotion", {})
+        for emotion, value in emotions.items():
+            total_sum[emotion] += value
+            total_count[emotion] += 1
+    return {
+        emotion: round(total_sum[emotion] / total_count[emotion], 2)
+        for emotion in total_count
+        if total_count[emotion] != 0
+    }
 
 
 def retrieve_tone_analysis(url: str, text: str | None = None) -> dict:
@@ -262,13 +276,7 @@ def retrieve_tone_analysis(url: str, text: str | None = None) -> dict:
     natural_language_understanding.set_service_url(env["url"])
 
     # if text is provided use it for analysis, otherwise use the url
-    source = (
-        {"text": text}
-        if text
-        else {
-            "url": url,
-        }
-    )
+    source = {"text": text} if text else {"url": url}
     # Define features for the analysis
     features = Features(
         emotion=EmotionOptions(document=True),
@@ -287,7 +295,6 @@ def retrieve_tone_analysis(url: str, text: str | None = None) -> dict:
         features=features,
         **source,
     ).get_result()
-    print(response)
     return response
 
 
@@ -316,7 +323,6 @@ def tone_analyser(url: str, text: str | None = None) -> dict:
         parsed_analysis = parse_analysis_fields(analysis)
     plutchik_emotions = plutchik_analyser(parsed_analysis)
     firestore_create("tone", plutchik_emotions)
-    print(plutchik_emotions)
 
 
 tone_analyser(
