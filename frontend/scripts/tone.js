@@ -2,6 +2,43 @@ import ApexCharts from 'apexcharts';
 import { collection, getDocs } from 'firebase/firestore';
 
 import { firestore } from './firebase.js';
+const getEmoji = function (category, value) {
+  if (category === 'type') {
+    switch (value) {
+      case 'Money':
+        return '💰';
+      case 'Organization':
+        return '🏢';
+    }
+  } else if (category === 'sentiment') {
+    switch (value) {
+      case 'positive':
+        return '➕';
+      case 'neutral':
+        return '〰';
+      case 'negative':
+        return '➖';
+    }
+  } else if (category === 'emotion') {
+    switch (value) {
+      case 'pride':
+        return '😤';
+      case 'morbidness':
+        return '😏';
+      case 'joy':
+        return '😊';
+      case 'disgust':
+        return '😖';
+      case 'sadness':
+        return '😢';
+      case 'anger':
+        return '😡';
+      case 'fear':
+        return '😨';
+    }
+  }
+};
+
 async function fetchArticles() {
   // Get the 'articles' collection from Firestore
   const articlesCollection = collection(firestore, 'articles');
@@ -52,45 +89,10 @@ async function fetchArticles() {
       categories: ['Joy', 'Anger', 'Disgust', 'Sadness', 'Fear'],
     },
   };
+  // Check for two emojis and add them both if necessary
   const chart = new ApexCharts(document.querySelector('#chart'), options);
   chart.render();
 
-  const getEmoji = function (category, value) {
-    if (category === 'type') {
-      switch (value) {
-        case 'Money':
-          return '💰';
-        case 'Organization':
-          return '🏢';
-      }
-    } else if (category === 'sentiment') {
-      switch (value) {
-        case 'positive':
-          return '➕';
-        case 'neutral':
-          return '〰';
-        case 'negative':
-          return '➖';
-      }
-    } else if (category === 'emotion') {
-      switch (value) {
-        case 'pride':
-          return '😤';
-        case 'morbidness':
-          return '😏';
-        case 'joy':
-          return '😊';
-        case 'disgust':
-          return '😖';
-        case 'sadness':
-          return '😢';
-        case 'anger':
-          return '😡';
-        case 'fear':
-          return '😨';
-      }
-    }
-  };
   // Grab title page elements
   // if (article.metadata) {
   //  const titleSection = document.getElementById('accordion-color-heading-2')
@@ -109,23 +111,82 @@ async function fetchArticles() {
   docExplanation.innerHTML = `This conclusion was reached by the combination of the strongest emotions displayed
   collectively throughout the text.`;
 
+  // const keywordExplanation = document.getElementById('keyword-explanation');
+  populateKeywordsTable(article.keywords);
+  // Loop through keywords object and print as a list
+  populateEntitiesTable(article.entities);
+  // const entityExplanation = document.getElementById('entity-explanation');
+}
+function populateKeywordsTable(keywords) {
   // Grab keywords page elements
   const keywordResults = document.getElementById('keyword-results');
-  // const keywordExplanation = document.getElementById('keyword-explanation');
 
-  // Loop through keywords object and print as a list
-  Object.entries(article.keywords).forEach((entry) => {
-    const { emotion, sentiment } = entry[1];
-    keywordResults.innerHTML += `<li>"<span class="font-bold">${entry[0]}</span>" - ${Object.keys(emotion)}, sentiment: ${Object.values(sentiment)}"</li>`;
-    // return count of highest emotion
-  });
+  Object.entries(keywords).forEach(
+    ([
+      text,
+      {
+        sentiment: { label: sentiment },
+        plutchik: emotion,
+        relevance,
+      },
+    ]) => {
+      const keywordRow = document.createElement('tr');
+      // return count of highest emotion
+      const cellData = [
+        Math.round((relevance + Number.EPSILON) * 100) / 100,
+        text,
+        emotion,
+        sentiment,
+      ];
 
+      cellData.forEach((data) => {
+        const cell = document.createElement('td');
+
+        if (data === text) {
+          cell.className = 'px-2 py-2 text-center text-md';
+          cell.innerHTML = `
+          <span class="text-sm">${data}</span>`;
+        } else if (data === sentiment) {
+          // Colour the text
+          const colour =
+            sentiment === 'positive'
+              ? 'green-500'
+              : sentiment === 'negative'
+                ? 'red-500'
+                : 'gray-500';
+          cell.className = 'px-2 py-2 text-center text-sm';
+          const span = document.createElement('span');
+          span.className = `text-${colour} text-md`;
+          const emoji = getEmoji('sentiment', sentiment);
+          cell.innerHTML = `
+            <span class='block'>${emoji}</span >
+              <span class="text-sm text-${colour}">${data}</span>`;
+        } else if (data === emotion) {
+          cell.className = 'px-2 py-2 text-center text-sm';
+          // Check for two emojis and add them both if necessary
+          if (emotion.length === 2) {
+            cell.innerHTML = `<span class="block" > ${getEmoji('emotion', emotion[0])} / ${getEmoji('emotion', emotion[1])}</span><span class="text-sm">${emotion.join(', ')}</span>`;
+          } else {
+            cell.innerHTML = `<span class="block">${getEmoji('emotion', emotion[0])}</span><span class="text-sm">${emotion[0]}</span>`;
+          }
+        } else {
+          cell.className = 'px-2 py-1 text-center text-md';
+          cell.innerHTML = data;
+        }
+
+        keywordRow.appendChild(cell);
+      });
+
+      keywordResults.appendChild(keywordRow);
+    },
+  );
+}
+
+function populateEntitiesTable(entities) {
   // Grab entity page elements
-  const entityResultsList = document.getElementById('entity-results-list');
-  // const entityExplanation = document.getElementById('entity-explanation');
-
+  const entityResults = document.getElementById('entity-results');
   // Loop through entities object and append elements to a table
-  Object.entries(article.entities).forEach(
+  Object.entries(entities).forEach(
     ([
       name,
       {
@@ -157,8 +218,8 @@ async function fetchArticles() {
           cell.className = 'px-2 py-2 text-center text-sm';
           const emoji = (cell.innerHTML = getEmoji('type', type));
           cell.innerHTML = `
-          <span class="block">${emoji}</span>
-          <span class="text-xxs">${data}</span>`;
+            <span class="block"> ${emoji}</span>
+            <span class="text-xxs">${data}</span>`;
         }
         // Sentiment (positive, negative, neutral)
         else if (data === sentiment) {
@@ -174,29 +235,27 @@ async function fetchArticles() {
           span.className = `text-${colour} text-xxs`;
           const emoji = getEmoji('sentiment', sentiment);
           cell.innerHTML = `
-          <span class='block'>${emoji}</span>
-          <span class="text-xxs text-${colour}">${data}</span>`;
+            <span class='block'> ${emoji}</span >
+            <span class="text-xxs text-${colour}">${data}</span>`;
         }
         // Emotion
         else if (data === emotion) {
           cell.className = 'px-2 py-2 text-center text-sm';
-          const container = document.createElement('span'); // Create a container span element
+          // Check for two emojis and add them both if necessary
           if (emotion.length === 2) {
-            container.innerHTML = `<span class="block">${getEmoji('emotion', emotion[0])} / ${getEmoji('emotion', emotion[1])}</span> <span class="text-xxs">${emotion.join(', ')}</span>`; // Include both emojis and the text
+            cell.innerHTML = `<span class="block"> ${getEmoji('emotion', emotion[0])} / ${getEmoji('emotion', emotion[1])}</span> <span class="text-xxs">${emotion.join(', ')}</span>`;
           } else {
-            container.innerHTML = `<span class="block"> ${getEmoji('emotion', emotion[0])}</span><span class="text-xxs">${emotion[0]}</span>`; // Include the emoji and the text
+            cell.innerHTML = `<span class="block"> ${getEmoji('emotion', emotion[0])}</span> <span class="text-xxs">${emotion[0]}</span>`;
           }
-          cell.appendChild(container); // Append the container to the cell
         } else {
           cell.className = 'px-2 py-1 text-center text-xs';
           cell.innerHTML = data;
         }
         entityRow.appendChild(cell);
       });
-      entityResultsList.appendChild(entityRow);
+      entityResults.appendChild(entityRow);
     },
   );
 }
-
 // Fetch and display articles on page load
 fetchArticles();
