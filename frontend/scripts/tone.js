@@ -46,7 +46,7 @@ async function fetchArticles() {
   const articlesSnapshot = await getDocs(articlesCollection);
   let firestoreDocument;
   articlesSnapshot.forEach((doc) => {
-    if (doc.id === 'EWUMe4tlNCka6VybDcwk') {
+    if (doc.id === 'SMti7fcbY24SHENQtcji') {
       firestoreDocument = doc.data();
     }
   });

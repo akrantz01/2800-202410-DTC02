@@ -105,24 +105,29 @@ def evaluate_emotion_thresholds(
     emotion_difference: float,
 ) -> list[str]:
     """
-    Compare values in primary and secondary emotions and return a different string or
-    a list of strings with an updated emotion.
+    Compare values in primary and secondary emotions and return a list of one or more strings
+     with updated emotions.
 
     :param primary_emotion: A tuple with a string representing an emotion and a float
                             representing the emotion's strength
     :param seconary_emotion: A tuple with a string representing an emotion and a float
                             representing the emotion's strength
     :param emotion_difference: A float representing the difference between both emotion's values
-    :return: a list with one or two strings representing updated emotions
+    :return: a list with one or two strings representing updated emotions and a string representing
+    the transformation that took place
     """
+    # single intense dominant emotion
     if primary_emotion[1] > 0.5 and emotion_difference > 0.8:
-        return return_dominant_emotion([primary_emotion[0]])
+        return [*return_dominant_emotion(primary_emotion[0]), *["intensified"]]
+    # combination emotion
     elif primary_emotion[1] > 0.3 and emotion_difference < 0.8:
-        return return_combined_emotion((primary_emotion[0], secondary_emotion[0]))
+        return [*return_combined_emotion((primary_emotion[0], secondary_emotion[0])), *["combined"]]
+    # normal form (unchanged top two emotions)
     elif primary_emotion[1] > 0.1:
-        return [primary_emotion[0], secondary_emotion[0]]
+        return [primary_emotion[0], secondary_emotion[0], "unchanged"]
+    # weaker emotions
     else:
-        return return_lesser_emotions((primary_emotion[0], secondary_emotion[0]))
+        return [*return_lesser_emotions((primary_emotion[0], secondary_emotion[0])), *["weakened"]]
 
 
 def plutchik_analyser(analysis: dict) -> dict:
@@ -244,16 +249,18 @@ def calculate_average(category: dict) -> dict:
     :param category: a dict with string keys and float values
     :return: a dict with string keys and float values representing the average of category
     """
+    # grab the first item from the dict without knowing its key name
     first_entry = next(iter(category.values()))
     total_sum = {emotion: 0 for emotion in first_entry["emotion"]}
     total_count = {emotion: 0 for emotion in first_entry["emotion"]}
     for emotion_dict in category.values():
         emotions = emotion_dict.get("emotion", {})
+        # total every emotion value and keep track of how many objects there are
         for emotion, value in emotions.items():
             total_sum[emotion] += value
             total_count[emotion] += 1
     return {
-        emotion: round(total_sum[emotion] / total_count[emotion], 2)
+        emotion: round(total_sum[emotion] / total_count[emotion], 4)
         for emotion in total_count
         if total_count[emotion] != 0
     }
@@ -308,6 +315,7 @@ def tone_analyser(url: str, text: str | None = None) -> dict:
             or floats
     """
     analysis = retrieve_tone_analysis(url, text if text else None)
+    # If URL, send the title from metadata for analysis
     if not text:
         title_analysis = retrieve_tone_analysis("", text=analysis["metadata"]["title"])
 
@@ -326,5 +334,5 @@ def tone_analyser(url: str, text: str | None = None) -> dict:
 
 
 tone_analyser(
-    "https://www.goodnewsnetwork.org/france-celebrates-baguette-on-scratch-and-sniff-stamp-honoring-the-world-heritage-declared-food/",
+    "https://www.foxnews.com/politics/biden-gets-gop-ally-ohio-ballot-access-push-absurd-situation",
 )
