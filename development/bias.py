@@ -15,6 +15,7 @@ from ibm_watson.natural_language_understanding_v1 import (
     SyntaxOptionsTokens,
 )
 from veritasai.config import env
+from veritasai.firebase import get_db
 
 
 def interpret_text(url_input: str = "", text_input: str = "") -> str:
@@ -322,6 +323,39 @@ def score_keywords(keywords: dict) -> float:
     direction_score = (positive_count - negative_count) / len(directions)
     total_score = sum(scores) / len(scores)
     return {"score": total_score, "direction_bias": direction_score}
+
+
+def analyse_bias(
+    article_id: str,
+    url: str = "",
+    text_input: str = "",
+    analysis: str = "",
+    display_sentence_scores: bool = False,
+) -> None:
+    if not analysis:
+        analysis = interpret_text(url_input=url, text_input=text_input)
+    adjective_score = score_adjectives(analysis)
+    pronoun_count = count_pronouns(analysis)
+    pronoun_score = score_pronouns(pronoun_count)
+    keywords = process_keywords(analysis)
+    keywords_score = score_keywords(keywords)
+    if display_sentence_scores:
+        for keyword in keywords:
+            for sentence in keywords[keyword]["sentences"]:
+                sentence["scores"] = get_segment_scores(scan_segments(sentence["text"]))
+
+    get_db().collection("articles").document(article_id).update(
+        {
+            "bias": {
+                "adjectiveScore": adjective_score,
+                "pronounCount": pronoun_count,
+                "pronounScore": pronoun_score,
+                "keywords": keywords,
+                "keywordScore": keywords_score,
+                "sentences": display_sentence_scores,
+            }
+        }
+    )
 
 
 def main():
