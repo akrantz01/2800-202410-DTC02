@@ -87,7 +87,12 @@ def return_lesser_emotions(emotions: tuple) -> list[str]:
 
 
 def return_key_emotion_metrics(emotion_dict: dict) -> list[str]:
-    """ """
+    """
+    Return the updated emotion after analysis.
+
+    :param emotion_dict: a dict whose keys are strings and values are floats
+    :return: a list with one or two strings
+    """
     primary_emotion = max(emotion_dict.items(), key=lambda x: x[1])
     secondary_emotion = min(emotion_dict.items(), key=lambda x: x[1])
     emotion_difference = primary_emotion[1] - secondary_emotion[1]
@@ -230,6 +235,13 @@ def parse_analysis_fields(analysis: dict) -> dict:
 
 
 def return_averages(category: dict) -> dict:
+    """
+    Find the average emotions for a group of entities or keywords.
+
+    :param category: a dict with string keys and float values
+    :return: a dict with string keys and float values representing the average of category
+    """
+
     pass
 
 
