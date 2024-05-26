@@ -166,10 +166,12 @@ def plutchik_analyser(analysis: dict) -> dict:
                     data["emotion"].pop("disgust")
                 analysis[category][name]["plutchik"] = return_key_emotion_metrics(data["emotion"])
 
+            averaged_relevance = calculate_average_relevance(analysis[category])
             averaged_trust = calculate_general_trust(analysis[category])
             averaged_emotions = calculate_average(analysis[category])
             analysis[category]["averaged emotions"] = averaged_emotions
             analysis[category]["general trust"] = averaged_trust
+            analysis[category]["averaged relevance"] = averaged_relevance
     return analysis
 
 
@@ -245,7 +247,22 @@ def parse_analysis_fields(analysis: dict) -> dict:
     )
 
 
-def calculate_general_trust(category: dict) -> dict:
+def calculate_average_relevance(category: dict) -> float:
+    """
+    Return the average relevance score for all entities/keywords in the document.
+
+    :param category: a dict with string keys and float values
+    :return: a float value representing the average relevance amongst all objects
+    """
+    relevance_score = {"relevance": 0, "count": 0}
+    for relevance_dict in category.values():
+        relevance = relevance_dict.get("relevance")
+        relevance_score["relevance"] += relevance
+        relevance_score["count"] += 1
+    return round(relevance_score["relevance"] / relevance_score["count"], 4)
+
+
+def calculate_general_trust(category: dict) -> bool:
     """
     Return whether a group of entities/keywords is generally trusted or not.
 
