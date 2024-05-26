@@ -1,3 +1,4 @@
+from collections import Counter
 from typing import Callable
 
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -165,8 +166,10 @@ def plutchik_analyser(analysis: dict) -> dict:
                     data["emotion"].pop("disgust")
                 analysis[category][name]["plutchik"] = return_key_emotion_metrics(data["emotion"])
 
+            averaged_trust = calculate_general_trust(analysis[category])
             averaged_emotions = calculate_average(analysis[category])
             analysis[category]["averaged emotions"] = averaged_emotions
+            analysis[category]["general trust"] = averaged_trust
     return analysis
 
 
@@ -242,9 +245,21 @@ def parse_analysis_fields(analysis: dict) -> dict:
     )
 
 
+def calculate_general_trust(category: dict) -> dict:
+    """
+    Return whether a group of entities/keywords is generally trusted or not.
+
+    :param category: a dict with string keys and float values
+    :return: a boolean
+    """
+    trust_values = [obj.get("trust") for obj in category.values()]
+    trust_count = Counter(trust_values)
+    return True if trust_count["no"] < trust_count["yes"] else False
+
+
 def calculate_average(category: dict) -> dict:
     """
-    Find the average emotions for a group of entities or keywords.
+    Find the average for a group of entities or keywords.
 
     :param category: a dict with string keys and float values
     :return: a dict with string keys and float values representing the average of category
