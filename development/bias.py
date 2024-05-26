@@ -282,7 +282,10 @@ def average_sentence_length(sentences: dict) -> float:
     for sentence in sentences:
         total += len(sentence["text"])
         count += 1
-    return total / count
+    if count != 0:
+        return total / count
+    else:
+        return 0
 
 
 def score_adjectives(analysis: str) -> float:
@@ -309,7 +312,10 @@ def count_pronouns(analysis: str) -> dict:
 def score_pronouns(pronouns: dict) -> float:
     difference = abs(pronouns["he"] - pronouns["she"])
     total = abs(pronouns["he"] + pronouns["she"])
-    return difference / total
+    if total != 0:
+        return difference / total
+    else:
+        return 0
 
 
 def score_keywords(keywords: dict) -> float:
@@ -367,8 +373,10 @@ def main():
     # print(json.loads(analysis)["keywords"])
     # analysis = interpret_text(text_input=my_input)
     # process_keywords(analysis)
-    score_adjectives(analysis)
-    print(score_keywords(process_keywords(analysis)))
+    # score_adjectives(analysis)
+    # print(score_keywords(process_keywords(analysis)))
+    analyse_bias("gL5po1BLAmwEZ9seMnay", analysis=analysis)
+    print("done")
 
 
 if __name__ == "__main__":
