@@ -20,7 +20,9 @@ from veritasai.firebase import get_db
 
 def interpret_text(url_input: str = "", text_input: str = "") -> str:
     """
-    Interpret text using IBM Watson.
+    Interpret text or URL using IBM Watson.
+
+    If text input is give, it will take priority over URL
 
     :param url_input: a url string
     :param text_input: a text input string
@@ -136,6 +138,9 @@ def get_sentences(analysis: str) -> list[dict]:
 def get_confident_mentions(relevant_entity: dict) -> list[dict]:
     """
     Extract the entity mentions from the relevant entities.
+
+    :param relevant_entity: a single relevant entity response from Watson IBM
+    :return: a list of confident mention dictionaries
     """
     confidence_cutoff = 0.75
 
@@ -149,6 +154,10 @@ def get_confident_mentions(relevant_entity: dict) -> list[dict]:
 def get_mention_sentences(confident_mentions: list[dict], sentences: list[dict]) -> list[dict]:
     """
     Extract sentences that contain relevant keyword mentions.
+
+    :param confident_mentions: a list of confident mentions of a keyword
+    :param sentences: a list of sentences
+    :return: a filtered list of sentences that contain the confident mentions
     """
     mention_locations = map(lambda mention: (mention["location"]), confident_mentions)
     sentences_with_mentions = []
@@ -169,6 +178,10 @@ def get_mention_sentences(confident_mentions: list[dict], sentences: list[dict])
 def get_keyword_sentences(keyword: str, sentences: list[dict]) -> list[dict]:
     """
     Extract sentences that contain relevant keyword mentions.
+
+    :param keyword: a keyword found in the text
+    :param sentences: a list of sentences:
+    :return: a list sentences that contain the keyword
     """
     sentences_with_keywords = []
     sentences_with_keywords += filter(
@@ -181,13 +194,21 @@ def get_keyword_sentences(keyword: str, sentences: list[dict]) -> list[dict]:
 def get_overall_sentiment(analysis: str) -> dict:
     """
     Get the overall sentiment from the scanned text.
+
+    :param analysis: a json string of the scanned analysis
+    :return: the document-level sentiment
     """
     ai_analysis = json.loads(analysis)
     return ai_analysis["sentiment"]["document"]
 
 
 def scan_segments(sentence: str) -> dict:
-    """ """
+    """
+    Scan the segments of a sentence.
+
+    :param sentence: a sentence
+    :return: a dictionary of the segments and their scan results
+    """
     minimum_scan_size = 15
     tokens = sentence.split(" ")
     segments_to_scan = []
@@ -207,7 +228,13 @@ def scan_segments(sentence: str) -> dict:
     return {segment: sentence_scan(segment) for segment in segments_to_scan}
 
 
-def get_segment_scores(segments: dict):
+def get_segment_scores(segments: dict) -> dict:
+    """
+    Extract the emotion and sentiment scores for the segments.
+
+    :param segments: a dictionary of sentence segments and scan results
+    :return: segment emotion and sentiment results
+    """
     segment_scores = {}
     for segment in segments:
         segment_scores[segment] = {}
@@ -223,6 +250,9 @@ def get_overall_relevant_emotions(analysis: str = "", keyword=None) -> dict:
     Get the relevant emotions from the scanned text.
 
     relevant emotions are whichever emotion(s) have scored above the threshold.
+
+    :param analysis: a json string of the scanned analysis
+    :param keyword: extracted keyword - option with default None - overrides analysis
     """
     relevance_threshold = 0.3
     if keyword:
@@ -251,7 +281,15 @@ def get_overall_relevant_emotions(analysis: str = "", keyword=None) -> dict:
     return emotions
 
 
-def process_keywords(analysis: str):
+def process_keywords(analysis: str) -> dict:
+    """
+    Process keywords and entities from the analysis.
+
+    Assign emotion, sentiment, and appearing sentences to each keyword and entity.
+
+    :param analysis: a json string of the scanned analysis
+    :return: a dictionary of keywords, including their sentences, emotion, and sentiment scores
+    """
     sentences = get_sentences(analysis)
     keywords = get_relevant_keywords(analysis)
     keyword_results = {}
@@ -277,6 +315,12 @@ def process_keywords(analysis: str):
 
 
 def score_adjectives(analysis: str) -> float:
+    """
+    Scores the adjectives in the analysis.
+
+    :param analysis: a json string of the scanned analysis
+    :return: a float between [0, 1]
+    """
     ai_analysis = json.loads(analysis)
     tokens = ai_analysis["syntax"]["tokens"]
     sentences = get_sentences(analysis)
@@ -287,6 +331,12 @@ def score_adjectives(analysis: str) -> float:
 
 
 def count_pronouns(analysis: str) -> dict:
+    """
+    Counts the he/she pronouns in the analysis.
+
+    :param analysis: a json string of the scanned analysis
+    :return: a dictionary with counts of he/she occurances
+    """
     ai_analysis = json.loads(analysis)
     tokens = ai_analysis["syntax"]["tokens"]
     pronouns = [token for token in tokens if token["part_of_speech"] == "PRON"]
@@ -298,6 +348,12 @@ def count_pronouns(analysis: str) -> dict:
 
 
 def score_pronouns(pronouns: dict) -> float:
+    """
+    Score the pronouns.
+
+    :param pronouns: a dictionary with counts of he/she occurances
+    :return: a float between [0, 1]
+    """
     difference = abs(pronouns["he"] - pronouns["she"])
     total = abs(pronouns["he"] + pronouns["she"])
     if total != 0:
@@ -307,6 +363,12 @@ def score_pronouns(pronouns: dict) -> float:
 
 
 def score_keywords(keywords: dict) -> float:
+    """
+    Get the overall score for the keywords.
+
+    :param keywords: a dictionary of processed keywords
+    :return: a float between [0, 1]
+    """
     scores = [abs(keywords[keyword]["sentiment"]["score"]) for keyword in keywords]
     directions = [keywords[keyword]["sentiment"]["label"] for keyword in keywords]
     positive_count = 0
@@ -326,6 +388,15 @@ def analyse_bias(
     analysis: str = "",
     display_sentence_scores: bool = False,
 ) -> None:
+    """
+    Analyse the bias of the text and write to firestore.
+
+    :param article_id: the firestore id of the article
+    :param url: the url to be scanned - optional
+    :param text_input: the text to be scanned - optional - overrides the url
+    :param analysis: a json string of the scanned analysis - optional - overrides text_input and url
+    :param display_sentence_scores: boolean indicating sentences should be scored
+    """
     if not analysis:
         analysis = interpret_text(url_input=url, text_input=text_input)
     adjective_score = score_adjectives(analysis)
@@ -337,6 +408,7 @@ def analyse_bias(
         for keyword in keywords:
             for sentence in keywords[keyword]["sentences"]:
                 sentence["scores"] = get_segment_scores(scan_segments(sentence["text"]))
+    total_score = (adjective_score + pronoun_score + keywords_score) / 3
 
     get_db().collection("articles").document(article_id).update(
         {
@@ -347,12 +419,16 @@ def analyse_bias(
                 "keywords": keywords,
                 "keywordScore": keywords_score,
                 "sentences": display_sentence_scores,
+                "biasScore": total_score,
             }
         }
     )
 
 
 def main():
+    """
+    Drive the program.
+    """
     # my_input = "IBM has one of the largest workforces in the world"
     my_url = (
         "https://www.theonion.com/report-school-shootings-either-way-down-or-too-depress-1851499800"
