@@ -2,69 +2,10 @@ import ApexCharts from 'apexcharts';
 import { collection, getDocs } from 'firebase/firestore';
 
 import { firestore } from './firebase.js';
-const getEmoji = function (category, value) {
-  if (category === 'type') {
-    switch (value) {
-      case 'Money':
-        return '💰';
-      case 'Organization':
-        return '🏢';
-    }
-  } else if (category === 'sentiment') {
-    switch (value) {
-      case 'positive':
-        return '➕';
-      case 'neutral':
-        return '〰';
-      case 'negative':
-        return '➖';
-    }
-  } else if (category === 'emotion') {
-    switch (value) {
-      case 'pride':
-        return '😤';
-      case 'morbidness':
-        return '😏';
-      case 'joy':
-        return '😊';
-      case 'disgust':
-        return '😖';
-      case 'sadness':
-        return '😢';
-      case 'anger':
-        return '😡';
-      case 'fear':
-        return '😨';
-    }
-  }
-};
 
-async function fetchArticles() {
-  // Get the 'articles' collection from Firestore
-  const articlesCollection = collection(firestore, 'articles');
-  // Fetch all documents from the 'articles' collection
-  const articlesSnapshot = await getDocs(articlesCollection);
-  let firestoreDocument;
-  articlesSnapshot.forEach((doc) => {
-    if (doc.id === 'J1gwG4YR1y5EMZITRg1a') {
-      firestoreDocument = doc.data();
-    }
-  });
-  // Map the documents to an array of data
-  // const articlesList = articlesSnapshot.docs.map((doc) => doc.data());
-
-  // Grab the newest article only
-  // const articlesListSorted = articlesList.sort((a, b) => b.timestamp - a.timestamp);
-  // const newestArticle = articlesListSorted[0];
-
-  // Grab the relevant fields of the document
-  const article = firestoreDocument.tone;
-  const docEmotion = firestoreDocument.tone.document.emotion;
-  const entityEmotions = firestoreDocument.tone.entities['averaged emotions'];
-  const keywordEmotions = firestoreDocument.tone.entities['averaged emotions'];
-  // Populate options in radar chart
+function createApexChart(docEmotion, entityEmotions, keywordEmotions) {
   const options = {
-    // radar chart
+    // Populate options in radar chart
     series: [
       {
         name: 'Entire Article',
@@ -104,9 +45,6 @@ async function fetchArticles() {
       height: 350,
       type: 'radar',
     },
-    // title: {
-    //   text: 'Basic Radar Chart',
-    // },
     yaxis: {
       forceNiceScale: true,
     },
@@ -115,9 +53,80 @@ async function fetchArticles() {
       categories: ['Joy', 'Anger', 'Disgust', 'Sadness', 'Fear'],
     },
   };
-  // Check for two emojis and add them both if necessary
   const chart = new ApexCharts(document.querySelector('#chart'), options);
   chart.render();
+}
+
+function createSpan(emoji, data, colour = '') {
+  // return span blocks for table cells with emojis stacked on text
+  return `<span class='block'>${emoji}</span>
+            <span class="text-xxs text-${colour}">${data}</span>`;
+}
+
+async function fetchData() {
+  // Get the 'articles' collection from Firestore
+  const articlesCollection = collection(firestore, 'articles');
+  // Fetch all documents from the 'articles' collection
+  const articlesSnapshot = await getDocs(articlesCollection);
+  let firestoreDocument;
+  articlesSnapshot.forEach((doc) => {
+    if (doc.id === 'J1gwG4YR1y5EMZITRg1a') {
+      firestoreDocument = doc.data();
+    }
+  });
+  return {
+    article: firestoreDocument.tone,
+    docEmotion: firestoreDocument.tone.document.emotion,
+    entityEmotion: firestoreDocument.tone.entities['averaged emotions'],
+    keywordEmotion: firestoreDocument.tone.keywords['averaged emotions'],
+  };
+}
+
+// return emoji for a table cell
+const getEmoji = function (category, value) {
+  if (category === 'type') {
+    switch (value) {
+      case 'Money':
+        return '💰';
+      case 'Organization':
+        return '🏢';
+    }
+  } else if (category === 'sentiment') {
+    switch (value) {
+      case 'positive':
+        return '➕';
+      case 'neutral':
+        return '〰';
+      case 'negative':
+        return '➖';
+    }
+  } else if (category === 'emotion') {
+    switch (value) {
+      case 'pride':
+        return '😤';
+      case 'morbidness':
+        return '😏';
+      case 'joy':
+        return '😊';
+      case 'disgust':
+        return '😖';
+      case 'sadness':
+        return '😢';
+      case 'anger':
+        return '😡';
+      case 'fear':
+        return '😨';
+    }
+  }
+};
+
+// TODO: function prepareSummary(section, category) {
+// return a string summary for a section based on the contents of the category object
+// }
+
+function loadPageElements(article) {
+  // create the Apex Chart
+  // createApexChart(docEmotion, entityEmotions, keywordEmotions);
 
   // Grab title page elements
   // if (article.metadata) {
@@ -125,146 +134,90 @@ async function fetchArticles() {
   //  titleSection.classList.remove("hidden")
   //  const titleResults = document.getElementById('title-results');
   //  const titleExplanation = document.getElementById('title-explanation');
-
   // }
-  // Display document results
-  //
 
-  // Grab documents page elements
   const docResults = document.getElementById('document-results');
   const docExplanation = document.getElementById('document-explanation');
   docResults.innerHTML = `This article suggests an overall feeling of ${article.document.plutchik}`;
   docExplanation.innerHTML = `This conclusion was reached by the combination of the strongest emotions displayed
   collectively throughout the text.`;
 
-  // const keywordExplanation = document.getElementById('keyword-explanation');
   populateKeywordsTable(article.keywords);
-  // Loop through keywords object and print as a list
   populateEntitiesTable(article.entities);
-  // const entityExplanation = document.getElementById('entity-explanation');
 }
-function populateSentimentCell(cell, sentiment, data) {
-  // Colour the text
-  const colour =
-    sentiment === 'positive' ? 'green-500' : sentiment === 'negative' ? 'red-500' : 'gray-500';
-  cell.className = 'px-2 py-2 text-center text-sm';
-  const span = document.createElement('span');
-  span.className = `text-${colour} text-xxs`;
-  const emoji = getEmoji('sentiment', sentiment);
-  cell.innerHTML = `
-            <span class='block'> ${emoji}</span >
-            <span class="text-xxs text-${colour}">${data}</span>`;
-  return cell;
-}
+
+const notInsideEntityOrKeyword = function (text) {
+  // checks if you are on the root level of a collection or inside of an entity/keyword
+  return !['averaged emotions', 'averaged relevance', 'emotion trend', 'general trust'].includes(
+    text,
+  );
+};
+
+// populate an emotion cell with one or two emojis separated with a /
+// and one or more strings separated with a comma
 function populateEmotionCell(cell, emotion) {
-  cell.className = 'px-2 py-2 text-center text-sm';
+  cell.className = returnCellStyles('sm');
 
   // Display one emoji and emotion text underneath
   if (emotion.length === 2) {
     cell.innerHTML = `<span class="block">${getEmoji('emotion', emotion[0])}</span><span class="text-xxs">${emotion[0]}</span>`;
     // display two emojis separated by a slash, and the two emotions underneath
   } else if (emotion.length === 3) {
-    const emojis = emotion
+    const emojis = emotion // slice the emotion name from text and grab both emojis
       .slice(0, 2)
-      .map((e) => getEmoji('emotion', e))
+      .map((e) => getEmoji('emotion', e)) // concatenate the emojis and join with a '/'
       .join(' / ');
     cell.innerHTML = `<span class="block">${emojis}</span><span class="text-xxs">${emotion[0]}, ${emotion[1]}</span>`;
   }
-
   return cell;
 }
-function populateKeywordsTable(keywords) {
-  // Grab keywords page elements
-  const keywordResults = document.getElementById('keyword-results');
 
-  // loop through every keyword in the object
-  Object.entries(keywords).forEach(([text, keyword]) => {
-    if (
-      text !== 'averaged emotions' &&
-      text !== 'averaged relevance' &&
-      text !== 'emotion trend' &&
-      text !== 'general trust'
-    ) {
-      const {
-        sentiment: { label: sentiment },
-        plutchik: emotion,
-        relevance,
-      } = keyword;
-      const keywordRow = document.createElement('tr');
-      // return count of highest emotion
-      const cellData = [
-        Math.round((relevance + Number.EPSILON) * 100) / 100,
-        text,
-        emotion,
-        sentiment,
-      ];
-
-      // loop through each table cell
-      cellData.forEach((data) => {
-        let cell = document.createElement('td');
-
-        if (data === text) {
-          cell.className = 'px-2 py-2 text-center text-md';
-          cell.innerHTML = `
-          <span class="text-sm">${data}</span>`;
-        } else if (data === sentiment) {
-          cell = populateSentimentCell(cell, sentiment, data);
-        } else if (data === emotion) {
-          cell = populateEmotionCell(cell, emotion);
-        } else {
-          cell.className = 'px-2 py-1 text-center text-md';
-          cell.innerHTML = data;
-        }
-
-        keywordRow.appendChild(cell);
-      });
-
-      keywordResults.appendChild(keywordRow);
-    }
-  });
+// populate a sentiment cell with an emoji and coloured text
+function populateSentimentCell(cell, sentiment, data) {
+  const colour =
+    sentiment === 'positive' ? 'green-500' : sentiment === 'negative' ? 'red-500' : 'gray-500';
+  cell.className = returnCellStyles('sm');
+  const emoji = getEmoji('sentiment', sentiment);
+  cell.innerHTML = createSpan(emoji, data, colour);
+  return cell;
 }
 
+// populate the entities section of the page
 function populateEntitiesTable(entities) {
-  // Grab entity page elements
   const entityResults = document.getElementById('entity-results');
+
   // Loop through entities object and append elements to a table
   Object.entries(entities).forEach(([name, keyword]) => {
-    if (
-      name !== 'averaged emotions' &&
-      name !== 'averaged relevance' &&
-      name !== 'emotion trend' &&
-      name !== 'general trust'
-    ) {
-      // if (name !== 'averaged emotions' && name !== 'averaged relevance' && name !== 'emotion trend' && name !== 'general trust') {
-      // destructure the object for ease of reference
+    if (notInsideEntityOrKeyword(name)) {
       const {
+        // destructure the object for ease of reference
         type,
         count,
         sentiment: { label: sentiment },
         plutchik: emotion,
         relevance,
       } = keyword;
-      // create the row
+
       const entityRow = document.createElement('tr');
-      // Round float to two decimal places
+
       const cellData = [
-        Math.round((relevance + Number.EPSILON) * 100) / 100,
+        Math.round((relevance + Number.EPSILON) * 100) / 100, // Round float to two decimal places
         name,
         type,
         emotion,
         sentiment,
         count,
       ];
+
       // populate the data into table cells
       cellData.forEach((data) => {
         let cell = document.createElement('td');
+        cell.className = returnCellStyles('sm');
+
         // Entity type (person, organization, ...)
         if (data === type) {
-          cell.className = 'px-2 py-2 text-center text-sm';
           const emoji = (cell.innerHTML = getEmoji('type', type));
-          cell.innerHTML = `
-            <span class="block"> ${emoji}</span>
-            <span class="text-xxs">${data}</span>`;
+          cell.innerHTML = createSpan(emoji, data);
         }
         // Sentiment (positive, negative, neutral)
         else if (data === sentiment) {
@@ -274,7 +227,6 @@ function populateEntitiesTable(entities) {
         else if (data === emotion) {
           cell = populateEmotionCell(cell, emotion, data);
         } else {
-          cell.className = 'px-2 py-1 text-center text-xs';
           cell.innerHTML = data;
         }
         entityRow.appendChild(cell);
@@ -283,5 +235,54 @@ function populateEntitiesTable(entities) {
     }
   });
 }
-// Fetch and display articles on page load
-fetchArticles();
+
+// populate the keywords section of the page
+function populateKeywordsTable(keywords) {
+  const keywordResults = document.getElementById('keyword-results');
+
+  Object.entries(keywords).forEach(([text, keyword]) => {
+    if (notInsideEntityOrKeyword(text)) {
+      const {
+        // destructuring for easier referencing inside object
+        sentiment: { label: sentiment },
+        plutchik: emotion,
+        relevance,
+      } = keyword;
+
+      const keywordRow = document.createElement('tr');
+
+      const cellData = [
+        // round the float to two digits
+        Math.round((relevance + Number.EPSILON) * 100) / 100,
+        text,
+        emotion,
+        sentiment,
+      ];
+
+      // loop through each table cell
+      cellData.forEach((data) => {
+        let cell = document.createElement('td');
+        cell.className = returnCellStyles('md');
+
+        if (data === text) {
+          cell.innerHTML = `<span class="text-sm">${data}</span>`;
+        } else if (data === sentiment) {
+          cell = populateSentimentCell(cell, sentiment, data);
+        } else if (data === emotion) {
+          cell = populateEmotionCell(cell, emotion);
+        } else {
+          cell.innerHTML = data;
+        }
+        keywordRow.appendChild(cell);
+      });
+      keywordResults.appendChild(keywordRow);
+    }
+  });
+}
+
+const returnCellStyles = (size) => `px-2 py-2 text-center text-${size}`; // tailwind classes for table cell
+
+// load the page
+const { article, docEmotion, entityEmotion, keywordEmotion } = await fetchData();
+createApexChart(docEmotion, entityEmotion, keywordEmotion);
+loadPageElements(article);
