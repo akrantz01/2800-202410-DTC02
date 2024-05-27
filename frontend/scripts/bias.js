@@ -74,7 +74,7 @@ async function getBias(articleID) {
 
 function writeSentences() {
   Object.keys(bias.keywords).forEach((keyword) => {
-    let currentWord = bias.keywords[keyword];
+    const currentWord = bias.keywords[keyword];
     const biasTemplate = document.getElementById('bias-card');
     const newBias = biasTemplate.content.cloneNode(true);
     newBias.querySelector('.keyword').innerHTML = keyword;
@@ -106,7 +106,11 @@ function veritasResponse(keyword, keywordObject) {
   </div>
   <p class="text-l">${(keywordObject.sentiment.score * 100).toFixed()}%</p>
   </div>`;
-  keywordObject.sentences.forEach((sentence) => {});
+  if (bias.sentences) {
+    veritas += '<p>';
+    keywordObject.sentences.forEach((sentence) => {});
+  }
+
   return veritas;
 }
 
@@ -120,12 +124,12 @@ function populateBiasScores() {
   const adjectiveOverallScore = parseFloat(bias.adjectiveScore.toFixed(2));
   const biasTotal = pronounBias + keywordOverallScore + adjectiveOverallScore;
   let keywordBiasPercent = (keywordOverallScore / biasTotal) * 100;
-  keywordBiasPercent.toFixed(2);
+  keywordBiasPercent = keywordBiasPercent.toFixed(2);
   let pronounBiasPercent = (pronounBias / biasTotal) * 100;
-  pronounBiasPercent.toFixed(2);
+  pronounBiasPercent = pronounBiasPercent.toFixed(2);
   let adjectiveBiasPercent = (adjectiveOverallScore / biasTotal) * 100;
-  adjectiveBiasPercent.toFixed(2);
-  let biasScores = {
+  adjectiveBiasPercent = adjectiveBiasPercent.toFixed(2);
+  const biasScores = {
     language: keywordBiasPercent,
     gender: pronounBiasPercent,
     opinion: adjectiveBiasPercent,
