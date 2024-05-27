@@ -199,6 +199,28 @@ def update_author_ai(author_id: str = "", author_name: str = "") -> None:
     author_ref.update({"aiScore": total_score / total_count})
 
 
+def update_publisher_bias(publisher_id: str = "", publisher_name: str = "") -> None:
+    """
+    Update the publisher bias score in firestore.
+
+    :param publisher_id" the firestore id for the publisher - optional
+    :param publisher_name: the name of the publisher if id is not available
+                          - optional - overrides id
+    """
+    if publisher_name:
+        publisher_id = get_publisher_id(publisher_name)
+    publisher_ref = get_db().collection("publishers").document(publisher_id)
+    publisher = publisher_ref.get().to_dict()
+    total_score = 0
+    total_count = 0
+    for article in publisher["articles"]:
+        total_score += float(
+            get_db().collection("articles").document(article).get().to_dict()["biasScore"]
+        )
+        total_count += 1
+    publisher_ref.update({"biasScore": total_score / total_count})
+
+
 def main():
     """
     Drive the program.
@@ -216,7 +238,7 @@ def main():
     # print(get_publisher_id("Questionable News"))
     # assign_article("demo")
     # add_history("demo", "K8n5TZsfPogedpftAREoQVhJ7Dc2")
-    update_author_ai(author_name="John Smith")
+    update_publisher_bias(publisher_name="Fun Time News")
 
 
 if __name__ == "__main__":
