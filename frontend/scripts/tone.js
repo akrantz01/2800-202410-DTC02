@@ -66,10 +66,8 @@ function createSpan(emoji, data, colour = '') {
             <span class="text-xxs text-${colour}">${data}</span>`;
 }
 
-const evaluateTrust = function (analysisType, trustResult) {
-  if (analysisType === 'document') {
-    return trustResult === 'yes' ? 'trustworthy' : 'untrustworthy';
-  }
+const evaluateTrust = function (trustResult) {
+  return trustResult === 'yes' ? 'trustworthy' : 'untrustworthy';
 };
 async function fetchData() {
   // Get the 'articles' collection from Firestore
@@ -130,20 +128,20 @@ const getEmoji = function (category, value) {
 
 function emotionIntensity(intensity) {
   if (intensity === 'unchanged') {
-    return ['average intensity', 'The emotions were left unchanged due to an average score'];
+    return ['average intensity', 'were left unchanged due to an average score'];
   }
   if (intensity === 'combined') {
     return [
       'moderately strong intensity',
-      'The primary two emotions had close enough values and were high enough to constitute combining them',
+      'had close enough values and were high enough to constitute combining them into a stronger emotion',
     ];
   }
   if (intensity === 'weakened') {
-    return ['weak intensity', 'The emotions were renamed to reflect a very low intensity'];
+    return ['weak intensity', 'were renamed to reflect a very low intensity'];
   } else {
     return [
       'very strong intensity',
-      'This emotion stood out very strongly amidst the others and was renamed to reflect its intensity',
+      'had a strong outlier that dominated the others and as a result the intensity was renamed to reflect intensity of the single emotion',
     ];
   }
 }
@@ -157,6 +155,39 @@ function emotionSummary(type, article, intensity) {
     }
   }
 }
+function emotionSummaryObjects(type, trend) {
+  const trendArray = Object.entries(trend);
+  // sort keys, values from largest to smallest
+  trendArray.sort((a, b) => b[1] - a[1]);
+
+  let analysisString = ``;
+  trendArray.forEach(([key, value]) => {
+    const summary = emotionIntensity(key)[1];
+    // add a conjunction if this isn't the first part of the string
+    analysisString = analysisString.length === 0 ? '' : analysisString + ' and ';
+    if (value > 0.7) {
+      analysisString += `most ${type} emotions ${summary}`;
+    } else if (value > 0.5) {
+      analysisString += `the majority of ${type} emotions ${summary}`;
+    } else if (value > 0.3) {
+      analysisString += `a significant portion of ${type} emotions ${summary}`;
+    } else {
+      analysisString += `a small percentage of ${type} emotions ${summary}`;
+    }
+  });
+  return analysisString.charAt(0).toUpperCase() + analysisString.slice(1);
+}
+function relevanceSummary(type, article) {
+  if (article['averaged relevance'] > 0.9) {
+    return `The ${type} for this article are <span class="font-bold">extremely relevant</span> overall`;
+  } else if (article['averaged relevance'] > 0.7) {
+    return `The ${type} for this article are <span class="font-bold">mostly relevant</span> overall`;
+  } else if (article['averaged relevance'] > 0.5) {
+    return `The ${type} for this article are of <span class="font-bold">average relevance</span> overall`;
+  } else {
+    return `The ${type} for this article are <span class="font-bold">minimal relevance</span> overall`;
+  }
+}
 
 function prepareSummary(section, article) {
   // return a string summary for a section based on the contents of the category object
@@ -166,8 +197,15 @@ function prepareSummary(section, article) {
     const docExplanation = document.getElementById('document-explanation');
     const lastElement = article.plutchik[article.plutchik.length - 1];
     const intensity = emotionIntensity(lastElement);
-    docResults.innerHTML = `${sentimentSummary('document', article)}. ${emotionSummary('document', article, intensity[0])}. The article may feel ${evaluateTrust('document', article.trust)} to readers.`;
-    docExplanation.innerHTML = `${intensity[1]}. Trust is evaluated as true only when a document's 'disgust' rating is close to zero.`;
+    docResults.innerHTML = `${sentimentSummary(article)}. The emotions were ${emotionSummary('document', article, intensity[0])}. The article may feel ${evaluateTrust(article.trust)} to readers.`;
+    docExplanation.innerHTML = `The emotions ${intensity[1]}. Trust is evaluated as true only when a document's 'disgust' rating is close to zero.`;
+  }
+  if (section === 'keywords' || section === 'entities') {
+    const explanationElement =
+      section === 'keywords'
+        ? document.getElementById('keyword-explanation')
+        : document.getElementById('entity-explanation');
+    explanationElement.innerHTML = `${relevanceSummary(section, article)}. ${emotionSummaryObjects(section, article['emotion trend'])}. The ${section} overall felt <span class="font-bold">${evaluateTrust(article.trust)}</span> to readers.`;
   }
 }
 
