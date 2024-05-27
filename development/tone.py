@@ -131,14 +131,56 @@ def evaluate_emotion_thresholds(
         return [*return_lesser_emotions((primary_emotion[0], secondary_emotion[0])), *["weakened"]]
 
 
+def calculate_averages_and_trends(data: dict) -> tuple[dict, bool, dict, dict]:
+    """
+    Send a dict off to analyzers and aggregate and return the results.
+
+    :param data: a dict of keywords or entities full of different objects containing
+    emotion, relevance, trust keys
+    :return: a tuple of dicts and a bool
+    """
+    averaged_emotion_trend = calculate_emotional_trend(data)
+    averaged_relevance = calculate_average_relevance(data)
+    averaged_trust = calculate_general_trust(data)
+    averaged_emotions = calculate_average(data)
+    return averaged_emotions, averaged_trust, averaged_relevance, averaged_emotion_trend
+
+
+def process_category(category_data: dict):
+    """
+    Take a dictionary full of similar structured items and add new keys/values to it
+    representing the averages for each items emotion, trust, relevance,
+    and emotional transformations.
+
+    :param category_data: A keywords or entities dictionary with separate objects
+    containing emotion, trust, relevance and plutchik keys
+    """
+    for _, data in category_data.items():
+        data["trust"] = "no" if not evaluate_trust(data) else "yes"
+        if len(data["emotion"]) == 3:
+            data["emotion"].pop("disgust")
+        data["plutchik"] = return_key_emotion_metrics(data["emotion"])
+
+    # call a function to calculate metrics and unpack the returned tuple into variables
+    averaged_emotions, averaged_trust, averaged_relevance, averaged_emotion_trend = (
+        calculate_averages_and_trends(category_data)
+    )
+    category_data["averaged emotions"] = averaged_emotions
+    category_data["general trust"] = averaged_trust
+    category_data["averaged relevance"] = averaged_relevance
+    category_data["emotion trend"] = averaged_emotion_trend
+    return
+
+
 def plutchik_analyser(analysis: dict) -> dict:
     """
-    Return combinations of emotions according to Plutchik's emotion dyads.
+    Receive an IBM Watson response dictionary and call functions to add relevant analysis
+    before returning to frontend.
 
-    :param analysis: A dict with keys for title, document, keywords and entities
-            and dict values that contain keys of emotion and sentiment
-    :return: A dict resembling analysis param with a key of trust with a boolean value
-            and a key of plutchik whose value is a list of one or more strings
+    :param analysis: a dict of keywords, entities, document, objects with nested dictionaries
+    for emotions, sentiment, and relevance
+    :return: a smaller dict with filtered versions of the same dictionaries along with new
+    keys and values for emotion trends, general trust, average relevance, and averaged emotions
     """
     categories = (
         ["title", "document", "keywords", "entities"]
@@ -155,25 +197,10 @@ def plutchik_analyser(analysis: dict) -> dict:
             )
             if len(category_emotions) == 3:
                 category_emotions.pop("disgust")
-            # document still has all of it's emotions stored, so grab the top two first
             analysis[category]["plutchik"] = return_key_emotion_metrics(category_emotions)
         else:
-            for name, data in analysis[category].items():
-                analysis[category][name]["trust"] = (
-                    "no" if not evaluate_trust(analysis[category][name]) else "yes"
-                )
-                if len(data["emotion"]) == 3:
-                    data["emotion"].pop("disgust")
-                analysis[category][name]["plutchik"] = return_key_emotion_metrics(data["emotion"])
+            process_category(analysis[category])
 
-            averaged_emotion_trend = calculate_emotional_trend(analysis[category])
-            averaged_relevance = calculate_average_relevance(analysis[category])
-            averaged_trust = calculate_general_trust(analysis[category])
-            averaged_emotions = calculate_average(analysis[category])
-            analysis[category]["averaged emotions"] = averaged_emotions
-            analysis[category]["general trust"] = averaged_trust
-            analysis[category]["averaged relevance"] = averaged_relevance
-            analysis[category]["emotion trend"] = averaged_emotion_trend
     return analysis
 
 
@@ -247,14 +274,6 @@ def parse_analysis_fields(analysis: dict) -> dict:
         if metadata
         else document_stats | keyword_stats | entity_stats
     )
-
-
-def calculate_averages_and_trends(data):
-    averaged_emotion_trend = calculate_emotional_trend(data)
-    averaged_relevance = calculate_average_relevance(data)
-    averaged_trust = calculate_general_trust(data)
-    averaged_emotions = calculate_average(data)
-    return averaged_emotions, averaged_trust, averaged_relevance, averaged_emotion_trend
 
 
 def calculate_average_relevance(category: dict) -> float:
