@@ -172,7 +172,7 @@ def update_author_bias(author_id: str = "", author_name: str = "") -> None:
     total_count = 0
     for article in author["articles"]:
         total_score += float(
-            get_db().collection("articles").document(article).get().to_dict()["biasScore"]
+            get_db().collection("articles").document(article).get().to_dict()["bias"]["biasScore"]
         )
         total_count += 1
     author_ref.update({"biasScore": total_score / total_count})
@@ -215,7 +215,7 @@ def update_publisher_bias(publisher_id: str = "", publisher_name: str = "") -> N
     total_count = 0
     for article in publisher["articles"]:
         total_score += float(
-            get_db().collection("articles").document(article).get().to_dict()["biasScore"]
+            get_db().collection("articles").document(article).get().to_dict()["bias"]["biasScore"]
         )
         total_count += 1
     publisher_ref.update({"biasScore": total_score / total_count})
