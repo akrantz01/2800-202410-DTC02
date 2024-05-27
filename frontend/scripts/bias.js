@@ -2,7 +2,7 @@ import { doc, getDoc } from 'firebase/firestore';
 
 import { firestore } from './firebase.js';
 
-let bias = undefined;
+let bias;
 
 function getChartOptions(biasScores) {
   return {
@@ -94,30 +94,31 @@ function writeSentences() {
 
 function veritasResponse(keyword, keywordObject) {
   let veritas = `
-  The language in the sentence has a ${keywordObject.sentiment['label']} outlook on the entity "${keyword}"
+  The language in the sentence has a ${keywordObject.sentiment.label} outlook on the entity "${keyword}"
   <div class="flex items-center gap-4">
   <div class="bg-gray-200 rounded-full h-2.5 flex  w-[150px]">
     <div
-      class="language-gauge bg-${keywordObject.sentiment['label'] === 'negative' ? 'red-500' : 'primary'} h-2.5 rounded-full"
-      style="width: ${Math.abs(keywordObject.sentiment['score']) * 100}%"
+      class="language-gauge bg-${keywordObject.sentiment.label === 'negative' ? 'red-500' : 'primary'} h-2.5 rounded-full"
+      style="width: ${Math.abs(keywordObject.sentiment.score) * 100}%"
       name="language-bias-gauge"
     ></div>
           
   </div>
-  <p class="text-l">${(keywordObject.sentiment['score'] * 100).toFixed()}%</p>
+  <p class="text-l">${(keywordObject.sentiment.score * 100).toFixed()}%</p>
   </div>`;
   keywordObject.sentences.forEach((sentence) => {});
+  return veritas;
 }
 
 function populateBiasScores() {
-  let overallBias = parseFloat(bias.biasScore.toFixed(2));
-  let pronounBias = parseFloat(bias.pronounScore.toFixed(2));
-  let maleCount = bias.pronounCount.he;
-  let femaleCount = bias.pronounCount.she;
-  let keywordDirectionScore = parseFloat(bias.keywordScore.direction_bias.toFixed(2));
-  let keywordOverallScore = parseFloat(bias.keywordScore.score.toFixed(2));
-  let adjectiveOverallScore = parseFloat(bias.adjectiveScore.toFixed(2));
-  let biasTotal = pronounBias + keywordOverallScore + adjectiveOverallScore;
+  const overallBias = parseFloat(bias.biasScore.toFixed(2));
+  const pronounBias = parseFloat(bias.pronounScore.toFixed(2));
+  const maleCount = bias.pronounCount.he;
+  const femaleCount = bias.pronounCount.she;
+  const keywordDirectionScore = parseFloat(bias.keywordScore.direction_bias.toFixed(2));
+  const keywordOverallScore = parseFloat(bias.keywordScore.score.toFixed(2));
+  const adjectiveOverallScore = parseFloat(bias.adjectiveScore.toFixed(2));
+  const biasTotal = pronounBias + keywordOverallScore + adjectiveOverallScore;
   let keywordBiasPercent = (keywordOverallScore / biasTotal) * 100;
   keywordBiasPercent.toFixed(2);
   let pronounBiasPercent = (pronounBias / biasTotal) * 100;
