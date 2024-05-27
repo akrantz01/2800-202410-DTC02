@@ -166,12 +166,14 @@ def plutchik_analyser(analysis: dict) -> dict:
                     data["emotion"].pop("disgust")
                 analysis[category][name]["plutchik"] = return_key_emotion_metrics(data["emotion"])
 
+            averaged_emotion_trend = calculate_emotional_trend(analysis[category])
             averaged_relevance = calculate_average_relevance(analysis[category])
             averaged_trust = calculate_general_trust(analysis[category])
             averaged_emotions = calculate_average(analysis[category])
             analysis[category]["averaged emotions"] = averaged_emotions
             analysis[category]["general trust"] = averaged_trust
             analysis[category]["averaged relevance"] = averaged_relevance
+            analysis[category]["emotion trend"] = averaged_emotion_trend
     return analysis
 
 
@@ -247,6 +249,14 @@ def parse_analysis_fields(analysis: dict) -> dict:
     )
 
 
+def calculate_averages_and_trends(data):
+    averaged_emotion_trend = calculate_emotional_trend(data)
+    averaged_relevance = calculate_average_relevance(data)
+    averaged_trust = calculate_general_trust(data)
+    averaged_emotions = calculate_average(data)
+    return averaged_emotions, averaged_trust, averaged_relevance, averaged_emotion_trend
+
+
 def calculate_average_relevance(category: dict) -> float:
     """
     Return the average relevance score for all entities/keywords in the document.
@@ -272,6 +282,25 @@ def calculate_general_trust(category: dict) -> bool:
     trust_values = [obj.get("trust") for obj in category.values()]
     trust_count = Counter(trust_values)
     return True if trust_count["no"] < trust_count["yes"] else False
+
+
+def calculate_emotional_trend(category: dict) -> dict:
+    """
+    Return the average emotional intensity or trust for a group of entities/keywords.
+
+    :param category: a dict with string keys and float values
+    :return: a dict with a string key representing the most common emotion analysis transformation
+            and a float value represtining the percentage of all objects it represents
+    """
+    transform_counter = {}
+    total_count = 0
+    for _, value in category.items():
+        plutchik_transform = value["plutchik"][-1]
+        transform_counter[plutchik_transform] = transform_counter.get(plutchik_transform, 0) + 1
+        total_count += 1
+    for word, count in transform_counter.items():
+        transform_counter[word] = round(count / total_count, 2)
+    return transform_counter
 
 
 def calculate_average(category: dict) -> dict:
