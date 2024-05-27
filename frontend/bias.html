@@ -26,12 +26,12 @@
   </head>
 
   <body
-    class="font-roboto bg-gradient-to-b from-white to-gray-300 bg-auto bg-no-repeat min-h-screen pb-12"
+    class="font-roboto bg-gradient-to-b from-white to-gray-300 bg-auto bg-no-repeat items-center container pb-12 pt-14 min-h-screen md:max-w-sm mx-auto"
   >
     <header id="header-placeholder"></header>
 
     <div id="analysis-navigation-placeholder"></div>
-
+    
     <!-- Bias Types -->
     <div id="fact-cards" class="flex flex-col space-y-2 p-4 mb-20 items-center">
       <!-- Pie Chart Placeholder -->
@@ -653,19 +653,23 @@
               ducimus fuga officiis illo vitae consectetur eaque totam delectus. Animi, non
               laudantium.
             </p>
-            <div class="flex flex-row justify-between items-center">
-              <a
-                href="#"
-                class="inline-flex mx-0.5 font-medium items-center text-blue-400 hover:underline"
-              >
-                Learn More
-                <svg
-                  class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 18 18"
-                >
+
+          <div class="flex flex-row justify-between items-center">
+            <!-- Redirect to learn page
+            Example: https://example.com/learn.html?bias=Confirmation%20Bias -->
+            <a
+              id="bias-link"
+              href="#"
+              class="inline-flex mx-0.5 font-medium items-center text-blue-400 hover:underline"
+            >
+              Learn More
+              <svg
+                class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 18 18"
+                   >
                   <path
                     stroke="currentColor"
                     stroke-linecap="round"
@@ -682,10 +686,9 @@
     </div>
 
     <footer id="footer-placeholder"></footer>
+
     <script type="module" src="scripts/nav-bar-logic.js"></script>
-
     <script type="module" src="scripts/analysis-navigation.js"></script>
-
     <script
       type="module"
       src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"
