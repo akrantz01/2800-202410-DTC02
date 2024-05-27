@@ -46,7 +46,7 @@ async function fetchArticles() {
   const articlesSnapshot = await getDocs(articlesCollection);
   let firestoreDocument;
   articlesSnapshot.forEach((doc) => {
-    if (doc.id === 'SMti7fcbY24SHENQtcji') {
+    if (doc.id === 'J1gwG4YR1y5EMZITRg1a') {
       firestoreDocument = doc.data();
     }
   });
@@ -62,7 +62,6 @@ async function fetchArticles() {
   const docEmotion = firestoreDocument.tone.document.emotion;
   const entityEmotions = firestoreDocument.tone.entities['averaged emotions'];
   const keywordEmotions = firestoreDocument.tone.entities['averaged emotions'];
-  console.log(entityEmotions);
   // Populate options in radar chart
   const options = {
     // radar chart
@@ -159,22 +158,33 @@ function populateSentimentCell(cell, sentiment, data) {
 }
 function populateEmotionCell(cell, emotion) {
   cell.className = 'px-2 py-2 text-center text-sm';
-  // Check for two emojis and add them both if necessary
+
+  // Display one emoji and emotion text underneath
   if (emotion.length === 2) {
-    cell.innerHTML = `<span class="block" > ${getEmoji('emotion', emotion[0])} / ${getEmoji('emotion', emotion[1])}</span><span class="text-sm">${emotion.join(', ')}</span>`;
-  } else {
-    cell.innerHTML = `<span class="block">${getEmoji('emotion', emotion[0])}</span><span class="text-sm">${emotion[0]}</span>`;
+    cell.innerHTML = `<span class="block">${getEmoji('emotion', emotion[0])}</span><span class="text-xxs">${emotion[0]}</span>`;
+    // display two emojis separated by a slash, and the two emotions underneath
+  } else if (emotion.length === 3) {
+    const emojis = emotion
+      .slice(0, 2)
+      .map((e) => getEmoji('emotion', e))
+      .join(' / ');
+    cell.innerHTML = `<span class="block">${emojis}</span><span class="text-xxs">${emotion[0]}, ${emotion[1]}</span>`;
   }
+
   return cell;
 }
-
 function populateKeywordsTable(keywords) {
   // Grab keywords page elements
   const keywordResults = document.getElementById('keyword-results');
 
   // loop through every keyword in the object
   Object.entries(keywords).forEach(([text, keyword]) => {
-    if (text !== 'averaged emotions') {
+    if (
+      text !== 'averaged emotions' &&
+      text !== 'averaged relevance' &&
+      text !== 'emotion trend' &&
+      text !== 'general trust'
+    ) {
       const {
         sentiment: { label: sentiment },
         plutchik: emotion,
@@ -219,7 +229,13 @@ function populateEntitiesTable(entities) {
   const entityResults = document.getElementById('entity-results');
   // Loop through entities object and append elements to a table
   Object.entries(entities).forEach(([name, keyword]) => {
-    if (name !== 'averaged emotions') {
+    if (
+      name !== 'averaged emotions' &&
+      name !== 'averaged relevance' &&
+      name !== 'emotion trend' &&
+      name !== 'general trust'
+    ) {
+      // if (name !== 'averaged emotions' && name !== 'averaged relevance' && name !== 'emotion trend' && name !== 'general trust') {
       // destructure the object for ease of reference
       const {
         type,
