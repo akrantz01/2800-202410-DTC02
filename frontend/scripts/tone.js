@@ -229,7 +229,6 @@ function relevanceSummary(type, article) {
 
 function prepareSummary(section, article) {
   // return a string summary for a section based on the contents of the category object
-  console.log(article);
   if (section === 'document') {
     const docResults = document.getElementById('document-results');
     const docExplanation = document.getElementById('document-explanation');
