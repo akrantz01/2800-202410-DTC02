@@ -408,7 +408,7 @@ def analyse_bias(
         for keyword in keywords:
             for sentence in keywords[keyword]["sentences"]:
                 sentence["scores"] = get_segment_scores(scan_segments(sentence["text"]))
-    total_score = (adjective_score + pronoun_score + keywords_score) / 3
+    total_score = (adjective_score + pronoun_score + keywords_score["score"]) / 3
 
     get_db().collection("articles").document(article_id).update(
         {
@@ -439,7 +439,7 @@ def main():
     # process_keywords(analysis)
     # score_adjectives(analysis)
     # print(score_keywords(process_keywords(analysis)))
-    analyse_bias("gL5po1BLAmwEZ9seMnay", analysis=analysis)
+    analyse_bias("gL5po1BLAmwEZ9seMnay", analysis=analysis, display_sentence_scores=True)
     print("done")
 
 
