@@ -78,6 +78,7 @@ function populateBiasScores() {
   let maleCount = bias.pronounCount.he;
   let femaleCount = bias.pronounCount.she;
   let keywordDirectionScore = parseFloat(bias.keywordScore.direction_bias.toFixed(2));
+  console.log(keywordDirectionScore);
   let keywordOverallScore = parseFloat(bias.keywordScore.score.toFixed(2));
   let adjectiveOverallScore = parseFloat(bias.adjectiveScore.toFixed(2));
   let biasTotal = pronounBias + keywordOverallScore + adjectiveOverallScore;
@@ -98,15 +99,37 @@ function populateBiasScores() {
     const chart = new ApexCharts(document.getElementById('pie-chart'), getChartOptions(biasScores));
     chart.render();
   }
-
-  console.log(overallBias);
-  console.log(pronounBias);
-  console.log(maleCount);
-  console.log(femaleCount);
-  console.log(keywordDirectionScore);
-  console.log(keywordOverallScore);
-  console.log(adjectiveOverallScore);
-  console.log(biasTotal);
+  document.getElementById('overall-bias-gauge').innerHTML = `${(overallBias * 100).toFixed()}%`;
+  document.querySelector('.overall-gauge').style = `width: ${overallBias * 100}%`;
+  document.getElementById('opinion-bias-gauge').innerHTML =
+    `${(adjectiveOverallScore * 100).toFixed()}%`;
+  document.querySelector('.opinion-gauge').style = `width: ${adjectiveOverallScore * 100}%`;
+  document.getElementById('gender-bias-gauge').innerHTML = `${(pronounBias * 100).toFixed()}%`;
+  document.querySelector('.gender-gauge').style = `width: ${pronounBias * 100}%`;
+  let genderBreakdown = document.getElementById('gender-breakdown');
+  if (pronounBias === 0) {
+    genderBreakdown.innerHTML = 'No pronouns were detected in the text.';
+  } else if (maleCount === femaleCount) {
+    genderBreakdown = 'The article uses an equal number of "he/him" and "she/her" pronouns.';
+  } else if (maleCount > femaleCount) {
+    genderBreakdown.innerHTML = `The article is biased towards "he/him" pronouns, with "he/him" appearing ${maleCount} times and "she/her" appearing ${femaleCount} times.`;
+  } else {
+    genderBreakdown.innerHTML = `The article is biased towards "she/her" pronouns, with "she/her" appearing ${femaleCount} times and "he/him" appearing ${maleCount} times.`;
+  }
+  document.getElementById('language-bias-gauge').innerHTML =
+    `${(keywordOverallScore * 100).toFixed()}%`;
+  document.querySelector('.language-gauge').style = `width: ${keywordOverallScore * 100}%`;
+  let directionText = '';
+  if (keywordDirectionScore === 0) directionText = 'Neutral';
+  else if (keywordDirectionScore < 0) {
+    directionText = `${Math.abs(keywordDirectionScore * 100).toFixed()}% Negative`;
+    document.querySelector('.language-direction-gauge').classList.add('-translate-x-[100%]');
+    document.querySelector('.language-direction-gauge').classList.remove('bg-primary');
+    document.querySelector('.language-direction-gauge').classList.add('bg-red-500');
+  } else directionText = `${(keywordDirectionScore * 100).toFixed}% Positive`;
+  document.getElementById('language-bias-direction-gauge').innerHTML = directionText;
+  document.querySelector('.language-direction-gauge').style =
+    `width: ${Math.abs(keywordDirectionScore) * 50}%`;
 }
 
 async function main() {

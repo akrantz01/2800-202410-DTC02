@@ -26,14 +26,14 @@
   </head>
 
   <body
-    class="font-roboto bg-gradient-to-b from-white to-gray-300 bg-auto bg-no-repeat min-h-screen"
+    class="font-roboto bg-gradient-to-b from-white to-gray-300 bg-auto bg-no-repeat min-h-screen pb-12"
   >
     <header id="header-placeholder"></header>
 
     <div id="analysis-navigation-placeholder"></div>
 
     <!-- Bias Types -->
-    <div id="fact-cards" class="flex flex-col space-y-2 p-4 mb-20">
+    <div id="fact-cards" class="flex flex-col space-y-2 p-4 mb-20 items-center">
       <!-- Pie Chart Placeholder -->
       <div class="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
         <div class="flex justify-between items-start w-full">
@@ -81,7 +81,8 @@
                   <a
                     href="/learn"
                     class="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline"
-                    >Read more
+                  >
+                    Read more
                     <svg
                       class="w-2 h-2 ms-1.5 rtl:rotate-180"
                       aria-hidden="true"
@@ -399,6 +400,80 @@
               </svg>
             </a> -->
           </div>
+        </div>
+      </div>
+
+      <div id="overall-bias" class="text-center">
+        <h1 class="font-xl">Overall Bias Score</h1>
+        <label for="overall-bias-gauge" class="text-slate-600" id="overall-bias-gauge"
+          >Overall Bias</label
+        >
+        <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
+          <div
+            class="overall-gauge bg-primary h-2.5 rounded-full"
+            style="width: 98%"
+            name="overall-bias-gauge"
+          ></div>
+        </div>
+      </div>
+
+      <div id="opinion-bias" class="text-center">
+        <h1 class="font-xl">Opinion Bias Score</h1>
+        <label for="opinion-bias-gauge" class="text-slate-600" id="opinion-bias-gauge"
+          >Opinion Bias</label
+        >
+        <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
+          <div
+            class="opinion-gauge bg-primary h-2.5 rounded-full"
+            style="width: 98%"
+            name="opinion-bias-gauge"
+          ></div>
+        </div>
+      </div>
+
+      <div id="gender-bias" class="text-center">
+        <h1 class="font-xl">Gender Bias Score</h1>
+        <label for="gender-bias-gauge" class="text-slate-600" id="gender-bias-gauge"
+          >gender Bias</label
+        >
+        <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
+          <div
+            class="gender-gauge bg-primary h-2.5 rounded-full"
+            style="width: 98%"
+            name="gender-bias-gauge"
+          ></div>
+        </div>
+        <p id="gender-breakdown" class="block">text</p>
+      </div>
+
+      <div id="language-bias" class="text-center">
+        <h1 class="font-xl">Language Bias Score</h1>
+        <label for="language-bias-gauge" class="text-slate-600" id="language-bias-gauge"
+          >language Bias</label
+        >
+        <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
+          <div
+            class="language-gauge bg-primary h-2.5 rounded-full"
+            style="width: 98%"
+            name="language-bias-gauge"
+          ></div>
+        </div>
+      </div>
+
+      <div id="language-bias-direction" class="text-center">
+        <h1 class="font-xl">Language Bias Direction</h1>
+        <label
+          for="language-bias-direction-gauge"
+          class="text-slate-600"
+          id="language-bias-direction-gauge"
+          >language Bias</label
+        >
+        <div class="w-full bg-gray-200 rounded-full h-2.5 relative">
+          <div
+            class="language-direction-gauge bg-primary h-2.5 rounded-full absolute left-1/2"
+            style="width: 50%"
+            name="language-bias-direction-gauge"
+          ></div>
         </div>
       </div>
 
