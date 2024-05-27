@@ -1,6 +1,16 @@
-const getChartOptions = () => {
+import { doc, getDoc } from 'firebase/firestore';
+
+import { firestore } from './firebase.js';
+
+let bias = undefined;
+
+function getChartOptions(biasScores) {
   return {
-    series: [52.8, 26.8, 20.4],
+    series: [
+      parseFloat(biasScores.language),
+      parseFloat(biasScores.gender),
+      parseFloat(biasScores.opinion),
+    ],
     colors: ['#1C64F2', '#16BDCA', '#9061F9'],
     chart: {
       height: 420,
@@ -22,7 +32,7 @@ const getChartOptions = () => {
         },
       },
     },
-    labels: ['Direct', 'Organic search', 'Referrals'],
+    labels: ['Language Bias', 'Gender Bias', 'Opinion Bias'],
     dataLabels: {
       enabled: true,
       style: {
@@ -54,10 +64,54 @@ const getChartOptions = () => {
       },
     },
   };
-};
-
-if (document.getElementById('pie-chart') && typeof ApexCharts !== 'undefined') {
-  // eslint-disable-next-line no-undef
-  const chart = new ApexCharts(document.getElementById('pie-chart'), getChartOptions());
-  chart.render();
 }
+
+async function getBias(articleID) {
+  const biasDocument = doc(firestore, 'articles', articleID);
+  const biasSnapshot = await getDoc(biasDocument);
+  bias = biasSnapshot.data().bias;
+}
+
+function populateBiasScores() {
+  let overallBias = parseFloat(bias.biasScore.toFixed(2));
+  let pronounBias = parseFloat(bias.pronounScore.toFixed(2));
+  let maleCount = bias.pronounCount.he;
+  let femaleCount = bias.pronounCount.she;
+  let keywordDirectionScore = parseFloat(bias.keywordScore.direction_bias.toFixed(2));
+  let keywordOverallScore = parseFloat(bias.keywordScore.score.toFixed(2));
+  let adjectiveOverallScore = parseFloat(bias.adjectiveScore.toFixed(2));
+  let biasTotal = pronounBias + keywordOverallScore + adjectiveOverallScore;
+  let keywordBiasPercent = (keywordOverallScore / biasTotal) * 100;
+  keywordBiasPercent.toFixed(2);
+  let pronounBiasPercent = (pronounBias / biasTotal) * 100;
+  pronounBiasPercent.toFixed(2);
+  let adjectiveBiasPercent = (adjectiveOverallScore / biasTotal) * 100;
+  adjectiveBiasPercent.toFixed(2);
+  let biasScores = {
+    language: keywordBiasPercent,
+    gender: pronounBiasPercent,
+    opinion: adjectiveBiasPercent,
+  };
+
+  if (document.getElementById('pie-chart') && typeof ApexCharts !== 'undefined') {
+    // eslint-disable-next-line no-undef
+    const chart = new ApexCharts(document.getElementById('pie-chart'), getChartOptions(biasScores));
+    chart.render();
+  }
+
+  console.log(overallBias);
+  console.log(pronounBias);
+  console.log(maleCount);
+  console.log(femaleCount);
+  console.log(keywordDirectionScore);
+  console.log(keywordOverallScore);
+  console.log(adjectiveOverallScore);
+  console.log(biasTotal);
+}
+
+async function main() {
+  await getBias('gL5po1BLAmwEZ9seMnay');
+  populateBiasScores();
+}
+
+main();

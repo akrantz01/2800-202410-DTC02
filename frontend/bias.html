@@ -93,8 +93,9 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="m1 9 4-4-4-4"
-                      /></svg
-                  ></a>
+                      />
+                    </svg>
+                  </a>
                 </div>
                 <div data-popper-arrow></div>
               </div>
@@ -197,8 +198,9 @@
               >
                 <path
                   d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"
-                /></svg
-              ><span class="sr-only">Open dropdown</span>
+                />
+              </svg>
+              <span class="sr-only">Open dropdown</span>
             </button>
             <div
               id="widget-dropdown"
@@ -225,8 +227,9 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279"
-                      /></svg
-                    >Edit widget
+                      />
+                    </svg>
+                    Edit widget
                   </a>
                 </li>
                 <li>
@@ -245,8 +248,9 @@
                       />
                       <path
                         d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"
-                      /></svg
-                    >Download data
+                      />
+                    </svg>
+                    Download data
                   </a>
                 </li>
                 <li>
@@ -266,8 +270,9 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="m5.953 7.467 6.094-2.612m.096 8.114L5.857 9.676m.305-1.192a2.581 2.581 0 1 1-5.162 0 2.581 2.581 0 0 1 5.162 0ZM17 3.84a2.581 2.581 0 1 1-5.162 0 2.581 2.581 0 0 1 5.162 0Zm0 10.322a2.581 2.581 0 1 1-5.162 0 2.581 2.581 0 0 1 5.162 0Z"
-                      /></svg
-                    >Add to repository
+                      />
+                    </svg>
+                    Add to repository
                   </a>
                 </li>
                 <li>
@@ -283,8 +288,9 @@
                     >
                       <path
                         d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"
-                      /></svg
-                    >Delete widget
+                      />
+                    </svg>
+                    Delete widget
                   </a>
                 </li>
               </ul>
@@ -395,8 +401,9 @@
       </div>
 
       <!-- Bias Detection Card Variation 1 -->
-      <div
+      <template
         class="min-w-sm bg-white border border-gray-600 border-separate rounded-lg shadow text-left"
+        id="bias-card"
       >
         <div
           class="flex flex-wrap text-md font-semibold text-white border-b border-gray-600 shadow rounded-t-lg p-4 bg-secondary"
@@ -454,11 +461,12 @@
             </div>
           </div>
         </div>
-      </div>
+      </template>
 
       <!-- Bias Detection Card Variation 2-->
-      <div
+      <template
         class="min-w-sm bg-white border border-gray-600 border-separate rounded-lg shadow text-left"
+        id="bias-card-2"
       >
         <div
           class="flex flex-wrap text-md font-semibold text-white border-b border-gray-600 shadow rounded-t-lg p-4 bg-secondary"
@@ -508,15 +516,16 @@
             </a>
           </div>
         </div>
-      </div>
+      </template>
 
       <!-- Bias Detection Card Variation 3-->
-      <div
+      <template
         id="accordion-parent"
         data-accordion="collapse"
         data-active-classes="bg-blue-600"
         data-inactive-classes="bg-blue-500"
         class="min-w-sm border border-gray-600 border-separate rounded-t-lg text-left justify-between"
+        id="bias-card-3"
       >
         <h2 id="accordion-collapse-heading-1">
           <button
@@ -592,7 +601,7 @@
             </a>
           </div>
         </div>
-      </div>
+      </template>
     </div>
 
     <footer id="footer-placeholder"></footer>
