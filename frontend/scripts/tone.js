@@ -187,7 +187,7 @@ function emotionSummary(type, article, intensity) {
   const emotions = article.plutchik;
   if (type === 'document') {
     if (emotions.length === 3) {
-      return `Its dominant emotions are <span class="font-bold">${article.plutchik[0]}</span> and <span class="font-bold">${article.plutchik[1]}</span> and are considered <span class="font-bold">${intensity}</span>`;
+      return `Its dominant emotions are <span class="font-bold">${article.plutchik[0]}</span> and <span class="font-bold">${article.plutchik[1]}</span> and <span class="font-bold">${intensity}</span>`;
     } else {
       return `Its dominant emotion is <span class="font-bold">${article.plutchik[0]}</span> and is considered <span class="font-bold">${intensity}</span>`;
     }
@@ -235,7 +235,7 @@ function prepareSummary(section, article) {
     const docExplanation = document.getElementById('document-explanation');
     const lastElement = article.plutchik[article.plutchik.length - 1];
     const intensity = emotionIntensity(lastElement);
-    docResults.innerHTML = `${sentimentSummary(article)}. The emotions were ${emotionSummary('document', article, intensity[0])}. The article may feel ${evaluateTrust(article.trust)} to readers.`;
+    docResults.innerHTML = `${sentimentSummary(article)}. ${emotionSummary('document', article, intensity[1])}. The article may feel ${evaluateTrust(article.trust)} to readers.`;
     docExplanation.innerHTML = `The emotions ${intensity[1]}. Trust is evaluated as true only when a document's 'disgust' rating is close to zero.`;
   }
   if (section === 'keywords' || section === 'entities') {
@@ -247,10 +247,8 @@ function prepareSummary(section, article) {
   }
 }
 
-function sentimentSummary(type, article) {
-  if (type === 'document') {
-    return `The article has a <span class="font-bold">${article.sentiment.label}</span> sentiment to it`;
-  }
+function sentimentSummary(article) {
+  return `The article has a <span class="font-bold">${article.sentiment.label}</span> sentiment to it`;
 }
 function loadPageElements(article) {
   // create the Apex Chart
