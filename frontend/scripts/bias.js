@@ -72,13 +72,49 @@ async function getBias(articleID) {
   bias = biasSnapshot.data().bias;
 }
 
+function writeSentences() {
+  Object.keys(bias.keywords).forEach((keyword) => {
+    let currentWord = bias.keywords[keyword];
+    const biasTemplate = document.getElementById('bias-card');
+    const newBias = biasTemplate.content.cloneNode(true);
+    newBias.querySelector('.keyword').innerHTML = keyword;
+    if (currentWord.sentences.length !== 0) {
+      currentWord.sentences.forEach((sentence) => {
+        const sentenceTemplate = document.getElementById('sentence-template');
+        const newSentence = sentenceTemplate.content.cloneNode(true);
+        newSentence.querySelector('.quote').innerHTML =
+          `<span class="text-2xl">"</span>${sentence.text}<span class="text-2xl">"</span>`;
+        newSentence.querySelector('.response').innerHTML = veritasResponse(keyword, currentWord);
+        newBias.appendChild(newSentence);
+      });
+      document.getElementById('bias-cards').appendChild(newBias);
+    }
+  });
+}
+
+function veritasResponse(keyword, keywordObject) {
+  let veritas = `
+  The language in the sentence has a ${keywordObject.sentiment['label']} outlook on the entity "${keyword}"
+  <div class="flex items-center gap-4">
+  <div class="bg-gray-200 rounded-full h-2.5 flex  w-[150px]">
+    <div
+      class="language-gauge bg-${keywordObject.sentiment['label'] === 'negative' ? 'red-500' : 'primary'} h-2.5 rounded-full"
+      style="width: ${Math.abs(keywordObject.sentiment['score']) * 100}%"
+      name="language-bias-gauge"
+    ></div>
+          
+  </div>
+  <p class="text-l">${(keywordObject.sentiment['score'] * 100).toFixed()}%</p>
+  </div>`;
+  keywordObject.sentences.forEach((sentence) => {});
+}
+
 function populateBiasScores() {
   let overallBias = parseFloat(bias.biasScore.toFixed(2));
   let pronounBias = parseFloat(bias.pronounScore.toFixed(2));
   let maleCount = bias.pronounCount.he;
   let femaleCount = bias.pronounCount.she;
   let keywordDirectionScore = parseFloat(bias.keywordScore.direction_bias.toFixed(2));
-  console.log(keywordDirectionScore);
   let keywordOverallScore = parseFloat(bias.keywordScore.score.toFixed(2));
   let adjectiveOverallScore = parseFloat(bias.adjectiveScore.toFixed(2));
   let biasTotal = pronounBias + keywordOverallScore + adjectiveOverallScore;
@@ -135,6 +171,7 @@ function populateBiasScores() {
 async function main() {
   await getBias('gL5po1BLAmwEZ9seMnay');
   populateBiasScores();
+  writeSentences();
 }
 
 main();
