@@ -123,7 +123,7 @@
             </a>
           </div>
         </div>
-        <!-- Heading 2 -->
+        <!-- Title Heading -->
         <h2 id="accordion-color-heading-2" class="hidden">
           <button
             type="button"
@@ -151,7 +151,7 @@
             </svg>
           </button>
         </h2>
-        <!-- Body 2 -->
+        <!-- Title body -->
         <div id="accordion-color-body-2" class="hidden" aria-labelledby="accordion-color-heading-2">
           <div class="p-5 border border-b-0 border-gray-600 bg-white space-y-4">
             <p id="title-results" class="mb-2 text-gray-500 italic">
@@ -191,7 +191,7 @@
             </a>
           </div>
         </div>
-        <!-- Heading 3 -->
+        <!-- Keywords Heading -->
         <h2 id="accordion-color-heading-3">
           <button
             type="button"
@@ -219,11 +219,17 @@
             </svg>
           </button>
         </h2>
-        <!-- Body 3 -->
+        <!-- Keywords body -->
         <div id="accordion-color-body-3" class="hidden" aria-labelledby="accordion-color-heading-3">
           <div class="p-5 border border-b-0 border-gray-600 bg-white space-y-4">
-            <ul id="keyword-results" class="mb-2 text-gray-500 italic"></ul>
-
+            <table id="keyword-results">
+              <tr class="text-xxs text-center">
+                <th>Relevance</th>
+                <th>Keyword</th>
+                <th>Dominant Emotion(s)</th>
+                <th>Sentiment</th>
+              </tr>
+            </table>
             <div class="flex flex-row space-x-2 flex-wrap text-md text-gray-800 font-semibold">
               <img src="images/logo.svg" width="32" height="32" alt="VeritasAI" />
               <p>VeritasAI Analysis:</p>
@@ -253,7 +259,7 @@
             </a>
           </div>
         </div>
-        <!-- Heading 4 -->
+        <!-- Entities Heading  -->
         <h2 id="accordion-color-heading-4">
           <button
             type="button"
@@ -281,17 +287,17 @@
             </svg>
           </button>
         </h2>
-        <!-- Body 4 -->
+        <!-- Entities body -->
         <div id="accordion-color-body-4" class="hidden" aria-labelledby="accordion-color-heading-4">
           <div class="p-5 border border-gray-600 bg-white space-y-4">
-            <table id="entity-results-list">
-              <tr>
-                <th class="text-xxs text-center">Relevance</th>
-                <th class="text-xxs text-center">Name</th>
-                <th class="text-xxs text-center">Type</th>
-                <th class="text-xxs text-center">Dominant Emotion(s)</th>
-                <th class="text-xxs text-center">Sentiment</th>
-                <th class="text-xxs text-center">Occurences</th>
+            <table id="entity-results">
+              <tr class="text-xxs text-center">
+                <th>Relevance</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Dominant Emotion(s)</th>
+                <th>Sentiment</th>
+                <th>Occurences</th>
               </tr>
             </table>
 
