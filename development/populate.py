@@ -145,6 +145,18 @@ def get_author_id(author: str) -> str:
             return authors.id
 
 
+def add_history(article_id: str, user_id: str) -> None:
+    """
+    Add the article to the users history.
+
+    :param article_id: the firestore id of the article
+    :param user_id: the firestore id of the user
+    """
+    get_db().collection("users").document(user_id).collection("history").document(article_id).set(
+        {"dateScanned": firestore.SERVER_TIMESTAMP}
+    )
+
+
 def main():
     """
     Drive the program.
@@ -159,8 +171,9 @@ def main():
     # print(publisher_exists("Old Fashioned News"))
     # create_publisher(article, "demo")
     # create_author(article, "demo")
-    print(get_publisher_id("Questionable News"))
-    assign_article("demo")
+    # print(get_publisher_id("Questionable News"))
+    # assign_article("demo")
+    add_history("demo", "K8n5TZsfPogedpftAREoQVhJ7Dc2")
 
 
 if __name__ == "__main__":
