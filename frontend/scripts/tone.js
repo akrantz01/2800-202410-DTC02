@@ -95,7 +95,13 @@ const getEmoji = function (category, value) {
       case 'Money':
         return '💰';
       case 'Organization':
-        return '🏢';
+        return '🌐';
+      case 'People':
+        return '👥';
+      case 'Location':
+        return '🗺';
+      case 'Date':
+        return '🗓';
     }
   } else if (category === 'sentiment') {
     switch (value) {
@@ -122,6 +128,38 @@ const getEmoji = function (category, value) {
         return '😡';
       case 'fear':
         return '😨';
+      case 'despair':
+        return '😭';
+      case 'rage':
+        return '🤬';
+      case 'ecstatic':
+        return '😄';
+      case 'envy':
+        return '😧';
+      case 'contempt':
+        return '😒';
+      case 'melancholy':
+        return '🥹';
+      case 'remorse':
+        return '😩';
+      case 'guilt':
+        return '😟';
+      case 'shame':
+        return '😳';
+      case 'terror':
+        return '😱';
+      case 'loathing':
+        return '😖';
+      case 'grief':
+        return '😞';
+      case 'serenity':
+        return '😇';
+      case 'pensiveness':
+        return '😔';
+      case 'annoyance':
+        return '🤨';
+      case 'boredeom':
+        return '🙄';
     }
   }
 };
