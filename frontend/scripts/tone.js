@@ -96,7 +96,7 @@ const getEmoji = function (category, value) {
         return '💰';
       case 'Organization':
         return '🌐';
-      case 'People':
+      case 'Person':
         return '👥';
       case 'Location':
         return '🗺';
@@ -346,7 +346,7 @@ function populateEntitiesTable(entities) {
         }
         // Sentiment (positive, negative, neutral)
         else if (data === sentiment) {
-          cell = populateSentimentCell(cell, sentiment);
+          cell = populateSentimentCell(cell, sentiment, data);
         }
         // Emotion
         else if (data === emotion) {
