@@ -67,9 +67,9 @@ def create_author(article: dict, article_id: str) -> None:
     """
     ai_score = 0
     bias_score = 0
-    if "ai" in article.keys():
+    if "ai" in article:
         ai_score = article["ai"]["aiScore"]
-    if "bias" in article.keys():
+    if "bias" in article:
         bias_score = article["bias"]["aiScore"]
     publishers_ref = get_db().collection("publishers").stream()
     for publisher in publishers_ref:
@@ -114,9 +114,9 @@ def create_publisher(article: dict, article_id: str) -> None:
     """
     ai_score = 0
     bias_score = 0
-    if "ai" in article.keys():
+    if "ai" in article:
         ai_score = article["ai"]["aiScore"]
-    if "bias" in article.keys():
+    if "bias" in article:
         bias_score = article["bias"]["aiScore"]
     publisher = {
         "aiScore": ai_score,
