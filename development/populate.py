@@ -157,6 +157,27 @@ def add_history(article_id: str, user_id: str) -> None:
     )
 
 
+def update_author_bias(author_id: str = "", author_name: str = "") -> None:
+    """
+    Update the author bias score in firestore.
+
+    :param author_id" the firestore id for the author - optional
+    :param author_name" the name of the author if id is not available - optional - overrides id
+    """
+    if author_name:
+        author_id = get_author_id(author_name)
+    author_ref = get_db().collection("authors").document(author_id)
+    author = author_ref.get().to_dict()
+    total_score = 0
+    total_count = 0
+    for article in author["articles"]:
+        total_score += float(
+            get_db().collection("articles").document(article).get().to_dict()["biasScore"]
+        )
+        total_count += 1
+    author_ref.update({"biasScore": total_score / total_count})
+
+
 def main():
     """
     Drive the program.
@@ -173,7 +194,8 @@ def main():
     # create_author(article, "demo")
     # print(get_publisher_id("Questionable News"))
     # assign_article("demo")
-    add_history("demo", "K8n5TZsfPogedpftAREoQVhJ7Dc2")
+    # add_history("demo", "K8n5TZsfPogedpftAREoQVhJ7Dc2")
+    update_author_bias(author_name="John Smith")
 
 
 if __name__ == "__main__":
