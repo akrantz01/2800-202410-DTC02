@@ -3,6 +3,9 @@ import { collection, getDocs } from 'firebase/firestore';
 
 import { firestore } from './firebase.js';
 
+// load the page
+const { article, docEmotion, entityEmotion, keywordEmotion } = await fetchData();
+
 function createApexChart(docEmotion, entityEmotions, keywordEmotions) {
   const options = {
     // Populate options in radar chart
@@ -63,6 +66,11 @@ function createSpan(emoji, data, colour = '') {
             <span class="text-xxs text-${colour}">${data}</span>`;
 }
 
+const evaluateTrust = function (analysisType, trustResult) {
+  if (analysisType === 'document') {
+    return trustResult === 'yes' ? 'trustworthy' : 'untrustworthy';
+  }
+};
 async function fetchData() {
   // Get the 'articles' collection from Firestore
   const articlesCollection = collection(firestore, 'articles');
@@ -120,10 +128,54 @@ const getEmoji = function (category, value) {
   }
 };
 
-// TODO: function prepareSummary(section, category) {
-// return a string summary for a section based on the contents of the category object
-// }
+function emotionIntensity(intensity) {
+  if (intensity === 'unchanged') {
+    return ['average intensity', 'The emotions were left unchanged due to an average score'];
+  }
+  if (intensity === 'combined') {
+    return [
+      'moderately strong intensity',
+      'The primary two emotions had close enough values and were high enough to constitute combining them',
+    ];
+  }
+  if (intensity === 'weakened') {
+    return ['weak intensity', 'The emotions were renamed to reflect a very low intensity'];
+  } else {
+    return [
+      'very strong intensity',
+      'This emotion stood out very strongly amidst the others and was renamed to reflect its intensity',
+    ];
+  }
+}
+function emotionSummary(type, article, intensity) {
+  const emotions = article.plutchik;
+  if (type === 'document') {
+    if (emotions.length === 3) {
+      return `Its dominant emotions are <span class="font-bold">${article.plutchik[0]}</span> and <span class="font-bold">${article.plutchik[1]}</span> and are considered <span class="font-bold">${intensity}</span>`;
+    } else {
+      return `Its dominant emotion is <span class="font-bold">${article.plutchik[0]}</span> and is considered <span class="font-bold">${intensity}</span>`;
+    }
+  }
+}
 
+function prepareSummary(section, article) {
+  // return a string summary for a section based on the contents of the category object
+  console.log(article);
+  if (section === 'document') {
+    const docResults = document.getElementById('document-results');
+    const docExplanation = document.getElementById('document-explanation');
+    const lastElement = article.plutchik[article.plutchik.length - 1];
+    const intensity = emotionIntensity(lastElement);
+    docResults.innerHTML = `${sentimentSummary('document', article)}. ${emotionSummary('document', article, intensity[0])}. The article may feel ${evaluateTrust('document', article.trust)} to readers.`;
+    docExplanation.innerHTML = `${intensity[1]}. Trust is evaluated as true only when a document's 'disgust' rating is close to zero.`;
+  }
+}
+
+function sentimentSummary(type, article) {
+  if (type === 'document') {
+    return `The article has a <span class="font-bold">${article.sentiment.label}</span> sentiment to it`;
+  }
+}
 function loadPageElements(article) {
   // create the Apex Chart
   // createApexChart(docEmotion, entityEmotions, keywordEmotions);
@@ -136,14 +188,11 @@ function loadPageElements(article) {
   //  const titleExplanation = document.getElementById('title-explanation');
   // }
 
-  const docResults = document.getElementById('document-results');
-  const docExplanation = document.getElementById('document-explanation');
-  docResults.innerHTML = `This article suggests an overall feeling of ${article.document.plutchik}`;
-  docExplanation.innerHTML = `This conclusion was reached by the combination of the strongest emotions displayed
-  collectively throughout the text.`;
-
   populateKeywordsTable(article.keywords);
   populateEntitiesTable(article.entities);
+  ['document', 'entities', 'keywords'].forEach((category) => {
+    prepareSummary(category, article[`${category}`]);
+  });
 }
 
 const notInsideEntityOrKeyword = function (text) {
@@ -282,7 +331,5 @@ function populateKeywordsTable(keywords) {
 
 const returnCellStyles = (size) => `px-2 py-2 text-center text-${size}`; // tailwind classes for table cell
 
-// load the page
-const { article, docEmotion, entityEmotion, keywordEmotion } = await fetchData();
 createApexChart(docEmotion, entityEmotion, keywordEmotion);
 loadPageElements(article);
