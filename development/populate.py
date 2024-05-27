@@ -65,6 +65,12 @@ def create_author(article: dict, article_id: str) -> None:
     :param article: a dictionary representing the article from the DB
     :param article_id: the article id
     """
+    ai_score = 0
+    bias_score = 0
+    if "ai" in article.keys():
+        ai_score = article["ai"]["aiScore"]
+    if "bias" in article.keys():
+        bias_score = article["bias"]["aiScore"]
     publishers_ref = get_db().collection("publishers").stream()
     for publisher in publishers_ref:
         if (
@@ -72,8 +78,8 @@ def create_author(article: dict, article_id: str) -> None:
             == article["publisher"].replace(" ", "").lower()
         ):
             author = {
-                "aiScore": article["aiScore"],
-                "biasScore": article["biasScore"],
+                "aiScore": ai_score,
+                "biasScore": bias_score,
                 "articles": [article_id],
                 "name": article["author"],
                 "publishedFor": [publisher.id],
@@ -106,9 +112,15 @@ def create_publisher(article: dict, article_id: str) -> None:
     :param article: a dictionary representing the article from the DB
     :param article_id: the article id
     """
+    ai_score = 0
+    bias_score = 0
+    if "ai" in article.keys():
+        ai_score = article["ai"]["aiScore"]
+    if "bias" in article.keys():
+        bias_score = article["bias"]["aiScore"]
     publisher = {
-        "aiScore": article["aiScore"],
-        "biasScore": article["biasScore"],
+        "aiScore": ai_score,
+        "biasScore": bias_score,
         "articles": [article_id],
         "name": article["publisher"],
         "authors": [],
@@ -193,7 +205,7 @@ def update_author_ai(author_id: str = "", author_name: str = "") -> None:
     total_count = 0
     for article in author["articles"]:
         total_score += float(
-            get_db().collection("articles").document(article).get().to_dict()["aiScore"]
+            get_db().collection("articles").document(article).get().to_dict()["ai"]["aiScore"]
         )
         total_count += 1
     author_ref.update({"aiScore": total_score / total_count})
@@ -237,7 +249,7 @@ def update_publisher_ai(publisher_id: str = "", publisher_name: str = "") -> Non
     total_count = 0
     for article in publisher["articles"]:
         total_score += float(
-            get_db().collection("articles").document(article).get().to_dict()["aiScore"]
+            get_db().collection("articles").document(article).get().to_dict()["ai"]["aiScore"]
         )
         total_count += 1
     publisher_ref.update({"aiScore": total_score / total_count})
