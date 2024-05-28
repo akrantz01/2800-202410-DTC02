@@ -6,8 +6,8 @@ const errorContainer = document.getElementById('error-message');
 
 const title = document.getElementById('title');
 const articleInfo = document.getElementById('article-info');
-const author = document.getElementById('author');
-const publisher = document.getElementById('publisher');
+const author = document.getElementById('author-name');
+const publisher = document.getElementById('publisher-name');
 const url = document.getElementById('url');
 const summary = document.getElementById('summary');
 
@@ -27,7 +27,13 @@ onSnapshot(ref, async (doc) => {
 
       articleInfo.classList.remove('hidden');
       author.textContent = articleData.author;
+      author.addEventListener('click', () => {
+        window.location.href = `author?name=${articleData.author}`;
+      });
       publisher.textContent = articleData.publisher;
+      publisher.addEventListener('click', () => {
+        window.location.href = `publisher?name=${articleData.publisher}`;
+      });
       url.href = articleData.url;
       summary.textContent = articleData.summary;
     }
