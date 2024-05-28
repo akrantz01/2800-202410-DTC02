@@ -99,27 +99,41 @@ async function createPublisher(article, articleID) {
 /**
  * get the author id from firestore
  */
-export function getAuthorID(authorName) {
-  return new Promise(async (resolve, reject) => {
-    const authorsSnapshot = await getDocs(collection(firestore, 'authors'));
-    authorsSnapshot.forEach(async (authorInDB) => {
-      // Update AI/Bias scores
-      if (authorInDB.data().name.trim().toLowerCase() === authorName.trim().toLowerCase())
-        resolve(authorInDB.id);
-    });
+export async function getAuthorID(authorName) {
+  const authorSnapshot = await getDocs(collection(firestore, 'authors'));
+  let authorFound = false;
+  let authorID = '';
+  authorSnapshot.forEach((authorInDB) => {
+    if (
+      authorInDB.data().name.trim().toLowerCase() === authorName.trim().toLowerCase() &&
+      !authorFound
+    ) {
+      authorFound = true;
+      authorID = authorInDB.id;
+    }
   });
+  if (!authorFound) throw new Error('Author does not exist');
+
+  return authorID;
 }
 
 /**
  * get the publisher id from firestore
  */
-export function getPublisherID(publisherName) {
-  return new Promise(async (resolve, reject) => {
-    const publisherSnapshot = await getDocs(collection(firestore, 'publishers'));
-    publisherSnapshot.forEach((publisherInDB) => {
-      // Update AI/Bias scores
-      if (publisherInDB.data().name.trim().toLowerCase() === publisherName.trim().toLowerCase())
-        resolve(publisherInDB.id);
-    });
+export async function getPublisherID(publisherName) {
+  const publisherSnapshot = await getDocs(collection(firestore, 'publishers'));
+  let publisherFound = false;
+  let publisherID = '';
+  publisherSnapshot.forEach((publisherInDB) => {
+    if (
+      publisherInDB.data().name.trim().toLowerCase() === publisherName.trim().toLowerCase() &&
+      !publisherFound
+    ) {
+      publisherFound = true;
+      publisherID = publisherInDB.id;
+    }
   });
+  if (!publisherFound) throw new Error('Publisher does not exist');
+
+  return publisherID;
 }
