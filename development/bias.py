@@ -199,7 +199,10 @@ def get_overall_sentiment(analysis: str) -> dict:
     :return: the document-level sentiment
     """
     ai_analysis = json.loads(analysis)
-    return ai_analysis["sentiment"]["document"]
+    try:
+        return ai_analysis["sentiment"]["document"]
+    except KeyError:
+        return {"score": 0, "label": "neutral"}
 
 
 def scan_segments(sentence: str) -> dict:
@@ -221,9 +224,7 @@ def scan_segments(sentence: str) -> dict:
             current_segment = ""
 
         current_segment += token
-
-    if len(segments_to_scan[-1]) < minimum_scan_size:
-        segments_to_scan[-2] = segments_to_scan[-2] + " " + segments_to_scan[-1]
+    segments_to_scan[-1] = segments_to_scan[-1] + " " + current_segment
 
     return {segment: sentence_scan(segment) for segment in segments_to_scan}
 
@@ -408,7 +409,7 @@ def analyse_bias(
         for keyword in keywords:
             for sentence in keywords[keyword]["sentences"]:
                 sentence["scores"] = get_segment_scores(scan_segments(sentence["text"]))
-    total_score = (adjective_score + pronoun_score + keywords_score) / 3
+    total_score = (adjective_score + pronoun_score + keywords_score["score"]) / 3
 
     get_db().collection("articles").document(article_id).update(
         {
@@ -439,7 +440,7 @@ def main():
     # process_keywords(analysis)
     # score_adjectives(analysis)
     # print(score_keywords(process_keywords(analysis)))
-    analyse_bias("gL5po1BLAmwEZ9seMnay", analysis=analysis)
+    analyse_bias("gL5po1BLAmwEZ9seMnay", analysis=analysis, display_sentence_scores=True)
     print("done")
 
 
