@@ -88,11 +88,70 @@ const biases = [
     impact: 'It can result in underestimating risks, overcommitting, and poor decision-making.',
   },
 ];
+const toneAnalysis = [
+  {
+    name: "Plutchik's Model",
+    description:
+      'A model of emotions based around concentric circles with the center representing core emotions and the outer circles representing more intense emotions. The outer circles are also formed through combination of the emotions in the inner circle.',
+    example:
+      'Some examples of combinations are envy which is a combination of sadness and anger, or despair, which is a combination of fear and sadness.',
+    impact:
+      'Understanding emotions on a scale of intensity as well as knowing the combinations that make up more complex ones can make it easier to discern which base emotions a piece of writing is appealing to.',
+  },
+  {
+    name: 'Joy',
+    description:
+      'The positive emotion associated with contentment, pleasure, and excitement. Sometimes joy may be flagged by an LLM when a page returns a highly positive sentiment, or when the text includes descriptions of achievements, celebrations, or emotional states such as satisfaction.',
+    example:
+      'Articles that are more likely to score more prominently in joy are press releases, event announcements, or advertisements.',
+    impact:
+      'Since joy and happiness are a goal for most people, an article that scores prominently in joy or has many entities or keywords meant to evoke joy may be trying to steer it’s audience a certain way.',
+  },
+  {
+    name: 'Sadness',
+    description:
+      'Sadness is characterized by feelings of grief and can sometimes be flagged by an LLM when a page returns a particularly low sentiment score. Other indicators of sadness in a text include descriptions or references to concepts such as loneliness, disappointment, or personal tragedy.',
+    example:
+      'Sadness is more likely to be found linked to specific entities or attributes in a text rather than the title or document as a whole. This can be particularly prominent in current event news articles.',
+    impact:
+      'Sadness on its own isn’t a particularly strong indicator of attempts of manipulation, but is still an important factor when contextually analyzing a piece of writing. Try asking yourself if the presence of an entity or concept that evokes sadness is tied to any other specific concept and why it would be used in that way.',
+  },
+  {
+    name: 'Fear',
+    description:
+      'An emotion characterized by feelings of concern or apprehension and set off by the perception of a threat.',
+    example:
+      'An article aimed at a specific political base will often return a score of fear when discussing the opposition.',
+    impact:
+      'Like disgust, the fear score returned when using an LLM is a more subtle version of the emotion. Often the perceived threat is implicit, and may be aimed at a particular group and invisible to others. Identifying when fear is being used and how can be important not only in combating disinformation, but also to understanding those with differing beliefs.',
+  },
+  {
+    name: 'Anger',
+    description:
+      'In textual analysis anger is detected through words signaling irritation or frustration, and may indicate a perceived injustice, or strong opposition towards a concept.',
+    example:
+      'Many titles will return a high score of anger, which is a conscious decision on the part of many websites and news organizations.',
+    impact:
+      'Anger is an important part of a phenomenon called emotional contagion, where seeing others express a strong emotion can lead a person to engaging similarly in the conversation. Its important to be aware of this online, as websites and organizations may look to capitalize on this to drive engagement on their platforms.',
+  },
+  {
+    name: 'Disgust',
+    description:
+      'In contrast to how we may normally think of disgust, here it refers more generically to an expression of aversion, or disdain.',
+    example:
+      'Articles referencing money will often return disgust. Part of this could be due to negative associations such as corruption or inequality, while another part could be an aversion to talking about money or material wealth in certain cultures.',
+    impact:
+      'Disgust is a valuable tool for seeking out manipulation, as it is can be used as a justification for smuggling in other assertions for an an undesirable entity or concept. In Plutchik’s model it is the opposite of trust, which is why VeritasAI uses an absence of disgust as a possible indicator for trust.',
+  },
+];
 
 async function populateBiases() {
   const biasesCollection = collection(firestore, 'biases');
   for (const bias of biases) {
     await addDoc(biasesCollection, bias);
+    for (const tone of toneAnalysis) {
+      await addDoc(biasesCollection, tone);
+    }
   }
   console.log('Biases have been added to Firebase');
 }
