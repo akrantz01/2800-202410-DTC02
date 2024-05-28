@@ -6,6 +6,7 @@ const errorContainer = document.getElementById('error-message');
 
 const title = document.getElementById('title');
 const articleInfo = document.getElementById('article-info');
+const shareLink = document.getElementById('share-link');
 const author = document.getElementById('author-name');
 const publisher = document.getElementById('publisher-name');
 const url = document.getElementById('url');
@@ -26,6 +27,8 @@ onSnapshot(ref, async (doc) => {
       title.textContent = articleData.title;
 
       articleInfo.classList.remove('hidden');
+      shareLink.classList.remove('hidden');
+      createShareLink(shareLink);
       author.textContent = articleData.author;
       author.addEventListener('click', () => {
         window.location.href = `author?name=${articleData.author}`;
@@ -123,4 +126,16 @@ function hideSpinner(cardId) {
 function displayError(message) {
   errorContainer.querySelector('span').textContent = message;
   errorContainer.classList.remove('hidden');
+}
+
+/**
+ * Copy the link to the page to the clipboard
+ *
+ */
+function createShareLink(element) {
+  element.addEventListener('click', () => {
+    const currentURL = window.location;
+    navigator.clipboard.writeText(currentURL);
+    alert('URL has been copied to the clipboard!');
+  });
 }
