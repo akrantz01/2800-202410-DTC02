@@ -108,10 +108,49 @@ function veritasResponse(keyword, keywordObject) {
   </div>`;
   if (bias.sentences) {
     veritas += '<p>';
-    keywordObject.sentences.forEach((sentence) => {});
+    keywordObject.sentences.forEach((sentence) => {
+      const coloredSentence = writeSegments(keyword, sentence);
+      let order = Object.keys(coloredSentence);
+      order.sort((a, b) => {
+        return a - b;
+      });
+      order.forEach((position) => {
+        veritas += coloredSentence[position];
+      });
+    });
+    veritas += '</p>';
   }
 
   return veritas;
+}
+
+function writeSegments(keyword, sentence) {
+  const mainText = sentence.text;
+  const segments = Object.keys(sentence.scores);
+  const keywordIndex = mainText.indexOf(keyword);
+  const keywordLastIndex = keywordIndex + keyword.length;
+  let segmentOrder = {};
+  segments.forEach((segment) => {
+    const index = mainText.indexOf(segment);
+    let color = '';
+    if (sentence.scores[segment].sentiment.label === 'positive') color = 'text-primary';
+    else if (sentence.scores[segment].sentiment.label === 'negative') color = 'text-red-500';
+    if (
+      (index >= keywordIndex && index <= keywordLastIndex) ||
+      (index + segment.length >= keywordIndex && index + segment.length <= keywordLastIndex)
+    ) {
+      const segmentTokens = segment.split(' ');
+      const keywordTokens = keyword.split(' ');
+      let segmentText = '';
+      segmentTokens.forEach((token) => {
+        if (keywordTokens.includes(token))
+          segmentText += `<span class="font-extrabold">${token}</span> `;
+        else segmentText += `<span class="${color}">${token}</span> `;
+      });
+      segmentOrder[index] = segmentText;
+    } else segmentOrder[index] = `<span class="${color}">${segment}</span> `;
+  });
+  return segmentOrder;
 }
 
 function populateBiasScores() {
