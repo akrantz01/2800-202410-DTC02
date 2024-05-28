@@ -40,7 +40,9 @@ format = { cmd = "ruff format --check" }
 test = { cmd = "pytest" }
 
 analysis-manager.cmd = "functions-framework --target=handler --source projects/analysis-manager/main.py"
-analysis-manager.env = { PORT = "8080" }
+analysis-manager.env = { PORT = "8000" }
+tone-analyzer.cmd = "functions-framework --target=handler --source projects/tone-analyzer/main.py"
+tone-analyzer.env = { PORT = "8001" }
 
 [tool.polylith.bricks]
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"

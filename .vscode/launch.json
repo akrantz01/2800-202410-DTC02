@@ -12,6 +12,7 @@
       "env": {
         "FLASK_APP": "development/function.py",
         "FLASK_DEBUG": "1",
+        "FLASK_RUN_PORT": "8000",
         "FUNCTION": "analysis_manager"
       },
       "args": ["run", "--no-debugger"],
@@ -25,6 +26,7 @@
       "env": {
         "FLASK_APP": "development/function.py",
         "FLASK_DEBUG": "1",
+        "FLASK_RUN_PORT": "8001",
         "FUNCTION": "tone_analyzer"
       },
       "args": ["run", "--no-debugger"],

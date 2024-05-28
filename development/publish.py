@@ -57,7 +57,7 @@ from veritasai.articles import Article
         "--port",
         "-p",
         help="The port the development server is running on",
-        default=5000,
+        default=8000,
         metavar="PORT",
         type=cloup.INT,
         show_default=True,
