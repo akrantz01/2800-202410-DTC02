@@ -80,12 +80,12 @@ function writeSentences() {
     newBias.querySelector('.keyword').innerHTML = keyword;
     if (currentWord.sentences.length !== 0) {
       currentWord.sentences.forEach((sentence) => {
-        const sentenceTemplate = document.getElementById('sentence-template');
-        const newSentence = sentenceTemplate.content.cloneNode(true);
-        newSentence.querySelector('.quote').innerHTML =
+        // const sentenceTemplate = document.getElementById('sentence-template');
+        // const newSentence = newBias.content.cloneNode(true);
+        newBias.querySelector('.quote').innerHTML =
           `<span class="text-2xl">"</span>${sentence.text}<span class="text-2xl">"</span>`;
-        newSentence.querySelector('.response').innerHTML = veritasResponse(keyword, currentWord);
-        newBias.appendChild(newSentence);
+        newBias.querySelector('.response').innerHTML = veritasResponse(keyword, currentWord);
+        // newBias.appendChild(newBias);
       });
       document.getElementById('bias-cards').appendChild(newBias);
     }
