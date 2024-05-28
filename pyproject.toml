@@ -16,7 +16,6 @@ dependencies = [
   "ibm-watson>=8.1.0",
   "ibm-cloud-sdk-core>=3.20.0",
   "google-cloud-pubsub>=2.21.1",
-  "ibm-watson>=8.0.0",
   "google-cloud-logging>=3.10.0",
 ]
 
@@ -42,6 +41,7 @@ analysis-manager.env = { PORT = "8080" }
 
 [tool.polylith.bricks]
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
+"bases/veritasai/tone_analyzer" = "veritasai/tone_analyzer"
 "components/veritasai/articles" = "veritasai/articles"
 "components/veritasai/authentication" = "veritasai/authentication"
 "components/veritasai/cache" = "veritasai/cache"
@@ -52,6 +52,8 @@ analysis-manager.env = { PORT = "8080" }
 "components/veritasai/logging" = "veritasai/logging"
 "components/veritasai/protocol" = "veritasai/protocol"
 "components/veritasai/pubsub" = "veritasai/pubsub"
+"components/veritasai/tone" = "veritasai/tone"
+"components/veritasai/watson" = "veritasai/watson"
 
 [tool.pyright]
 extraPaths = ["bases", "components"]
