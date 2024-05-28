@@ -1,5 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore';
 
+import { getAuthorID } from './assign-article.js';
 import { firestore } from './firebase.js';
 import { saveArticleToggle } from './history.js';
 import { currentUser } from './user.js';
@@ -13,7 +14,8 @@ function getQueryParam(param) {
  * write author details to html
  */
 async function populateAuthorDetails() {
-  const authorID = getQueryParam('authorID');
+  const authorName = getQueryParam('name');
+  const authorID = await getAuthorID(authorName);
   const authorArticlesSnapshot = await getDoc(doc(firestore, 'authors', authorID));
   const author = authorArticlesSnapshot.data();
   document.getElementById('author-name').innerHTML = author.name;
@@ -43,7 +45,8 @@ async function populateAuthorDetails() {
  * write author articles to html
  */
 async function writeAuthorArticles() {
-  const authorID = getQueryParam('authorID');
+  const authorName = getQueryParam('name');
+  const authorID = await getAuthorID(authorName);
   const loggedInUser = await currentUser;
   const userID = loggedInUser.uid;
 

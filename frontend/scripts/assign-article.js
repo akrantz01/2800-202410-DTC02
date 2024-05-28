@@ -95,3 +95,45 @@ async function createPublisher(article, articleID) {
   });
   console.log(newPublisher.id);
 }
+
+/**
+ * get the author id from firestore
+ */
+export async function getAuthorID(authorName) {
+  const authorSnapshot = await getDocs(collection(firestore, 'authors'));
+  let authorFound = false;
+  let authorID = '';
+  authorSnapshot.forEach((authorInDB) => {
+    if (
+      authorInDB.data().name.trim().toLowerCase() === authorName.trim().toLowerCase() &&
+      !authorFound
+    ) {
+      authorFound = true;
+      authorID = authorInDB.id;
+    }
+  });
+  if (!authorFound) throw new Error('Author does not exist');
+
+  return authorID;
+}
+
+/**
+ * get the publisher id from firestore
+ */
+export async function getPublisherID(publisherName) {
+  const publisherSnapshot = await getDocs(collection(firestore, 'publishers'));
+  let publisherFound = false;
+  let publisherID = '';
+  publisherSnapshot.forEach((publisherInDB) => {
+    if (
+      publisherInDB.data().name.trim().toLowerCase() === publisherName.trim().toLowerCase() &&
+      !publisherFound
+    ) {
+      publisherFound = true;
+      publisherID = publisherInDB.id;
+    }
+  });
+  if (!publisherFound) throw new Error('Publisher does not exist');
+
+  return publisherID;
+}

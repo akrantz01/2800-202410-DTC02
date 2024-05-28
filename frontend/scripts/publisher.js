@@ -1,5 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore';
 
+import { getPublisherID } from './assign-article.js';
 import { firestore } from './firebase.js';
 import { saveArticleToggle } from './history.js';
 import { currentUser } from './user.js';
@@ -13,7 +14,8 @@ function getQueryParam(param) {
  * write publisher details to html
  */
 async function populatePublisherDetails() {
-  const publisherID = getQueryParam('publisherID');
+  const publisherName = getQueryParam('name');
+  const publisherID = await getPublisherID(publisherName);
   const publisherArticlesSnapshot = await getDoc(doc(firestore, 'publishers', publisherID));
   const publisher = publisherArticlesSnapshot.data();
   document.getElementById('publisher-name').innerHTML = publisher.name;
@@ -42,7 +44,8 @@ async function populatePublisherDetails() {
  * write publisher articles to html
  */
 async function writePublisherArticles() {
-  const publisherID = getQueryParam('publisherID');
+  const publisherName = getQueryParam('name');
+  const publisherID = await getPublisherID(publisherName);
   const loggedInUser = await currentUser;
   const userID = loggedInUser.uid;
 
