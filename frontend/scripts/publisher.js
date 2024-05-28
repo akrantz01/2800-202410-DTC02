@@ -1,9 +1,9 @@
 import { doc, getDoc } from 'firebase/firestore';
 
+import { getPublisherID } from './assign-article.js';
 import { firestore } from './firebase.js';
 import { saveArticleToggle } from './history.js';
 import { currentUser } from './user.js';
-import { getPublisherID } from './assign-article.js';
 
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
