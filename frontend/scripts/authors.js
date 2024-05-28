@@ -74,6 +74,9 @@ async function writeAuthorArticles() {
     newCard.querySelector('.analyzed-text').innerHTML = articleBody;
     newCard.querySelector('.ai-gauge').style = 'width: 2%';
     newCard.querySelector('.bias-gauge').style = 'width: 80%';
+    newCard.querySelector('.link').addEventListener('click', () => {
+      window.location.href = 'summary?uid=' + articleID;
+    });
     const buttonID = 'save-' + articleID;
     newCard.querySelector('.save-button').id = buttonID;
     const buttonElement = newCard.getElementById(buttonID);
