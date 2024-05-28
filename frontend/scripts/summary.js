@@ -84,6 +84,16 @@ onSnapshot(ref, async (doc) => {
       linkCardToPage('bias-detection-card', 'bias.html');
       hideSpinner('bias-detection-card');
     }
+
+    if (articleData.status.tone === 'complete') {
+      const toneDetectionProgress = document.getElementById('tone-detection-progress');
+      const toneDetectionText = document.getElementById('tone-detection-text');
+      toneDetectionProgress.style.width = `${articleData.toneDetection}%`;
+      toneDetectionText.textContent = `${articleData.toneDetection}%`;
+
+      linkCardToPage('tone-detection-card', 'tone.html');
+      hideSpinner('tone-detection-card');
+    }
   } catch (error) {
     displayError(error.message);
   }

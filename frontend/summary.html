@@ -6,6 +6,7 @@
     <link href="styles/tailwind.css" rel="stylesheet" />
     <title>Article Summary</title>
   </head>
+
   <body class="min-h-screen bg-gradient-to-b from-white to-gray-300 font-roboto">
     <header id="header-placeholder"></header>
     <main class="container p-4 mx-auto">
@@ -89,7 +90,7 @@
           >
             <div class="flex items-center justify-between mb-2">
               <h2 class="text-lg font-bold text-red-600">Bias Detection</h2>
-              <p id="bias-text" class="result hidden text-lg font-bold text-red-600"></p>
+              <p id="bias-detection-text" class="result hidden text-lg font-bold text-red-600"></p>
             </div>
             <div class="spinner flex justify-center">
               <svg
@@ -112,11 +113,41 @@
               <div id="bias-right" class="flex-grow h-6"></div>
             </div>
           </div>
+          <div
+            id="tone-detection-card"
+            class="p-4 bg-yellow-100 hover:bg-yellow-200 rounded-lg shadow-md cursor-pointer"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <h2 class="text-lg font-bold text-yellow-600">Tone Detection</h2>
+              <p id="tone-detection-text" class="result hidden text-lg font-bold text-red-600"></p>
+            </div>
+            <div class="spinner flex justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+                class="h-10 w-10 animate-spin"
+              >
+                <path
+                  opacity=".4"
+                  d="M256 64C150 64 64 150 64 256s86 192 192 192c70.1 0 131.3-37.5 164.9-93.6l.1 .1c-6.9 14.9-1.5 32.8 13 41.2c15.3 8.9 34.9 3.6 43.7-11.7c.2-.3 .4-.6 .5-.9l0 0C434.1 460.1 351.1 512 256 512C114.6 512 0 397.4 0 256S114.6 0 256 0c-17.7 0-32 14.3-32 32s14.3 32 32 32z"
+                />
+                <path
+                  d="M224 32c0-17.7 14.3-32 32-32C397.4 0 512 114.6 512 256c0 46.6-12.5 90.4-34.3 128c-8.8 15.3-28.4 20.5-43.7 11.7s-20.5-28.4-11.7-43.7c16.3-28.2 25.7-61 25.7-96c0-106-86-192-192-192c-17.7 0-32-14.3-32-32z"
+                />
+              </svg>
+            </div>
+            <div class="result hidden w-full h-6 mb-2 bg-gray-200 rounded-full">
+              <div
+                id="tone-detection-progress"
+                class="h-6 text-center text-white bg-blue-500 rounded-full"
+              ></div>
+            </div>
+          </div>
         </div>
-        <p class="mt-4 text-center text-gray-500">Tap on the cards for more details</p>
-        <div id="error-message" class="hidden mt-6 text-center text-red-500">
-          <span></span>
-        </div>
+      </div>
+      <p class="mt-4 text-center text-gray-500">Tap on the cards for more details</p>
+      <div id="error-message" class="hidden mt-6 text-center text-red-500">
+        <span></span>
       </div>
     </main>
     <footer id="footer-placeholder"></footer>
