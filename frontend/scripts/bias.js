@@ -130,22 +130,17 @@ function writeSegments(keyword, sentence) {
   const keywordIndex = mainText.indexOf(keyword);
   const keywordLastIndex = keywordIndex + keyword.length;
   const segmentOrder = {};
-  console.log('start: ' + keywordIndex);
-  console.log('end: ' + keywordLastIndex);
   segments.forEach((segment) => {
     const index = mainText.indexOf(segment);
     let color = '';
     if (sentence.scores[segment].sentiment.label === 'positive') color = 'text-primary';
     else if (sentence.scores[segment].sentiment.label === 'negative') color = 'text-red-500';
-    console.log(segment);
-    console.log('start: ' + index);
-    console.log('end: ' + (index + segment.length));
+
     if (
       (index >= keywordIndex && index <= keywordLastIndex) ||
       (index + segment.length >= keywordIndex && index + segment.length <= keywordLastIndex) ||
       (index <= keywordIndex && index + segment.length >= keywordLastIndex)
     ) {
-      console.log('bolding');
       const segmentTokens = segment.split(' ');
       const keywordTokens = keyword.split(' ');
       let segmentText = '';
