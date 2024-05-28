@@ -108,10 +108,56 @@ function veritasResponse(keyword, keywordObject) {
   </div>`;
   if (bias.sentences) {
     veritas += '<p>';
-    keywordObject.sentences.forEach((sentence) => {});
+    keywordObject.sentences.forEach((sentence) => {
+      const coloredSentence = writeSegments(keyword, sentence);
+      const order = Object.keys(coloredSentence);
+      order.sort((a, b) => {
+        return a - b;
+      });
+      order.forEach((position) => {
+        veritas += coloredSentence[position];
+      });
+    });
+    veritas += '</p>';
   }
 
   return veritas;
+}
+
+function writeSegments(keyword, sentence) {
+  const mainText = sentence.text;
+  const segments = Object.keys(sentence.scores);
+  const keywordIndex = mainText.indexOf(keyword);
+  const keywordLastIndex = keywordIndex + keyword.length;
+  const segmentOrder = {};
+  console.log('start: ' + keywordIndex);
+  console.log('end: ' + keywordLastIndex);
+  segments.forEach((segment) => {
+    const index = mainText.indexOf(segment);
+    let color = '';
+    if (sentence.scores[segment].sentiment.label === 'positive') color = 'text-primary';
+    else if (sentence.scores[segment].sentiment.label === 'negative') color = 'text-red-500';
+    console.log(segment);
+    console.log('start: ' + index);
+    console.log('end: ' + (index + segment.length));
+    if (
+      (index >= keywordIndex && index <= keywordLastIndex) ||
+      (index + segment.length >= keywordIndex && index + segment.length <= keywordLastIndex) ||
+      (index <= keywordIndex && index + segment.length >= keywordLastIndex)
+    ) {
+      console.log('bolding');
+      const segmentTokens = segment.split(' ');
+      const keywordTokens = keyword.split(' ');
+      let segmentText = '';
+      segmentTokens.forEach((token) => {
+        if (keywordTokens.includes(token.replace(/[!,.?:;()]/g, '')))
+          segmentText += `<span class="font-extrabold">${token}</span> `;
+        else segmentText += `<span class="${color}">${token}</span> `;
+      });
+      segmentOrder[index] = segmentText;
+    } else segmentOrder[index] = `<span class="${color}">${segment}</span> `;
+  });
+  return segmentOrder;
 }
 
 function populateBiasScores() {
