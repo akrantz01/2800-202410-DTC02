@@ -1,8 +1,5 @@
 import json
 
-from dotenv import load_dotenv
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_watson.natural_language_understanding_v1 import (
     ConceptsOptions,
     EmotionOptions,
@@ -14,8 +11,8 @@ from ibm_watson.natural_language_understanding_v1 import (
     SyntaxOptions,
     SyntaxOptionsTokens,
 )
-from veritasai.config import env
 from veritasai.firebase import get_db
+from veritasai.watson import natural_language_client
 
 
 def interpret_text(url_input: str = "", text_input: str = "") -> str:
@@ -28,14 +25,7 @@ def interpret_text(url_input: str = "", text_input: str = "") -> str:
     :param text_input: a text input string
     :return: json string
     """
-    load_dotenv()
-
-    authenticator = IAMAuthenticator(env.get("apikey"))
-    natural_language_understanding = NaturalLanguageUnderstandingV1(
-        version="2022-04-07", authenticator=authenticator
-    )
-
-    natural_language_understanding.set_service_url(env.get("url"))
+    natural_language_understanding = natural_language_client()
 
     analysis_features = Features(
         concepts=ConceptsOptions(limit=10),
@@ -70,14 +60,7 @@ def sentence_scan(sentence: str) -> str:
     :param text_input: a sentence input string
     :return: json string
     """
-    load_dotenv()
-
-    authenticator = IAMAuthenticator(env.get("apikey"))
-    natural_language_understanding = NaturalLanguageUnderstandingV1(
-        version="2022-04-07", authenticator=authenticator
-    )
-
-    natural_language_understanding.set_service_url(env.get("url"))
+    natural_language_understanding = natural_language_client()
 
     analysis_features = Features(
         emotion=EmotionOptions(document=True),

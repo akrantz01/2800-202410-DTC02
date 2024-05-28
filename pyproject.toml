@@ -52,6 +52,7 @@ analysis-manager.env = { PORT = "8080" }
 "components/veritasai/logging" = "veritasai/logging"
 "components/veritasai/protocol" = "veritasai/protocol"
 "components/veritasai/pubsub" = "veritasai/pubsub"
+"components/veritasai/watson" = "veritasai/watson"
 
 [tool.pyright]
 extraPaths = ["bases", "components"]
