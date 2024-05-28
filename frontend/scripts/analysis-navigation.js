@@ -1,3 +1,4 @@
+// For loading the tempalte into the DOM
 async function loadPaginationTemplate() {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', '/templates/analysis-navigation-template.html', true);
@@ -5,24 +6,49 @@ async function loadPaginationTemplate() {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
       document.getElementById('analysis-navigation-placeholder').innerHTML = xhr.responseText;
-      // highlightActiveLink();
+
+      const hrefArray = getHrefArray();
+      setNavClass(hrefArray);
     }
   };
 
   xhr.send();
 }
 
-// async function highlightActiveLink() {
-//   const currentPath = window.location.pathname.split('/').pop();
-//   const links = document.querySelectorAll('#pagination-placeholder a');
+// Helper function for getting the file name from the url
+function getCurrentFileName() {
+  const url = window.location.href;
+  const fileName = url.substring(url.lastIndexOf('/') + 1);
+  return fileName;
+}
 
-//   console.log(currentPath, links, 'asdf');
-//   links.forEach((link) => {
-//     if (link.getAttribute('href') === currentPath) {
-//       console.log('asdf');
-//     }
-//   });
-// }
+// Helper function for getting an array of the available href links
+function getHrefArray() {
+  const links = document.querySelectorAll('#analysis-navigation-controls a');
+  const hrefArray = Array.from(links).map((link) => link.getAttribute('href'));
+  return hrefArray;
+}
+
+// Sets css classes for the currently active navigation page
+function setNavClass(hRefArray = []) {
+  const fileName = getCurrentFileName();
+
+  for (let i = 0; i < hRefArray.length; i++) {
+    if (hRefArray[i] === fileName) {
+      console.log(`${hRefArray[i]} is equal to, ${fileName}`);
+
+      const element = document.querySelector(
+        `#analysis-navigation-controls a[href="${hRefArray[i]}"]`,
+      );
+
+      // TODO: Disable classes for when the navigation link is active
+      // Disable link when current page
+      [`border`, `rounded-lg`, `font-semibold`].map((classGroup) =>
+        element.classList.toggle(classGroup),
+      );
+    }
+  }
+}
 
 document.addEventListener('DOMContentLoaded', function () {
   loadPaginationTemplate();
