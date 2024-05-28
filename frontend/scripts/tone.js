@@ -1,12 +1,11 @@
 import ApexCharts from 'apexcharts';
-import { collection, getDocs } from 'firebase/firestore';
 
-import { firestore } from './firebase.js';
-
-// load the page
-const { article, docEmotion, entityEmotion, keywordEmotion } = await fetchData();
+import { listenForDocChanges } from './firestore-listener.js';
 
 function createApexChart(docEmotion, entityEmotions, keywordEmotions) {
+  // clear the chart in case it's being redrawn
+  const chartElement = document.querySelector('#chart');
+  chartElement.innerHTML = '';
   const options = {
     // Populate options in radar chart
     series: [
@@ -67,26 +66,8 @@ function createSpan(emoji, data, colour = '') {
 }
 
 const evaluateTrust = function (trustResult) {
-  return trustResult === 'yes' ? 'trustworthy' : 'untrustworthy';
+  return trustResult === 'yes' || trustResult === true ? 'trustworthy' : 'untrustworthy';
 };
-async function fetchData() {
-  // Get the 'articles' collection from Firestore
-  const articlesCollection = collection(firestore, 'articles');
-  // Fetch all documents from the 'articles' collection
-  const articlesSnapshot = await getDocs(articlesCollection);
-  let firestoreDocument;
-  articlesSnapshot.forEach((doc) => {
-    if (doc.id === 'J1gwG4YR1y5EMZITRg1a') {
-      firestoreDocument = doc.data();
-    }
-  });
-  return {
-    article: firestoreDocument.tone,
-    docEmotion: firestoreDocument.tone.document.emotion,
-    entityEmotion: firestoreDocument.tone.entities['averaged emotions'],
-    keywordEmotion: firestoreDocument.tone.keywords['averaged emotions'],
-  };
-}
 
 // return emoji for a table cell
 const getEmoji = function (category, value) {
@@ -242,30 +223,36 @@ function prepareSummary(section, article) {
       section === 'keywords'
         ? document.getElementById('keyword-explanation')
         : document.getElementById('entity-explanation');
-    explanationElement.innerHTML = `${relevanceSummary(section, article)}. ${emotionSummaryObjects(section, article['emotion trend'])}. The ${section} overall felt <span class="font-bold">${evaluateTrust(article.trust)}</span> to readers.`;
+    explanationElement.innerHTML = `${relevanceSummary(section, article)}. ${emotionSummaryObjects(section, article['emotion trend'])}. The ${section} overall felt <span class="font-bold">${evaluateTrust(article['general trust'])}</span> to readers.`;
   }
 }
 
 function sentimentSummary(article) {
   return `The article has a <span class="font-bold">${article.sentiment.label}</span> sentiment to it`;
 }
-function loadPageElements(article) {
-  // create the Apex Chart
-  // createApexChart(docEmotion, entityEmotions, keywordEmotions);
 
-  // Grab title page elements
-  // if (article.metadata) {
-  //  const titleSection = document.getElementById('accordion-color-heading-2')
-  //  titleSection.classList.remove("hidden")
-  //  const titleResults = document.getElementById('title-results');
-  //  const titleExplanation = document.getElementById('title-explanation');
-  // }
+async function loadPageElements(data) {
+  // Define a function to execute the main logic when article.keywords is available
+  const article = data.tone;
+  const executeMainLogic = () => {
+    populateKeywordsTable(article.keywords);
+    populateEntitiesTable(article.entities);
+    createApexChart(
+      article.document.emotion,
+      article.entities['averaged emotions'],
+      article.keywords['averaged emotions'],
+    );
+    ['document', 'entities', 'keywords'].forEach((category) => {
+      prepareSummary(category, article[category]);
+    });
+  };
+  // article.keywords sometimes doesn't fully load - wait for 100 milliseconds and try again if this happens
+  while (!article.keywords) {
+    // Wait for 100 milliseconds before checking again
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
 
-  populateKeywordsTable(article.keywords);
-  populateEntitiesTable(article.entities);
-  ['document', 'entities', 'keywords'].forEach((category) => {
-    prepareSummary(category, article[`${category}`]);
-  });
+  executeMainLogic();
 }
 
 const notInsideEntityOrKeyword = function (text) {
@@ -307,7 +294,7 @@ function populateSentimentCell(cell, sentiment, data) {
 // populate the entities section of the page
 function populateEntitiesTable(entities) {
   const entityResults = document.getElementById('entity-results');
-
+  entityResults.innerHTML = ``;
   // Loop through entities object and append elements to a table
   Object.entries(entities).forEach(([name, keyword]) => {
     if (notInsideEntityOrKeyword(name)) {
@@ -361,7 +348,7 @@ function populateEntitiesTable(entities) {
 // populate the keywords section of the page
 function populateKeywordsTable(keywords) {
   const keywordResults = document.getElementById('keyword-results');
-
+  keywordResults.innerHTML = ``;
   Object.entries(keywords).forEach(([text, keyword]) => {
     if (notInsideEntityOrKeyword(text)) {
       const {
@@ -404,5 +391,4 @@ function populateKeywordsTable(keywords) {
 
 const returnCellStyles = (size) => `px-2 py-2 text-center text-${size}`; // tailwind classes for table cell
 
-createApexChart(docEmotion, entityEmotion, keywordEmotion);
-loadPageElements(article);
+listenForDocChanges('J1gwG4YR1y5EMZITRg1a', loadPageElements);
