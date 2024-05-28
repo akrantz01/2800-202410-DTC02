@@ -199,7 +199,10 @@ def get_overall_sentiment(analysis: str) -> dict:
     :return: the document-level sentiment
     """
     ai_analysis = json.loads(analysis)
-    return ai_analysis["sentiment"]["document"]
+    try:
+        return ai_analysis["sentiment"]["document"]
+    except KeyError:
+        return {"score": 0, "label": "neutral"}
 
 
 def scan_segments(sentence: str) -> dict:
@@ -221,9 +224,7 @@ def scan_segments(sentence: str) -> dict:
             current_segment = ""
 
         current_segment += token
-
-    if len(segments_to_scan[-1]) < minimum_scan_size:
-        segments_to_scan[-2] = segments_to_scan[-2] + " " + segments_to_scan[-1]
+    segments_to_scan[-1] = segments_to_scan[-1] + " " + current_segment
 
     return {segment: sentence_scan(segment) for segment in segments_to_scan}
 
