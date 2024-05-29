@@ -64,11 +64,11 @@ async function fetchBiases() {
 // Function to create an HTML card for a bias
 function createBiasCard(bias) {
   return `
-    <div class="bg-white shadow-md rounded-lg p-4">
+    <div class="bg-white shadow-md rounded-lg p-4 border border-gray-300">
       <h2 class="text-2xl font-bold text-primary mb-2">${bias.name}</h2>
-      <p><strong>Description:</strong> ${bias.description}</p>
-      <p><strong>Example:</strong> ${bias.example}</p>
-      <p><strong>Impact:</strong> ${bias.impact}</p>
+      <p class="text-gray-500"><strong class="text-black">Description:</strong> ${bias.description}</p>
+      <p class="text-gray-500"><strong class="text-black">Example:</strong> ${bias.example}</p>
+      <p class="text-gray-500"><strong class="text-black">Impact:</strong> ${bias.impact}</p>
     </div>
   `;
 }
