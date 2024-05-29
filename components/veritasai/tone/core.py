@@ -5,10 +5,13 @@ from ibm_watson.natural_language_understanding_v1 import (
     KeywordsOptions,
     SentimentOptions,
 )
+from veritasai.logging import get_logger
 from veritasai.watson import natural_language_client
 
 from .plutchik import plutchik_analyzer
 from .summary import summarize_analysis, top_emotions
+
+logger = get_logger("veritasai.tone")
 
 
 def analyze(*, url: str | None = None, text: str | None = None) -> dict:
@@ -24,9 +27,12 @@ def analyze(*, url: str | None = None, text: str | None = None) -> dict:
     if not (bool(url) ^ bool(text)):
         raise ValueError("One of 'url' or 'text' must be provided")
 
+    logger.info("starting document analysis")
     raw = extract_sentiment(url=url, text=text)
+    logger.info("completed document analysis")
 
     if url:
+        logger.info("extracting title sentiment")
         title = raw["metadata"]["title"]
         title_analysis = extract_sentiment(text=title)
 
@@ -36,7 +42,10 @@ def analyze(*, url: str | None = None, text: str | None = None) -> dict:
             "emotion": top_emotions(title_analysis["emotion"]["document"]["emotion"]),
         }
 
+    logger.info("reducing analysis data")
     summary = summarize_analysis(raw)
+
+    logger.info("performing Plutchik analysis")
     return plutchik_analyzer(summary)
 
 
@@ -62,5 +71,5 @@ def extract_sentiment(*, url: str | None = None, text: str | None = None) -> dic
     if text is None:
         features.metadata = {}
 
-    response = client.analyze(features, text=text, url=url)
+    response = client.analyze(features, text=text, url=url, language="en")
     return response.get_result()
