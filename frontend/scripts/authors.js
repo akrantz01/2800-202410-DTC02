@@ -100,12 +100,12 @@ async function writeAuthorArticles() {
       buttonElement.addEventListener('click', () => {
         saveArticleToggle(articleID);
       });
+      document.getElementById('author-cards').appendChild(newCard);
     } else {
       newCard.querySelector('.link').classList.add('hidden');
       newCard.querySelector('.save-button').classList.add('hidden');
       newCard.querySelector('.gauges').classList.add('hidden');
     }
-    document.getElementById('author-cards').appendChild(newCard);
   });
 }
 

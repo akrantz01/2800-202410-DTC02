@@ -54,12 +54,12 @@ async function writeSaves() {
       buttonElement.addEventListener('click', () => {
         saveArticleToggle(articleID);
       });
+      document.getElementById('saved-cards').appendChild(newCard);
     } else {
       newCard.querySelector('.link').classList.add('hidden');
       newCard.querySelector('.save-button').classList.add('hidden');
       newCard.querySelector('.gauges').classList.add('hidden');
     }
-    document.getElementById('saved-cards').appendChild(newCard);
   });
 }
 

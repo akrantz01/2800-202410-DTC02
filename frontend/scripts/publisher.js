@@ -97,12 +97,12 @@ async function writePublisherArticles() {
       buttonElement.addEventListener('click', () => {
         saveArticleToggle(articleID);
       });
+      document.getElementById('publisher-cards').appendChild(newCard);
     } else {
       newCard.querySelector('.link').classList.add('hidden');
       newCard.querySelector('.save-button').classList.add('hidden');
       newCard.querySelector('.gauges').classList.add('hidden');
     }
-    document.getElementById('publisher-cards').appendChild(newCard);
   });
 }
 
