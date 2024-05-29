@@ -1,4 +1,8 @@
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
+} from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
 import { displayError, enableSignInWithGoogle, redirectToHome } from './shared.js';
@@ -31,7 +35,7 @@ form.addEventListener('submit', async (event) => {
       email: credential.user.email,
       dob: data.dob,
     });
-
+    await sendEmailVerification(auth.currentUser);
     redirectToHome();
   } catch (error) {
     let message = error.message;

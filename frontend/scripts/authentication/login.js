@@ -7,7 +7,8 @@ import { currentUser } from '../user.js';
 const form = document.querySelector('form');
 enableSignInWithGoogle();
 
-if ((await currentUser) !== null) redirectToHome();
+const user = await currentUser;
+if (user !== null && user.emailVerified) redirectToHome();
 
 // Handle email & password sign in
 form.addEventListener('submit', async (event) => {
@@ -17,6 +18,7 @@ form.addEventListener('submit', async (event) => {
 
   try {
     await signInWithEmailAndPassword(auth, data.email, data.password);
+    if (!user.emailVerified) throw new Error('Email has not been verified');
     redirectToHome();
   } catch (error) {
     let message = error.message;
