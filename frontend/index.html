@@ -16,7 +16,7 @@
   </head>
 
   <body
-    class="font-roboto bg-gradient-to-b from-white to-gray-300 bg-auto bg-no-repeat min-h-screen items-center text-center pt-32 container mx-auto"
+    class="font-opensans bg-gradient-to-b from-white to-gray-300 bg-auto bg-no-repeat min-h-screen items-center text-center pt-32 container mx-auto md:max-w-7xl"
   >
     <div class="font-bold text-6xl">
       <img src="images/logo.png" alt="VeritasAI Logo" class="inline-block max-w-64" />
@@ -24,21 +24,22 @@
         Veritas<span class="text-accent">A<span class="text-secondary">I</span></span>
       </h1>
 
-      <h2 class="text-slate-400 text-xl mb-12">Reveal the Truth</h2>
+      <h2 class="text-slate-400 text-xl font-light mb-12">Reveal the Truth</h2>
 
-      <a
-        class="group shadow-md hover:shadow-primary rounded-lg text-4xl py-2 px-4 text-white hover:bg-secondary bg-primary"
-        href="login.html"
-      >
-        Login
-      </a>
-      <br />
-      <a
-        class="group shadow-md hover:shadow-secondary rounded-lg text-4xl py-2 px-4 text-white hover:bg-primary bg-secondary mt-12"
-        href="signup.html"
-      >
-        Sign Up
-      </a>
+      <div class="w-full max-w-xs mx-auto">
+        <a
+          class="group shadow-md rounded-lg text-2xl font-medium py-2 px-4 text-white transition delay-100 hover:bg-primary_highlight hover:shadow-primary bg-primary block text-center mb-4"
+          href="login.html"
+        >
+          Login
+        </a>
+        <a
+          class="group shadow-md rounded-lg text-2xl font-medium py-2 px-4 text-white transition delay-100 hover:shadow-secondary hover:bg-accent bg-secondary block text-center"
+          href="signup.html"
+        >
+          Sign Up
+        </a>
+      </div>
     </div>
   </body>
 </html>
