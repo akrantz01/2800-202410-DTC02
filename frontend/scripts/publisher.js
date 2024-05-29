@@ -34,7 +34,7 @@ async function populatePublisherDetails() {
     const authorSnapshot = await getDoc(doc(firestore, 'authors', author));
     authorCard.innerHTML = authorSnapshot.data().name;
     authorCard.addEventListener('click', () => {
-      console.log(author);
+      window.location.href = `author?name=${authorSnapshot.data().name}`;
     });
     authorsHTML.appendChild(authorCard);
   });
