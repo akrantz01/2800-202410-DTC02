@@ -49,6 +49,7 @@ tone-analyzer.env = { PORT = "8001" }
 "bases/veritasai/tone_analyzer" = "veritasai/tone_analyzer"
 "components/veritasai/articles" = "veritasai/articles"
 "components/veritasai/authentication" = "veritasai/authentication"
+"components/veritasai/bias" = "veritasai/bias"
 "components/veritasai/cache" = "veritasai/cache"
 "components/veritasai/config" = "veritasai/config"
 "components/veritasai/cors" = "veritasai/cors"
