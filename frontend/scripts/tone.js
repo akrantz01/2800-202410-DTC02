@@ -2,6 +2,16 @@ import ApexCharts from 'apexcharts';
 
 import { listenForDocChanges } from './firestore-listener.js';
 
+function addTableHeaders(table, headers) {
+  const headerRow = document.createElement('tr');
+  headerRow.classList = 'text-xxs text-center';
+  for (const header of headers) {
+    const currentHeader = document.createElement('th');
+    currentHeader.innerHTML = `${header}`;
+    headerRow.appendChild(currentHeader);
+  }
+  table.appendChild(headerRow);
+}
 function createApexChart(docEmotion, entityEmotions, keywordEmotions) {
   // clear the chart in case it's being redrawn
   const chartElement = document.querySelector('#chart');
@@ -295,6 +305,14 @@ function populateSentimentCell(cell, sentiment, data) {
 function populateEntitiesTable(entities) {
   const entityResults = document.getElementById('entity-results');
   entityResults.innerHTML = ``;
+  addTableHeaders(entityResults, [
+    'Relevance',
+    'Name',
+    'Type',
+    'Dominant Emotion(s)',
+    'Sentiment',
+    'Occurences',
+  ]);
   // Loop through entities object and append elements to a table
   Object.entries(entities).forEach(([name, keyword]) => {
     if (notInsideEntityOrKeyword(name)) {
@@ -349,6 +367,8 @@ function populateEntitiesTable(entities) {
 function populateKeywordsTable(keywords) {
   const keywordResults = document.getElementById('keyword-results');
   keywordResults.innerHTML = ``;
+  addTableHeaders(keywordResults, ['Relevance', 'Keyword', 'Dominant Emotion(s)', 'Sentiment']);
+  keywordResults.ClassName = '';
   Object.entries(keywords).forEach(([text, keyword]) => {
     if (notInsideEntityOrKeyword(text)) {
       const {
@@ -368,7 +388,6 @@ function populateKeywordsTable(keywords) {
         sentiment,
       ];
 
-      // loop through each table cell
       cellData.forEach((data) => {
         let cell = document.createElement('td');
         cell.className = returnCellStyles('md');
