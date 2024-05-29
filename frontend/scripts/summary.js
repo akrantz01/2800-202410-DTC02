@@ -38,11 +38,11 @@ onSnapshot(ref, async (doc) => {
       shareLink.classList.remove('hidden');
       createShareLink(shareLink);
       author.textContent = articleData.author;
-      author.addEventListener('click', () => {
+      document.getElementById('author-card').addEventListener('click', () => {
         window.location.href = `author?name=${articleData.author}`;
       });
       publisher.textContent = articleData.publisher;
-      publisher.addEventListener('click', () => {
+      document.getElementById('publisher-card').addEventListener('click', () => {
         window.location.href = `publisher?name=${articleData.publisher}`;
       });
       await addHistory(doc.id);

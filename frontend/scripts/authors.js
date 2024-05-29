@@ -33,9 +33,10 @@ async function populateAuthorDetails() {
   author.publishedFor.forEach(async (publisher) => {
     const publisherCard = document.createElement('p');
     const publisherSnapshot = await getDoc(doc(firestore, 'publishers', publisher));
+    publisherCard.classList.add('px-4', 'py-2', 'shadow-md', 'rounded-lg', 'border');
     publisherCard.innerHTML = publisherSnapshot.data().name;
     publisherCard.addEventListener('click', () => {
-      console.log(publisher);
+      window.location.href = `publisher?name=${publisherSnapshot.data().name}`;
     });
     publishers.appendChild(publisherCard);
   });
@@ -58,33 +59,54 @@ async function writeAuthorArticles() {
   authorArticles.forEach(async (article) => {
     const articleID = article;
     let articleBody;
+    let aiGauge;
+    let biasGauge;
+    let articleExists = false;
 
     const articleSnapshot = await getDoc(doc(firestore, 'articles', articleID));
     if (articleSnapshot.exists()) {
-      articleBody = articleSnapshot.data().scannedText;
+      articleBody = articleSnapshot.data().title;
+      articleExists = true;
+      if (articleSnapshot.data().ai) aiGauge = `width: ${articleSnapshot.data().ai.aiScore * 100}%`;
+      if (articleSnapshot.data().bias)
+        biasGauge = `width: ${articleSnapshot.data().bias.biasScore * 100}%`;
+
       // get other data from article
     } else {
       console.log('article missing from firestore');
-      articleBody = 'Article Missing.';
+      articleBody = 'Article Reference Missing';
+      aiGauge = 'width: 0%';
+      biasGauge = 'width: 0%';
+
       // Assign defaults if article is missing
     }
     const myTemplate = document.getElementById('saved-card');
 
     const newCard = myTemplate.content.cloneNode(true);
     newCard.querySelector('.analyzed-text').innerHTML = articleBody;
-    newCard.querySelector('.ai-gauge').style = 'width: 2%';
-    newCard.querySelector('.bias-gauge').style = 'width: 80%';
-    newCard.querySelector('.link').addEventListener('click', () => {
-      window.location.href = 'summary?uid=' + articleID;
-    });
-    const buttonID = 'save-' + articleID;
-    newCard.querySelector('.save-button').id = buttonID;
-    const buttonElement = newCard.getElementById(buttonID);
-    if (savedArticles.includes(article)) buttonElement.classList.add('fill-primary');
-    buttonElement.addEventListener('click', () => {
-      saveArticleToggle(articleID);
-    });
-    document.getElementById('author-cards').appendChild(newCard);
+    if (aiGauge) newCard.querySelector('.ai-gauge').style = aiGauge;
+    else newCard.querySelector('.ai-tag').innerHTML = 'No AI score available';
+
+    if (biasGauge) newCard.querySelector('.bias-gauge').style = biasGauge;
+    else newCard.querySelector('.bias-tag').innerHTML = 'No Bias score available';
+
+    if (articleExists) {
+      newCard.querySelector('.link').addEventListener('click', () => {
+        window.location.href = 'summary?uid=' + articleID;
+      });
+      const buttonID = 'save-' + articleID;
+      newCard.querySelector('.save-button').id = buttonID;
+      const buttonElement = newCard.getElementById(buttonID);
+      if (savedArticles.includes(article)) buttonElement.classList.add('fill-primary');
+      buttonElement.addEventListener('click', () => {
+        saveArticleToggle(articleID);
+      });
+      document.getElementById('author-cards').appendChild(newCard);
+    } else {
+      newCard.querySelector('.link').classList.add('hidden');
+      newCard.querySelector('.save-button').classList.add('hidden');
+      newCard.querySelector('.gauges').classList.add('hidden');
+    }
   });
 }
 
