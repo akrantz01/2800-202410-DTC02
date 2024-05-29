@@ -97,5 +97,5 @@ def interpret_text(
     if url:
         features.metadata = {}
 
-    response = client.analyze(features, text=text, url=url)
+    response = client.analyze(features, text=text, url=url, language="en")
     return response.get_result()

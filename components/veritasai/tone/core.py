@@ -62,5 +62,5 @@ def extract_sentiment(*, url: str | None = None, text: str | None = None) -> dic
     if text is None:
         features.metadata = {}
 
-    response = client.analyze(features, text=text, url=url)
+    response = client.analyze(features, text=text, url=url, language="en")
     return response.get_result()
