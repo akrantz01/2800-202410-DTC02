@@ -1,14 +1,14 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 
-import { addHistory } from './history.js';
 import {
   assignArticle,
   updateAuthorAi,
   updateAuthorBias,
-  updatePublisherBias,
   updatePublisherAi,
+  updatePublisherBias,
 } from './assign-article.js';
 import { firestore } from './firebase.js';
+import { addHistory } from './history.js';
 
 const errorContainer = document.getElementById('error-message');
 
