@@ -27,12 +27,14 @@ async function populatePublisherDetails() {
 
   document.getElementById('drop-button').addEventListener('click', () => {
     authorsHTML.classList.toggle('line-clamp-1');
+
     document.getElementById('drop-button').classList.toggle('rotate-180');
   });
   publisher.authors.forEach(async (author) => {
     const authorCard = document.createElement('p');
     const authorSnapshot = await getDoc(doc(firestore, 'authors', author));
     authorCard.innerHTML = authorSnapshot.data().name;
+    authorCard.classList.add('px-4', 'py-2', 'shadow-md', 'rounded-lg', 'border');
     authorCard.addEventListener('click', () => {
       window.location.href = `author?name=${authorSnapshot.data().name}`;
     });
