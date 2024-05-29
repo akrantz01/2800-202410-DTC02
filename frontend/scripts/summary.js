@@ -1,6 +1,14 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 
+import {
+  assignArticle,
+  updateAuthorAi,
+  updateAuthorBias,
+  updatePublisherAi,
+  updatePublisherBias,
+} from './assign-article.js';
 import { firestore } from './firebase.js';
+import { addHistory } from './history.js';
 
 const errorContainer = document.getElementById('error-message');
 
@@ -37,6 +45,8 @@ onSnapshot(ref, async (doc) => {
       publisher.addEventListener('click', () => {
         window.location.href = `publisher?name=${articleData.publisher}`;
       });
+      await addHistory(doc.id);
+      await assignArticle(doc.id);
       url.href = articleData.url;
       summary.textContent = articleData.summary;
     }
@@ -44,6 +54,10 @@ onSnapshot(ref, async (doc) => {
     if (articleData.status.ai === 'complete') {
       const aiDetectionProgress = document.getElementById('ai-detection-progress');
       const aiDetectionText = document.getElementById('ai-detection-text');
+
+      await updateAuthorAi(articleData.author);
+      await updatePublisherAi(articleData.publisher);
+
       aiDetectionProgress.style.width = `${articleData.aiDetection}%`;
       aiDetectionText.textContent = `${articleData.aiDetection}%`;
 
@@ -68,6 +82,9 @@ onSnapshot(ref, async (doc) => {
       const biasNeutral = document.getElementById('bias-neutral');
       const biasRight = document.getElementById('bias-right');
       const biasText = document.getElementById('bias-text');
+
+      await updateAuthorBias(articleData.author);
+      await updatePublisherBias(articleData.publisher);
 
       biasLeft.classList.remove('bg-blue-500');
       biasNeutral.classList.remove('bg-green-500');
