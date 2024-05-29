@@ -1,5 +1,13 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 
+import { addHistory } from './history.js';
+import {
+  assignArticle,
+  updateAuthorAi,
+  updateAuthorBias,
+  updatePublisherBias,
+  updatePublisherAi,
+} from './assign-article.js';
 import { firestore } from './firebase.js';
 
 const errorContainer = document.getElementById('error-message');
@@ -37,6 +45,7 @@ onSnapshot(ref, async (doc) => {
       publisher.addEventListener('click', () => {
         window.location.href = `publisher?name=${articleData.publisher}`;
       });
+      await addHistory(doc.id);
       url.href = articleData.url;
       summary.textContent = articleData.summary;
     }
