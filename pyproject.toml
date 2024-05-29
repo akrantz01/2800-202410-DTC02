@@ -17,6 +17,9 @@ dependencies = [
   "ibm-cloud-sdk-core>=3.20.0",
   "google-cloud-pubsub>=2.21.1",
   "google-cloud-logging>=3.10.0",
+  "click>=8.1.7",
+  "cloup>=3.0.5",
+  "requests>=2.32.2",
 ]
 
 [build-system]
@@ -37,7 +40,9 @@ format = { cmd = "ruff format --check" }
 test = { cmd = "pytest" }
 
 analysis-manager.cmd = "functions-framework --target=handler --source projects/analysis-manager/main.py"
-analysis-manager.env = { PORT = "8080" }
+analysis-manager.env = { PORT = "8000" }
+tone-analyzer.cmd = "functions-framework --target=handler --source projects/tone-analyzer/main.py"
+tone-analyzer.env = { PORT = "8001" }
 
 [tool.polylith.bricks]
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
