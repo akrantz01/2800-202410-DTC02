@@ -46,7 +46,7 @@
         <div id="pie-chart" class="flex-1 w-full h-full flex items-center justify-center"></div>
       </div>
 
-      <!-- Bias Description and Article Summary -->
+      <!-- Bias Description & Scores -->
       <div class="flex-1 flex flex-col space-y-2 md:basis-3/5">
         <div
           id="bias-description"
@@ -59,25 +59,82 @@
             alias ex, pariatur voluptatibus obcaecati nisi quam vitae dolore.
           </p>
         </div>
+        <!-- Bias Scores -->
         <div
-          id="article-summary"
           class="border border-gray-400 rounded-lg bg-white p-4 px-6 text-left space-y-2 flex-grow flex-shrink-0 flex flex-col"
         >
-          <h2 class="text-2xl text-gray-600 font-semibold">Article Summary</h2>
-          <div class="overflow-auto flex-grow">
-            <p class="text-md text-gray-500">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae, temporibus
-              quisquam! Dignissimos repudiandae animi dolorem fuga beatae sequi soluta quidem fugiat
-              alias ex, pariatur voluptatibus obcaecati nisi quam vitae dolore. Lorem ipsum dolor
-              sit amet consectetur adipisicing elit. Harum neque tempora incidunt aliquam pariatur
-              deserunt, aut corporis mollitia quibusdam inventore consequuntur illo, sequi ex ullam
-              ea repellat temporibus. Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Repudiandae, temporibus quisquam! Dignissimos repudiandae animi dolorem fuga beatae
-              sequi soluta quidem fugiat alias ex, pariatur voluptatibus obcaecati nisi quam vitae
-              dolore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum neque tempora
-              incidunt aliquam pariatur deserunt, aut corporis mollitia quibusdam inventore
-              consequuntur illo, sequi ex ullam ea repellat temporibus.
-            </p>
+          <div id="overall-bias" class="text-center">
+            <h1 class="font-xl">Overall Bias Score</h1>
+            <label for="overall-bias-gauge" class="text-slate-600" id="overall-bias-gauge"
+              >Overall Bias</label
+            >
+            <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
+              <div
+                class="overall-gauge bg-primary h-2.5 rounded-full"
+                style="width: 98%"
+                name="overall-bias-gauge"
+              ></div>
+            </div>
+          </div>
+
+          <div id="opinion-bias" class="text-center">
+            <h1 class="font-xl">Opinion Bias Score</h1>
+            <label for="opinion-bias-gauge" class="text-slate-600" id="opinion-bias-gauge"
+              >Opinion Bias</label
+            >
+            <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
+              <div
+                class="opinion-gauge bg-primary h-2.5 rounded-full"
+                style="width: 98%"
+                name="opinion-bias-gauge"
+              ></div>
+            </div>
+          </div>
+
+          <div id="gender-bias" class="text-center">
+            <h1 class="font-xl">Gender Bias Score</h1>
+            <label for="gender-bias-gauge" class="text-slate-600" id="gender-bias-gauge"
+              >gender Bias</label
+            >
+            <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
+              <div
+                class="gender-gauge bg-primary h-2.5 rounded-full"
+                style="width: 98%"
+                name="gender-bias-gauge"
+              ></div>
+            </div>
+            <p id="gender-breakdown" class="block">text</p>
+          </div>
+
+          <div id="language-bias" class="text-center">
+            <h1 class="font-xl">Language Bias Score</h1>
+            <label for="language-bias-gauge" class="text-slate-600" id="language-bias-gauge"
+              >language Bias</label
+            >
+            <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
+              <div
+                class="language-gauge bg-primary h-2.5 rounded-full"
+                style="width: 98%"
+                name="language-bias-gauge"
+              ></div>
+            </div>
+          </div>
+
+          <div id="language-bias-direction" class="text-center">
+            <h1 class="font-xl">Language Bias Direction</h1>
+            <label
+              for="language-bias-direction-gauge"
+              class="text-slate-600"
+              id="language-bias-direction-gauge"
+              >language Bias</label
+            >
+            <div class="w-full bg-gray-200 rounded-full h-2.5 relative">
+              <div
+                class="language-direction-gauge bg-primary h-2.5 rounded-full absolute left-1/2"
+                style="width: 50%"
+                name="language-bias-direction-gauge"
+              ></div>
+            </div>
           </div>
         </div>
       </div>
@@ -85,13 +142,15 @@
 
     <!-- Bias Types -->
     <div id="bias-type-cards" class="flex flex-col space-y-2 p-4 mb-20">
-      <h2 id="bias-title" class="text-xl font-medium">Detected Biases</h2>
+      <div class="flex flex-row space-x-2 py-2 flex-wrap text-md text-gray-800 font-semibold">
+        <img src="images/logo.svg" width="32" height="32" alt="VeritasAI" />
+        <p class="text-xl font-medium">VeritasAI Tone Results</p>
+      </div>
+
+      <!-- Bias Cards Go Here -->
+      <div id="bias-cards" class="mt-2 space-y-2"></div>
 
       <!-- Bias Card Template -->
-      <!-- Use this for populating information from firestore
-    into the DOM -->
-
-      <div id="bias-cards" class="mt-2 space-y-2"></div>
       <template id="bias-card">
         <div
           class="group flex flex-col border border-gray-400 rounded-lg bg-white p-4 text-black"
@@ -120,7 +179,7 @@
               class="invisible space-y-4 text-left h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000"
             >
               <!-- Input analyzed data here -->
-              <h3 class="pt-4 mt-4 border-t">Analyzed Quote:</h3>
+              <h3 class="pt-4 group-focus:mt-4 group-focus:border-t">Analyzed Quote:</h3>
               <p class="font-sm italic mx-0.5 text-gray-500 quote">
                 "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe iure sapiente
                 libero voluptas consequatur deleniti consectetur rem autem in error, doloremque
@@ -167,80 +226,6 @@
           </div>
         </div>
       </template>
-    </div>
-
-    <div id="overall-bias" class="text-center">
-      <h1 class="font-xl">Overall Bias Score</h1>
-      <label for="overall-bias-gauge" class="text-slate-600" id="overall-bias-gauge"
-        >Overall Bias</label
-      >
-      <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
-        <div
-          class="overall-gauge bg-primary h-2.5 rounded-full"
-          style="width: 98%"
-          name="overall-bias-gauge"
-        ></div>
-      </div>
-    </div>
-
-    <div id="opinion-bias" class="text-center">
-      <h1 class="font-xl">Opinion Bias Score</h1>
-      <label for="opinion-bias-gauge" class="text-slate-600" id="opinion-bias-gauge"
-        >Opinion Bias</label
-      >
-      <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
-        <div
-          class="opinion-gauge bg-primary h-2.5 rounded-full"
-          style="width: 98%"
-          name="opinion-bias-gauge"
-        ></div>
-      </div>
-    </div>
-
-    <div id="gender-bias" class="text-center w-[150px]">
-      <h1 class="font-xl">Gender Bias Score</h1>
-      <label for="gender-bias-gauge" class="text-slate-600" id="gender-bias-gauge"
-        >gender Bias</label
-      >
-      <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
-        <div
-          class="gender-gauge bg-primary h-2.5 rounded-full"
-          style="width: 98%"
-          name="gender-bias-gauge"
-        ></div>
-      </div>
-      <p id="gender-breakdown" class="block">text</p>
-    </div>
-
-    <div id="language-bias" class="text-center">
-      <h1 class="font-xl">Language Bias Score</h1>
-      <label for="language-bias-gauge" class="text-slate-600" id="language-bias-gauge"
-        >language Bias</label
-      >
-      <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
-        <div
-          class="language-gauge bg-primary h-2.5 rounded-full"
-          style="width: 98%"
-          name="language-bias-gauge"
-        ></div>
-      </div>
-    </div>
-
-    <div id="language-bias-direction" class="text-center">
-      <h1 class="font-xl">Language Bias Direction</h1>
-      <label
-        for="language-bias-direction-gauge"
-        class="text-slate-600"
-        id="language-bias-direction-gauge"
-        >language Bias</label
-      >
-      <div class="w-full bg-gray-200 rounded-full h-2.5 relative">
-        <div
-          class="language-direction-gauge bg-primary h-2.5 rounded-full absolute left-1/2"
-          style="width: 50%"
-          name="language-bias-direction-gauge"
-        ></div>
-      </div>
     </div>
 
     <footer id="footer-placeholder"></footer>
