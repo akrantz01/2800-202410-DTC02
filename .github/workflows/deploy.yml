@@ -148,5 +148,6 @@ jobs:
             --entry-point=handler \
             --trigger-topic=${TOPIC} \
             --env-vars-file=env.yaml \
-            --allow-unauthenticated \
+            --timeout=300s \
+            --ingress-settings=internal-only \
             --ignore-file=$(pwd)/.gcloudignore
