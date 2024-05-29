@@ -39,6 +39,7 @@ jobs:
     concurrency:
       group: http_${{ matrix.name }}
     strategy:
+      fail-fast: false
       matrix:
         name:
           - analysis-manager
@@ -77,7 +78,6 @@ jobs:
       - name: Package
         run: tar zxvf ${{ env.PDM_PROJECT }}/dist/${{ steps.build.outputs.name}}-${{ steps.build.outputs.version }}.tar.gz
 
-      # TODO: require authentication for invocation
       - name: Deploy
         run: |
           sops --decrypt environments/${{ matrix.name }}.yaml > env.yaml
