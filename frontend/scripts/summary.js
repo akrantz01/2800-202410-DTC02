@@ -54,6 +54,10 @@ onSnapshot(ref, async (doc) => {
     if (articleData.status.ai === 'complete') {
       const aiDetectionProgress = document.getElementById('ai-detection-progress');
       const aiDetectionText = document.getElementById('ai-detection-text');
+
+      await updateAuthorAi(articleData.author);
+      await updatePublisherAi(articleData.publisher);
+
       aiDetectionProgress.style.width = `${articleData.aiDetection}%`;
       aiDetectionText.textContent = `${articleData.aiDetection}%`;
 
@@ -78,6 +82,9 @@ onSnapshot(ref, async (doc) => {
       const biasNeutral = document.getElementById('bias-neutral');
       const biasRight = document.getElementById('bias-right');
       const biasText = document.getElementById('bias-text');
+
+      await updateAuthorBias(articleData.author);
+      await updatePublisherBias(articleData.publisher);
 
       biasLeft.classList.remove('bg-blue-500');
       biasNeutral.classList.remove('bg-green-500');
