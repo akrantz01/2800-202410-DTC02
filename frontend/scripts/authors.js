@@ -64,7 +64,7 @@ async function writeAuthorArticles() {
 
     const articleSnapshot = await getDoc(doc(firestore, 'articles', articleID));
     if (articleSnapshot.exists()) {
-      articleBody = articleSnapshot.data().scannedText;
+      articleBody = articleSnapshot.data().title;
       articleExists = true;
       if (articleSnapshot.data().ai) aiGauge = `width: ${articleSnapshot.data().ai.aiScore * 100}%`;
       if (articleSnapshot.data().bias)

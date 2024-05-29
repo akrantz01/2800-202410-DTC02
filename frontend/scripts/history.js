@@ -47,7 +47,7 @@ async function writeHistory() {
     date = date.slice(0, 5).join(' ');
 
     if (articleSnapshot.exists()) {
-      articleBody = articleSnapshot.data().scannedText;
+      articleBody = articleSnapshot.data().title;
       articleExists = true;
       if (articleSnapshot.data().ai) aiGauge = `width: ${articleSnapshot.data().ai.aiScore * 100}%`;
       if (articleSnapshot.data().bias)
