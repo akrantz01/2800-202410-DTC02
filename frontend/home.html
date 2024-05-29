@@ -25,105 +25,164 @@
       </h1>
 
       <h2 class="text-slate-500 text-xl mb-2">Reveal the Truth</h2>
+    </div>
 
-      <form id="form" class="flex flex-col justify-center items-center">
-        <textarea
-          type="text"
-          name="content"
-          id="content"
-          placeholder="Paste text here"
-          rows="6"
-          class="block rounded-lg border lg:max-w-96 w-full max-w-64 placeholder-slate-600 text-slate-600 focus:ring-primary border-primary"
-          required
-        ></textarea>
-        <div class="lg:max-w-96 w-full max-w-64 flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="icon icon-tabler icon-tabler-user mr-2"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            stroke-width="2.5"
-            stroke="#17da7c"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-          </svg>
+    <div id="error" class="hidden sm:mx-auto sm:w-full sm:max-w-sm my-4">
+      <div class="bg-red-100 text-red-600 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">Error:</strong>
+        <span class="block sm:inline"></span>
+      </div>
+    </div>
+
+    <form id="form" class="mx-auto max-w-sm grid grid-cols-1 gap-x-6 gap-y-4">
+      <div class="col-span-full">
+        <label for="content" class="block text-sm font-medium leading-6 text-gray-900"
+          >Content
+        </label>
+        <div class="mt-0.5">
+          <textarea
+            id="content"
+            name="content"
+            rows="6"
+            required
+            placeholder="Paste the content you want to analyze here."
+            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+          ></textarea>
+        </div>
+      </div>
+
+      <div>
+        <label for="author" class="block text-sm font-medium leading-6 text-gray-900">
+          Author(s)
+        </label>
+        <div class="relative mt-0.5 rounded-md shadow-sm">
+          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-user mr-2 h-5 w-5"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              stroke-width="2.5"
+              stroke="#17da7c"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+              <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+            </svg>
+          </div>
           <input
             type="text"
             name="author"
             id="author"
-            placeholder="Authors (separated by ',')"
-            class="block w-full rounded-lg border placeholder-slate-600 text-slate-600 focus:ring-primary border-primary"
+            class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+            placeholder="John Doe"
+            aria-describedby="author-description"
           />
         </div>
-        <div class="lg:max-w-96 w-full max-w-64 flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="icon icon-tabler icon-tabler-news mr-2"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            stroke-width="2.5"
-            stroke="#17da7c"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path
-              d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11"
-            />
-            <path d="M8 8l4 0" />
-            <path d="M8 12l4 0" />
-            <path d="M8 16l4 0" />
-          </svg>
+        <p class="mt-2 text-xs text-gray-500" id="author-description">
+          Seperate multiple authors with semi-colons.
+        </p>
+      </div>
+
+      <div>
+        <label for="publisher" class="block text-sm font-medium leading-6 text-gray-900">
+          Publisher
+        </label>
+        <div class="relative mt-0.5 rounded-md shadow-sm">
+          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-user mr-2 h-5 w-5"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              stroke-width="2.5"
+              stroke="#17da7c"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11"
+              />
+              <path d="M8 8l4 0" />
+              <path d="M8 12l4 0" />
+              <path d="M8 16l4 0" />
+            </svg>
+          </div>
           <input
             type="text"
             name="publisher"
             id="publisher"
-            placeholder="Publisher"
-            class="block w-full rounded-lg border placeholder-slate-600 text-slate-600 focus:ring-primary border-primary"
+            class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+            placeholder="Fake News Publishing"
           />
         </div>
-        <div class="lg:max-w-96 w-full max-w-64 flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="icon icon-tabler icon-tabler-input-search mr-2"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            stroke-width="2.5"
-            stroke="#17da7c"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M20 11v-2a2 2 0 0 0 -2 -2h-12a2 2 0 0 0 -2 2v5a2 2 0 0 0 2 2h5" />
-            <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-            <path d="M20.2 20.2l1.8 1.8" />
-          </svg>
+      </div>
+
+      <div>
+        <label for="source-url" class="block text-sm font-medium leading-6 text-gray-900">
+          URL
+        </label>
+        <div class="relative mt-0.5 rounded-md shadow-sm">
+          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-user mr-2 h-5 w-5"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              stroke-width="2.5"
+              stroke="#17da7c"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M20 11v-2a2 2 0 0 0 -2 -2h-12a2 2 0 0 0 -2 2v5a2 2 0 0 0 2 2h5" />
+              <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+              <path d="M20.2 20.2l1.8 1.8" />
+            </svg>
+          </div>
           <input
             type="url"
             name="source-url"
             id="source-url"
-            placeholder="URL"
-            class="block w-full rounded-lg border placeholder-slate-600 text-slate-600 focus:ring-primary border-primary"
+            class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+            placeholder="https://fake.news"
           />
         </div>
-        <button
-          type="submit"
-          class="group shadow-md hover:shadow-primary rounded-lg text-4xl py-2 px-4 text-white hover:bg-secondary bg-primary"
-        >
-          Analyze
-        </button>
-      </form>
-    </div>
+      </div>
+
+      <button
+        id="submit"
+        type="submit"
+        class="group shadow-md rounded-lg text-4xl py-2 px-4 text-white hover:bg-secondary hover:shadow-primary bg-primary disabled:bg-green-600 disabled:hover:shadow-none"
+      >
+        <span id="submit-text">Analyze</span>
+        <div id="submit-spinner" class="justify-center" style="display: none">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            class="h-10 w-10 animate-spin"
+          >
+            <path
+              opacity=".4"
+              d="M256 64C150 64 64 150 64 256s86 192 192 192c70.1 0 131.3-37.5 164.9-93.6l.1 .1c-6.9 14.9-1.5 32.8 13 41.2c15.3 8.9 34.9 3.6 43.7-11.7c.2-.3 .4-.6 .5-.9l0 0C434.1 460.1 351.1 512 256 512C114.6 512 0 397.4 0 256S114.6 0 256 0c-17.7 0-32 14.3-32 32s14.3 32 32 32z"
+            />
+            <path
+              d="M224 32c0-17.7 14.3-32 32-32C397.4 0 512 114.6 512 256c0 46.6-12.5 90.4-34.3 128c-8.8 15.3-28.4 20.5-43.7 11.7s-20.5-28.4-11.7-43.7c16.3-28.2 25.7-61 25.7-96c0-106-86-192-192-192c-17.7 0-32-14.3-32-32z"
+            />
+          </svg>
+        </div>
+      </button>
+    </form>
+
     <footer id="footer-placeholder"></footer>
 
     <script type="module" src="scripts/home.js"></script>
