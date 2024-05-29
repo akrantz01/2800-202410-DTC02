@@ -25,7 +25,7 @@
         id="saved-cards"
       >
         <template id="saved-card">
-          <a class="my-2 shadow-md border-2 py-4 rounded-3xl block" href="#">
+          <div class="my-2 shadow-md border-2 py-4 rounded-3xl block" href="#">
             <header class="flex items-center px-2">
               <h1
                 class="analyzed-text text-slate-600 text-xl lg:text-4xl font-bold flex-1 text-left line-clamp-2"
@@ -50,9 +50,9 @@
                 <path d="M15 4h5v5" />
               </svg>
             </header>
-            <div class="flex justify-around lg:justify-center lg:gap-24">
-              <div class="flex flex-col items-center w-[130px]">
-                <label for="ai-gauge" class="text-slate-600">AI detection</label>
+            <div class="flex justify-around lg:justify-center lg:gap-24 gauges">
+              <div class="flex flex-col items-center w-[130px] ai-tag">
+                <label for="ai-gauge" class="text-slate-600">AI Score</label>
                 <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
                   <div
                     class="ai-gauge bg-primary h-2.5 rounded-full"
@@ -61,8 +61,8 @@
                   ></div>
                 </div>
               </div>
-              <div class="flex flex-col items-center w-[130px]">
-                <label for="bias-gauge" class="text-slate-600">Bias Placeholder</label>
+              <div class="flex flex-col items-center w-[130px] bias-tag">
+                <label for="bias-gauge" class="text-slate-600">Bias Score</label>
                 <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
                   <div
                     class="bias-gauge bg-primary h-2.5 rounded-full"
@@ -110,7 +110,7 @@
                 />
               </svg>
             </div>
-          </a>
+          </div>
         </template>
       </div>
     </div>
