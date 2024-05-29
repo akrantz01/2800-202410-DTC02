@@ -13,7 +13,6 @@ requires-python = ">=3.10"
 dependencies = [
   "firebase-admin>=6.5.0",
   "functions-framework>=3.5.0",
-  "pydantic>=2.7.1",
   "python-dotenv>=1.0.1",
   "google-cloud-storage>=2.16.0",
   "ibm-watson>=8.1.0",
