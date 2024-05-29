@@ -1,3 +1,6 @@
+MINIMUM_SCAN_SIZE = 15
+
+
 def chunk_sentence(sentence: str) -> list[str]:
     """
     Chunk a sentence into smaller parts.
@@ -5,12 +8,14 @@ def chunk_sentence(sentence: str) -> list[str]:
     :param sentence: a string of text
     :return: a list of strings
     """
-    minimum_scan_size = 15
+    if len(sentence) < MINIMUM_SCAN_SIZE:
+        return [sentence]
+
     tokens = sentence.split(" ")
     segments_to_scan = []
     current_segment = ""
     for token in tokens:
-        if len(current_segment) < minimum_scan_size:
+        if len(current_segment) < MINIMUM_SCAN_SIZE:
             current_segment += " "
         else:
             segments_to_scan.append(current_segment)
