@@ -18,11 +18,9 @@ export async function assignArticle(articleID) {
   const articleSnapshot = await getDoc(doc(firestore, 'articles', articleID));
 
   const article = articleSnapshot.data();
-  if (!(await authorExists(article.author))) {
-    // the author doesnt exist
-    if (!(await publisherExists(article.publisher))) await createPublisher(article, articleID);
-    await createAuthor(article, articleID);
-  } else {
+  if (!(await publisherExists(article.publisher))) await createPublisher(article, articleID);
+  if (!(await authorExists(article.author))) await createAuthor(article, articleID);
+  else {
     // the author exists
     const authorID = await getAuthorID(article.author);
     const publisherID = await getPublisherID(article.publisher);
