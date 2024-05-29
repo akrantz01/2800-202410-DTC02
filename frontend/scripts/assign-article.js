@@ -46,7 +46,11 @@ export async function assignArticle(articleID) {
 async function authorExists(author) {
   const authorsSnapshot = await getDocs(collection(firestore, 'authors'));
   for (const authorInDB of authorsSnapshot.docs) {
-    if (authorInDB.data().name.trim().toLowerCase() === author.trim().toLowerCase()) return true;
+    if (
+      authorInDB.data().name.trim().replace(' ', '').toLowerCase() ===
+      author.trim().replace(' ', '').toLowerCase()
+    )
+      return true;
   }
   return false;
 }
@@ -61,7 +65,10 @@ async function createAuthor(article, articleID) {
   console.log('here');
   const publisherSnapshot = await getDocs(collection(firestore, 'publishers'));
   publisherSnapshot.forEach(async (publisherInDB) => {
-    if (publisherInDB.data().name.trim().toLowerCase() === article.publisher.trim().toLowerCase()) {
+    if (
+      publisherInDB.data().name.trim().replace(' ', '').toLowerCase() ===
+      article.publisher.trim().replace(' ', '').toLowerCase()
+    ) {
       const newAuthor = await addDoc(collection(firestore, 'authors'), {
         aiScore: article.aiDetection / 100,
         articles: [articleID],
@@ -85,7 +92,10 @@ async function createAuthor(article, articleID) {
 async function publisherExists(publisher) {
   const publishersSnapshot = await getDocs(collection(firestore, 'publishers'));
   for (const publisherInDB of publishersSnapshot.docs) {
-    if (publisherInDB.data().name.trim().toLowerCase() === publisher.trim().toLowerCase())
+    if (
+      publisherInDB.data().name.trim().replace(' ', '').toLowerCase() ===
+      publisher.trim().replace(' ', '').toLowerCase()
+    )
       return true;
   }
   return false;
@@ -120,7 +130,8 @@ export async function getAuthorID(authorName) {
   let authorID = '';
   authorSnapshot.forEach((authorInDB) => {
     if (
-      authorInDB.data().name.trim().toLowerCase() === authorName.trim().toLowerCase() &&
+      authorInDB.data().name.trim().replace(' ', '').toLowerCase() ===
+        authorName.trim().replace(' ', '').toLowerCase() &&
       !authorFound
     ) {
       authorFound = true;
@@ -144,7 +155,8 @@ export async function getPublisherID(publisherName) {
   let publisherID = '';
   publisherSnapshot.forEach((publisherInDB) => {
     if (
-      publisherInDB.data().name.trim().toLowerCase() === publisherName.trim().toLowerCase() &&
+      publisherInDB.data().name.trim().replace(' ', '').toLowerCase() ===
+        publisherName.trim().replace(' ', '').toLowerCase() &&
       !publisherFound
     ) {
       publisherFound = true;
