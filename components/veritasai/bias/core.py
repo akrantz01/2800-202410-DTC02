@@ -9,6 +9,7 @@ from ibm_watson.natural_language_understanding_v1 import (
     SyntaxOptions,
     SyntaxOptionsTokens,
 )
+from veritasai.logging import get_logger
 from veritasai.watson import natural_language_client
 
 from .scores import (
@@ -20,6 +21,8 @@ from .scores import (
     score_segments,
 )
 from .sentences import chunk_sentence
+
+logger = get_logger("veritasai.bias")
 
 
 def analyze(*, url: str | None = None, text: str | None = None) -> dict:
@@ -35,6 +38,7 @@ def analyze(*, url: str | None = None, text: str | None = None) -> dict:
     if not (bool(url) ^ bool(text)):
         raise ValueError("One of 'url' or 'text' must be provided")
 
+    logger.info("starting document analysis")
     analysis = interpret_text(url=url, text=text)
 
     adjective_score = score_adjectives(analysis)
@@ -45,13 +49,20 @@ def analyze(*, url: str | None = None, text: str | None = None) -> dict:
     keywords = process_keywords(analysis)
     keywords_score = score_keywords(keywords)
 
+    logger.info("completed document analysis")
+
+    logger.info("starting sentence analysis")
+
     for keyword in keywords:
+        logger.info("processing keyword: %s", keyword)
         for sentence in keywords[keyword]["sentences"]:
             segments = chunk_sentence(sentence["text"])
             scanned_segments = {
                 segment: interpret_text(text=segment, sentiment_only=True) for segment in segments
             }
             sentence["scores"] = score_segments(scanned_segments)
+
+    logger.info("completed sentence analysis")
 
     return {
         "adjectiveScore": adjective_score,

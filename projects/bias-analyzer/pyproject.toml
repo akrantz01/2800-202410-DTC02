@@ -17,6 +17,7 @@ dependencies = [
   "google-cloud-storage>=2.16.0",
   "ibm-watson>=8.1.0",
   "ibm-cloud-sdk-core>=3.20.0",
+  "google-cloud-logging>=3.10.0",
 ]
 
 [tool.pdm.build]
@@ -28,4 +29,5 @@ includes = ["main.py", "requirements.txt"]
 "../../components/veritasai/bias" = "veritasai/bias"
 "../../components/veritasai/config" = "veritasai/config"
 "../../components/veritasai/firebase" = "veritasai/firebase"
+"../../components/veritasai/logging" = "veritasai/logging"
 "../../components/veritasai/watson" = "veritasai/watson"
