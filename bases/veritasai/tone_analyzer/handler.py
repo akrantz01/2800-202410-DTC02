@@ -16,4 +16,9 @@ def handler(event: CloudEvent):
 
     tone = analyze(text=article.content)
 
-    get_db().collection("articles").document(article.id).update({"tone": tone})
+    get_db().collection("articles").document(article.id).update(
+        {
+            "tone": tone,
+            "status.tone": "complete",
+        }
+    )
