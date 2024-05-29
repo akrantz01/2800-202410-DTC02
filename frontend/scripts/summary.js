@@ -46,6 +46,7 @@ onSnapshot(ref, async (doc) => {
         window.location.href = `publisher?name=${articleData.publisher}`;
       });
       await addHistory(doc.id);
+      await assignArticle(doc.id);
       url.href = articleData.url;
       summary.textContent = articleData.summary;
     }
