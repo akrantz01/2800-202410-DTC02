@@ -95,8 +95,8 @@ onSnapshot(ref, async (doc) => {
     if (articleData.status.tone === 'complete') {
       const toneDetectionProgress = document.getElementById('tone-detection-progress');
       const toneDetectionText = document.getElementById('tone-detection-text');
-      toneDetectionProgress.style.width = `${articleData.toneDetection}%`;
-      toneDetectionText.textContent = `${articleData.toneDetection}%`;
+      toneDetectionProgress.style.width = `${articleData.tone.toneDetection}%`;
+      toneDetectionText.textContent = `${articleData.tone.toneDetection}%`;
 
       linkCardToPage('tone-detection-card', 'tone.html');
       hideSpinner('tone-detection-card');
@@ -207,7 +207,7 @@ function populateBias(bias) {
     languageDirection.classList.add('-translate-x-[100%]');
     languageDirection.classList.remove('bg-primary');
     languageDirection.classList.add('bg-red-500');
-  } else directionText = `${(keywordDirectionScore * 100).toFixed}% Positive`;
+  } else directionText = `${(keywordDirectionScore * 100).toFixed()}% Positive`;
   languageDirectionText.innerHTML = directionText;
   languageDirection.style = `width: ${Math.abs(keywordDirectionScore) * 50}%`;
 }
