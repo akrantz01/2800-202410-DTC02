@@ -41,7 +41,7 @@ function getHrefArray() {
 
 // Sets css classes for the currently active navigation page
 function setNavClass(hRefArray = []) {
-  let fileName = getCurrentFileName();
+  const fileName = getCurrentFileName();
   fileName.replace('.html', '');
   for (let i = 0; i < hRefArray.length; i++) {
     if (hRefArray[i] === fileName) {

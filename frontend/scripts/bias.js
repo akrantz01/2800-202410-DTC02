@@ -13,10 +13,10 @@ function getQueryParam(param) {
  * Display apex chart with bias scores
  *
  * @param {Object} biasScores Scores of individual biases
- * @param {Integer} height    Height of element
+ * @param {Integer} chartHeight    Height of element
  * @returns                   Apex chart
  */
-export function getChartOptions(biasScores, height) {
+export function getChartOptions(biasScores, chartHeight) {
   return {
     series: [
       parseFloat(biasScores.language),
@@ -25,7 +25,7 @@ export function getChartOptions(biasScores, height) {
     ],
     colors: ['#1C64F2', '#16BDCA', '#9061F9'],
     chart: {
-      height: height,
+      height: chartHeight,
       width: '100%',
       type: 'pie',
     },
