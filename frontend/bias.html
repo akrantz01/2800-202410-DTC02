@@ -38,10 +38,76 @@
       <div
         class="flex-1 flex flex-col items-center justify-center border border-gray-400 bg-white rounded-lg shadow p-5 space-y-5 md:basis-2/5"
       >
-        <div class="flex flex-col space-y-1 w-full">
-          <h2 class="text-2xl font-bold leading-none text-gray-600 me-1">Bias Type Breakdown</h2>
-          <h5 class="text-sm font-light leading-none text-gray-400 me-1">Subheading</h5>
+        <div class="flex flex-row justify-between space-y-1 w-full">
+          <!-- Graph Heading -->
+          <div class="flex flex-col space-y-2">
+            <h2 class="text-2xl font-bold leading-none text-gray-600 me-1">Bias Type Breakdown</h2>
+            <h5 class="text-sm font-light leading-none text-gray-400 me-1">Subheading</h5>
+          </div>
+          <!-- Data Popout -->
+          <div>
+            <svg
+              data-popover-target="chart-info"
+              data-popover-placement="bottom"
+              class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm0 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm1-5.034V12a1 1 0 0 1-2 0v-1.418a1 1 0 0 1 1.038-.999 1.436 1.436 0 0 0 1.488-1.441 1.501 1.501 0 1 0-3-.116.986.986 0 0 1-1.037.961 1 1 0 0 1-.96-1.037A3.5 3.5 0 1 1 11 11.466Z"
+              />
+            </svg>
+            <div
+              data-popover
+              id="chart-info"
+              role="tooltip"
+              class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
+            >
+              <div class="p-3 space-y-2">
+                <h3 class="font-semibold text-gray-900 dark:text-white">Language Bias</h3>
+                <p>
+                  The language bias score is a breakdown of the type of language used in the text to
+                  describe key words and entities. A higher score means the author used stronger
+                  (positive or negative) language to describe the entities.
+                </p>
+                <h3 class="font-semibold text-gray-900 dark:text-white">Gender Bias</h3>
+                <p>
+                  The count of distinct pronouns is compared to determine if the author biased their
+                  writing to a particular gender.
+                </p>
+                <h3 class="font-semibold text-gray-900 dark:text-white">Opinion Bias</h3>
+                <p>
+                  Opinion bias shows how much of the article uses opionion style language, instead
+                  of neutral writing styles.
+                </p>
+                <a
+                  href="/learn"
+                  class="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline"
+                  >Read more
+                  <svg
+                    class="w-2 h-2 ms-1.5 rtl:rotate-180"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 6 10"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 9 4-4-4-4"
+                    />
+                  </svg>
+                </a>
+              </div>
+              <div data-popper-arrow></div>
+            </div>
+          </div>
         </div>
+
         <!-- Pie Chart -->
         <div id="pie-chart" class="flex-1 w-full h-full flex items-center justify-center"></div>
       </div>
