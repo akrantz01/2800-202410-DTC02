@@ -7,6 +7,7 @@ import {
   updatePublisherAi,
   updatePublisherBias,
 } from './assign-article.js';
+import { getChartOptions } from './bias.js';
 import { firestore } from './firebase.js';
 import { addHistory } from './history.js';
 
@@ -55,6 +56,8 @@ onSnapshot(ref, async (doc) => {
       const aiDetectionProgress = document.getElementById('ai-detection-progress');
       const aiDetectionText = document.getElementById('ai-detection-text');
 
+      await addHistory(doc.id);
+      await assignArticle(doc.id);
       await updateAuthorAi(articleData.author);
       await updatePublisherAi(articleData.publisher);
 
@@ -78,34 +81,12 @@ onSnapshot(ref, async (doc) => {
 
     if (articleData.status.bias === 'complete') {
       // Set up bias indicator
-      const biasLeft = document.getElementById('bias-left');
-      const biasNeutral = document.getElementById('bias-neutral');
-      const biasRight = document.getElementById('bias-right');
-      const biasText = document.getElementById('bias-text');
+      populateBias(articleData.bias);
 
+      await addHistory(doc.id);
+      await assignArticle(doc.id);
       await updateAuthorBias(articleData.author);
       await updatePublisherBias(articleData.publisher);
-
-      biasLeft.classList.remove('bg-blue-500');
-      biasNeutral.classList.remove('bg-green-500');
-      biasRight.classList.remove('bg-red-500');
-
-      if (articleData.bias === 'left') {
-        biasLeft.classList.add('bg-blue-500', 'flex-grow');
-        biasNeutral.classList.add('bg-gray-200');
-        biasRight.classList.add('bg-gray-200');
-        biasText.textContent = 'Bias: Left';
-      } else if (articleData.bias === 'right') {
-        biasLeft.classList.add('bg-gray-200');
-        biasNeutral.classList.add('bg-gray-200');
-        biasRight.classList.add('bg-red-500', 'flex-grow');
-        biasText.textContent = 'Bias: Right';
-      } else {
-        biasLeft.classList.add('bg-gray-200');
-        biasNeutral.classList.add('bg-green-500', 'flex-grow');
-        biasRight.classList.add('bg-gray-200');
-        biasText.textContent = 'Bias: Neutral';
-      }
 
       linkCardToPage('bias-detection-card', 'bias.html');
       hideSpinner('bias-detection-card');
@@ -165,4 +146,68 @@ function createShareLink(element) {
     navigator.clipboard.writeText(currentURL);
     alert('URL has been copied to the clipboard!');
   });
+}
+
+/**
+ * Populate the bias card with bias summary results.
+ *
+ * @param {Object} bias Bias from analyzed article
+ */
+function populateBias(bias) {
+  const pieChart = document.getElementById('pie-chart');
+  const biasGaugeText = document.getElementById('overall-bias-gauge');
+  const overallGauge = document.querySelector('.overall-gauge');
+  const opinionBiasText = document.getElementById('opinion-bias-gauge');
+  const opinionGauge = document.querySelector('.opinion-gauge');
+  const genderGaugeText = document.getElementById('gender-bias-gauge');
+  const genderGauge = document.querySelector('.gender-gauge');
+  const languageGaugeText = document.getElementById('language-bias-gauge');
+  const languageGauge = document.querySelector('.language-gauge');
+  const languageDirection = document.querySelector('.language-direction-gauge');
+  const languageDirectionText = document.getElementById('language-bias-direction-gauge');
+
+  const overallBias = parseFloat(bias.biasScore.toFixed(2));
+  const pronounBias = parseFloat(bias.pronounScore.toFixed(2));
+  const keywordDirectionScore = parseFloat(bias.keywordScore.direction_bias.toFixed(2));
+  const keywordOverallScore = parseFloat(bias.keywordScore.score.toFixed(2));
+  const adjectiveOverallScore = parseFloat(bias.adjectiveScore.toFixed(2));
+  const biasTotal = pronounBias + keywordOverallScore + adjectiveOverallScore;
+
+  let keywordBiasPercent = (keywordOverallScore / biasTotal) * 100;
+  keywordBiasPercent = keywordBiasPercent.toFixed(2);
+  let pronounBiasPercent = (pronounBias / biasTotal) * 100;
+  pronounBiasPercent = pronounBiasPercent.toFixed(2);
+  let adjectiveBiasPercent = (adjectiveOverallScore / biasTotal) * 100;
+  adjectiveBiasPercent = adjectiveBiasPercent.toFixed(2);
+  const biasScores = {
+    language: keywordBiasPercent,
+    gender: pronounBiasPercent,
+    opinion: adjectiveBiasPercent,
+  };
+
+  if (pieChart && typeof ApexCharts !== 'undefined') {
+    // eslint-disable-next-line no-undef
+    const chart = new ApexCharts(pieChart, getChartOptions(biasScores, 240));
+    chart.render();
+  }
+
+  biasGaugeText.innerHTML = `${(overallBias * 100).toFixed()}%`;
+  overallGauge.style = `width: ${overallBias * 100}%`;
+  opinionBiasText.innerHTML = `${(adjectiveOverallScore * 100).toFixed()}%`;
+  opinionGauge.style = `width: ${adjectiveOverallScore * 100}%`;
+  genderGaugeText.innerHTML = `${(pronounBias * 100).toFixed()}%`;
+  genderGauge.style = `width: ${pronounBias * 100}%`;
+
+  languageGaugeText.innerHTML = `${(keywordOverallScore * 100).toFixed()}%`;
+  languageGauge.style = `width: ${keywordOverallScore * 100}%`;
+  let directionText = '';
+  if (keywordDirectionScore === 0) directionText = 'Neutral';
+  else if (keywordDirectionScore < 0) {
+    directionText = `${Math.abs(keywordDirectionScore * 100).toFixed()}% Negative`;
+    languageDirection.classList.add('-translate-x-[100%]');
+    languageDirection.classList.remove('bg-primary');
+    languageDirection.classList.add('bg-red-500');
+  } else directionText = `${(keywordDirectionScore * 100).toFixed}% Positive`;
+  languageDirectionText.innerHTML = directionText;
+  languageDirection.style = `width: ${Math.abs(keywordDirectionScore) * 50}%`;
 }

@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="styles/tailwind.css" rel="stylesheet" />
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
     <title>Article Summary</title>
   </head>
 
@@ -135,10 +138,94 @@
                 />
               </svg>
             </div>
-            <div class="result hidden flex w-full h-6 mb-2 bg-gray-200 rounded-full">
-              <div id="bias-left" class="flex-grow h-6"></div>
-              <div id="bias-neutral" class="flex-grow h-6"></div>
-              <div id="bias-right" class="flex-grow h-6"></div>
+            <div class="result hidden flex w-full h-auto mb-2 bg-gray-200 rounded-lg gap-4 p-2">
+              <div
+                class="flex-1 flex flex-col items-center justify-center border border-gray-400 bg-white rounded-lg shadow p-5 space-y-5 md:basis-2/5"
+              >
+                <div class="flex flex-col space-y-1 w-full">
+                  <h2 class="text-lg font-bold leading-none text-gray-600 me-1 text-center">
+                    Bias Type Breakdown
+                  </h2>
+                </div>
+                <!-- Pie Chart -->
+                <div
+                  id="pie-chart"
+                  class="flex-1 w-full h-full flex items-center justify-center"
+                ></div>
+              </div>
+              <div>
+                <div id="overall-bias" class="text-center">
+                  <h1 class="font-xl">Overall Bias Score</h1>
+                  <label for="overall-bias-gauge" class="text-slate-600" id="overall-bias-gauge"
+                    >Overall Bias</label
+                  >
+                  <div class="w-full bg-slate-400 rounded-full h-2.5 flex">
+                    <div
+                      class="overall-gauge bg-primary h-2.5 rounded-full"
+                      style="width: 98%"
+                      name="overall-bias-gauge"
+                    ></div>
+                  </div>
+                </div>
+
+                <div id="opinion-bias" class="text-center">
+                  <h1 class="font-xl">Opinion Bias Score</h1>
+                  <label for="opinion-bias-gauge" class="text-slate-600" id="opinion-bias-gauge"
+                    >Opinion Bias</label
+                  >
+                  <div class="w-full bg-slate-400 rounded-full h-2.5 flex">
+                    <div
+                      class="opinion-gauge bg-primary h-2.5 rounded-full"
+                      style="width: 98%"
+                      name="opinion-bias-gauge"
+                    ></div>
+                  </div>
+                </div>
+
+                <div id="gender-bias" class="text-center">
+                  <h1 class="font-xl">Gender Bias Score</h1>
+                  <label for="gender-bias-gauge" class="text-slate-600" id="gender-bias-gauge"
+                    >gender Bias</label
+                  >
+                  <div class="w-full bg-slate-400 rounded-full h-2.5 flex">
+                    <div
+                      class="gender-gauge bg-primary h-2.5 rounded-full"
+                      style="width: 98%"
+                      name="gender-bias-gauge"
+                    ></div>
+                  </div>
+                </div>
+
+                <div id="language-bias" class="text-center">
+                  <h1 class="font-xl">Language Bias Score</h1>
+                  <label for="language-bias-gauge" class="text-slate-600" id="language-bias-gauge"
+                    >language Bias</label
+                  >
+                  <div class="w-full bg-slate-400 rounded-full h-2.5 flex">
+                    <div
+                      class="language-gauge bg-primary h-2.5 rounded-full"
+                      style="width: 98%"
+                      name="language-bias-gauge"
+                    ></div>
+                  </div>
+                </div>
+
+                <div id="language-bias-direction" class="text-center">
+                  <label
+                    for="language-bias-direction-gauge"
+                    class="text-slate-600"
+                    id="language-bias-direction-gauge"
+                    >language Bias</label
+                  >
+                  <div class="w-full bg-slate-400 rounded-full h-2.5 relative">
+                    <div
+                      class="language-direction-gauge bg-primary h-2.5 rounded-full absolute left-1/2"
+                      style="width: 50%"
+                      name="language-bias-direction-gauge"
+                    ></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div
