@@ -28,7 +28,13 @@ def handler(request: Request) -> typing.ResponseReturnValue:
     except ValidationError as e:
         return response_from_validation_error(e)
 
-    article = Article.from_input(body.content, body.author, body.publisher, body.source_url)
+    article = Article.from_input(
+        content=body.content,
+        title=body.title,
+        author=body.author,
+        publisher=body.publisher,
+        url=body.source_url,
+    )
 
     cached = has_article(article.id)
 
@@ -48,6 +54,7 @@ def handler(request: Request) -> typing.ResponseReturnValue:
                     "entities": "pending",
                     "sentences": "pending",
                 },
+                "title": article.title,
                 "author": article.author,
                 "publisher": article.publisher,
                 "url": article.url,

@@ -11,6 +11,7 @@ class AnalyzeText(BaseModel):
     """
 
     model_config = ConfigDict(alias_generator=lambda name: name.replace("_", "-"))
+    title: str = Field(..., min_length=5)
     content: str = Field(..., min_length=5)
     author: str = Field(..., min_length=5)
     publisher: str = Field(..., min_length=2)

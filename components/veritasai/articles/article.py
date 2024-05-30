@@ -18,6 +18,7 @@ class Article:
     """
 
     def __init__(self, **kwargs: str | None):
+        self.__title = kwargs.get("title")
         self.__author = kwargs.get("author")
         self.__publisher = kwargs.get("publisher")
         self.__url = kwargs.get("url")
@@ -38,6 +39,7 @@ class Article:
     def from_input(
         cls,
         content: str,
+        title: str | None = None,
         author: str | None = None,
         publisher: str | None = None,
         url: str | None = None,
@@ -51,7 +53,7 @@ class Article:
         :param url: the article's URL, if any
         :return: the created article
         """
-        return cls(content=content, author=author, publisher=publisher, url=url)
+        return cls(title=title, content=content, author=author, publisher=publisher, url=url)
 
     @classmethod
     def from_cloud_event(cls, event: CloudEvent) -> "Article":
@@ -79,6 +81,13 @@ class Article:
         The unique ID of the article.
         """
         return self.__id
+
+    @property
+    def title(self) -> str | None:
+        """
+        The title of the article, if any.
+        """
+        return self.__title
 
     @property
     def author(self) -> str | None:
