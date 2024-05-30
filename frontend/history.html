@@ -24,34 +24,35 @@
         class="overflow-y-scroll mx-6 mb-20 max-h-[80vh] rounded-3xl pb-12 lg:mx-60"
         id="history-cards"
       >
-        <template id="history-card">
+        <div id="history-card">
           <div
             class="my-2 shadow-md border bg-white border-gray-300 p-4 rounded-xl space-y-4 block"
           >
-            <header class="flex items-center">
-              <h1
-                class="analyzed-text text-slate-600 text-xl lg:text-xl font-semibold flex-1 text-left line-clamp-2"
-              >
-                Local Cat Unveils Master Plan for World Domination
-              </h1>
-
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-external-link stroke-accent transition hover:stroke-secondary lg:scale-[135%] link"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="#ffffff"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" />
-                <path d="M11 13l9 -9" />
-                <path d="M15 4h5v5" />
-              </svg>
+            <header>
+              <div class="flex items-start justify-between">
+                <h1
+                  class="analyzed-text text-slate-600 text-xl lg:text-xl font-semibold flex-1 text-left line-clamp-2"
+                >
+                  Local Cat Unveils Master Plan for World Domination
+                </h1>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon icon-tabler icon-tabler-external-link stroke-accent transition hover:stroke-secondary link flex-shrink-0"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="#ffffff"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" />
+                  <path d="M11 13l9 -9" />
+                  <path d="M15 4h5v5" />
+                </svg>
+              </div>
             </header>
             <div class="flex flex-col space-y-2 lg:justify-center gauges">
               <div class="flex flex-col items-center w-full ai-tag">
@@ -97,7 +98,7 @@
               </div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-heart save-button stroke-red-500 transition hover:stroke-red-600"
+                class="icon icon-tabler icon-tabler-heart save-button fill-red-500 stroke-red-500 transition hover:fill-red-600 hover:stroke-red-600"
                 width="32"
                 height="32"
                 viewBox="0 0 24 24"
@@ -114,7 +115,7 @@
               </svg>
             </div>
           </div>
-        </template>
+        </div>
       </div>
     </div>
     <footer id="footer-placeholder"></footer>
