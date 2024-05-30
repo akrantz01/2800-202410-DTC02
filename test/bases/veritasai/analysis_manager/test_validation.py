@@ -36,6 +36,20 @@ def test_missing_fields(client: FlaskClient):
             "msg": "Field required",
             "type": "missing",
         },
+        {
+            "loc": [
+                "author",
+            ],
+            "msg": "Field required",
+            "type": "missing",
+        },
+        {
+            "loc": [
+                "publisher",
+            ],
+            "msg": "Field required",
+            "type": "missing",
+        },
     ]
 
 
@@ -52,12 +66,12 @@ def test_all_fields_empty(client: FlaskClient):
         },
         {
             "loc": ["author"],
-            "msg": "String should have at least 2 characters",
+            "msg": "String should have at least 5 characters",
             "type": "string_too_short",
         },
         {
             "loc": ["publisher"],
-            "msg": "String should have at least 5 characters",
+            "msg": "String should have at least 2 characters",
             "type": "string_too_short",
         },
         {
@@ -90,7 +104,7 @@ def test_author_empty(client: FlaskClient, data: dict[str, str]):
     assert response.json == [
         {
             "loc": ["author"],
-            "msg": "String should have at least 2 characters",
+            "msg": "String should have at least 5 characters",
             "type": "string_too_short",
         },
     ]
@@ -104,7 +118,7 @@ def test_publisher_empty(client: FlaskClient, data: dict[str, str]):
     assert response.json == [
         {
             "loc": ["publisher"],
-            "msg": "String should have at least 5 characters",
+            "msg": "String should have at least 2 characters",
             "type": "string_too_short",
         },
     ]
@@ -125,7 +139,7 @@ def test_url_empty(client: FlaskClient, data: dict[str, str]):
     ]
 
 
-@pytest.mark.parametrize("field,length", [("content", 5), ("author", 2), ("publisher", 5)])
+@pytest.mark.parametrize("field,length", [("content", 5), ("author", 5), ("publisher", 2)])
 def test_field_too_short(client: FlaskClient, data: dict[str, str], field: str, length: int):
     data[field] = "a" * (length - 1)
     response = client.post("/", json=data)
