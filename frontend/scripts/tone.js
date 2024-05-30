@@ -2,6 +2,10 @@ import ApexCharts from 'apexcharts';
 
 import { listenForDocChanges } from './firestore-listener.js';
 
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
 function addTableHeaders(table, headers) {
   const headerRow = document.createElement('tr');
   headerRow.classList = 'text-xxs text-center';
@@ -409,5 +413,5 @@ function populateKeywordsTable(keywords) {
 }
 
 const returnCellStyles = (size) => `px-2 py-2 text-center text-${size}`; // tailwind classes for table cell
-
-listenForDocChanges('J1gwG4YR1y5EMZITRg1a', loadPageElements);
+const articleId = getQueryParam();
+listenForDocChanges(articleId, loadPageElements);
