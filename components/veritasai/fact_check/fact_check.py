@@ -22,8 +22,7 @@ def extract_claims(text: str) -> List[str]:
         {"role": "system", "content": "You are an assistant that identifies claims in text."},
         {
             "role": "user",
-            "content": 
-            f"Identify the claims in the following text:\n\n{text}\n\nPlease provide"
+            "content": f"Identify the claims in the following text:\n\n{text}\n\nPlease provide"
             f"each claim as a separate line without any numerical markers or prefixes.",
         },
     ]
@@ -48,8 +47,7 @@ def verify_claim(claim: str) -> str:
         {"role": "system", "content": "You are a fact-checking assistant."},
         {
             "role": "user",
-            "content": 
-            f"Verify the following claim: {claim}\n\nRespond with 'True' or 'False'"
+            "content": f"Verify the following claim: {claim}\n\nRespond with 'True' or 'False'"
             f"and a brief explanation.",
         },
     ]
