@@ -4,7 +4,7 @@ import { firestore } from './firebase.js';
 
 export async function listenForDocChanges(docId, updateData) {
   const targetDoc = doc(firestore, 'articles', docId);
-
+  console.log(targetDoc);
   const unsubscribe = onSnapshot(targetDoc, (docSnapshot) => {
     if (docSnapshot.exists()) {
       const data = docSnapshot.data();
