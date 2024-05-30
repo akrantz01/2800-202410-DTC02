@@ -22,9 +22,12 @@ form.addEventListener('submit', async (event) => {
     const result = await send(data);
     window.location.href = `summary.html?uid=${result.id}`;
   } catch (e) {
-    console.error(e);
-
-    error.querySelector('span').textContent = e.message;
+    const errorArray = JSON.parse(e.message);
+    error.querySelector('span').innerHTML = ``;
+    for (const errorMsg of errorArray) {
+      error.querySelector('span').innerHTML +=
+        `${capitalize(errorMsg.loc.toString())}: ${errorMsg.msg}<br/>`;
+    }
     error.classList.remove('hidden');
   } finally {
     spinner(false);
@@ -54,6 +57,9 @@ async function send(data) {
   return await response.json();
 }
 
+const capitalize = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
 /**
  * Toggle the visibility of the loading spinner
  *

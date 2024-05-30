@@ -36,6 +36,20 @@ def test_missing_fields():
             "type": "missing",
             "url": "https://errors.pydantic.dev/2.7/v/missing",
         },
+        {
+            "input": {},
+            "loc": ("author",),
+            "msg": "Field required",
+            "type": "missing",
+            "url": "https://errors.pydantic.dev/2.7/v/missing",
+        },
+        {
+            "input": {},
+            "loc": ("publisher",),
+            "msg": "Field required",
+            "type": "missing",
+            "url": "https://errors.pydantic.dev/2.7/v/missing",
+        },
     ]
 
 
@@ -54,21 +68,21 @@ def test_all_fields_empty():
         },
         {
             "ctx": {
-                "min_length": 2,
+                "min_length": 5,
             },
             "input": "",
             "loc": ("author",),
-            "msg": "String should have at least 2 characters",
+            "msg": "String should have at least 5 characters",
             "type": "string_too_short",
             "url": "https://errors.pydantic.dev/2.7/v/string_too_short",
         },
         {
             "ctx": {
-                "min_length": 5,
+                "min_length": 2,
             },
             "input": "",
             "loc": ("publisher",),
-            "msg": "String should have at least 5 characters",
+            "msg": "String should have at least 2 characters",
             "type": "string_too_short",
             "url": "https://errors.pydantic.dev/2.7/v/string_too_short",
         },
@@ -106,11 +120,11 @@ def test_author_empty(data: dict[str, str]):
     assert validate(data) == [
         {
             "ctx": {
-                "min_length": 2,
+                "min_length": 5,
             },
             "input": "",
             "loc": ("author",),
-            "msg": "String should have at least 2 characters",
+            "msg": "String should have at least 5 characters",
             "type": "string_too_short",
             "url": "https://errors.pydantic.dev/2.7/v/string_too_short",
         },
@@ -122,11 +136,11 @@ def test_publisher_empty(data: dict[str, str]):
     assert validate(data) == [
         {
             "ctx": {
-                "min_length": 5,
+                "min_length": 2,
             },
             "input": "",
             "loc": ("publisher",),
-            "msg": "String should have at least 5 characters",
+            "msg": "String should have at least 2 characters",
             "type": "string_too_short",
             "url": "https://errors.pydantic.dev/2.7/v/string_too_short",
         },
@@ -149,7 +163,7 @@ def test_url_empty(data: dict[str, str]):
     ]
 
 
-@pytest.mark.parametrize("field,length", [("content", 5), ("author", 2), ("publisher", 5)])
+@pytest.mark.parametrize("field,length", [("content", 5), ("author", 5), ("publisher", 2)])
 def test_field_too_short(data, field, length):
     data[field] = "a" * (length - 1)
     assert validate(data) == [
