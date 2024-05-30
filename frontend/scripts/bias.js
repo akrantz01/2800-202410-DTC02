@@ -9,7 +9,14 @@ function getQueryParam(param) {
   return urlParams.get(param);
 }
 
-function getChartOptions(biasScores) {
+/**
+ * Display apex chart with bias scores
+ *
+ * @param {Object} biasScores Scores of individual biases
+ * @param {Integer} height    Height of element
+ * @returns                   Apex chart
+ */
+export function getChartOptions(biasScores, height) {
   return {
     series: [
       parseFloat(biasScores.language),
@@ -18,7 +25,7 @@ function getChartOptions(biasScores) {
     ],
     colors: ['#1C64F2', '#16BDCA', '#9061F9'],
     chart: {
-      height: 420,
+      height: height,
       width: '100%',
       type: 'pie',
     },
@@ -183,7 +190,10 @@ function populateBiasScores() {
 
   if (document.getElementById('pie-chart') && typeof ApexCharts !== 'undefined') {
     // eslint-disable-next-line no-undef
-    const chart = new ApexCharts(document.getElementById('pie-chart'), getChartOptions(biasScores));
+    const chart = new ApexCharts(
+      document.getElementById('pie-chart'),
+      getChartOptions(biasScores, 420),
+    );
     chart.render();
   }
   document.getElementById('overall-bias-gauge').innerHTML = `${(overallBias * 100).toFixed()}%`;
@@ -226,4 +236,4 @@ async function main() {
   writeSentences();
 }
 
-main();
+if (window.location.href.match('bias') != null) main();
