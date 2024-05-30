@@ -223,7 +223,7 @@ function populateBiasScores() {
     document.querySelector('.language-direction-gauge').classList.add('-translate-x-[100%]');
     document.querySelector('.language-direction-gauge').classList.remove('bg-primary');
     document.querySelector('.language-direction-gauge').classList.add('bg-red-500');
-  } else directionText = `${(keywordDirectionScore * 100).toFixed}% Positive`;
+  } else directionText = `${(keywordDirectionScore * 100).toFixed()}% Positive`;
   document.getElementById('language-bias-direction-gauge').innerHTML = directionText;
   document.querySelector('.language-direction-gauge').style =
     `width: ${Math.abs(keywordDirectionScore) * 50}%`;
