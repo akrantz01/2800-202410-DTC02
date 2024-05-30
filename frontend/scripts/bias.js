@@ -1,8 +1,6 @@
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 import { firestore } from './firebase.js';
-
-let bias;
 
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
@@ -78,30 +76,24 @@ export function getChartOptions(biasScores, chartHeight) {
   };
 }
 
-async function getBias(articleID) {
-  const biasDocument = doc(firestore, 'articles', articleID);
-  const biasSnapshot = await getDoc(biasDocument);
-  bias = biasSnapshot.data().bias;
-}
+function writeSentences(bias) {
+  const biasCards = document.getElementById('bias-cards');
+  biasCards.innerHTML = '';
 
-function writeSentences() {
-  Object.keys(bias.keywords).forEach((keyword) => {
-    const currentWord = bias.keywords[keyword];
-    const biasTemplate = document.getElementById('bias-card');
-    const newBias = biasTemplate.content.cloneNode(true);
-    newBias.querySelector('.keyword').innerHTML = keyword;
-    if (currentWord.sentences.length !== 0) {
-      currentWord.sentences.forEach((sentence) => {
-        // const sentenceTemplate = document.getElementById('sentence-template');
-        // const newSentence = newBias.content.cloneNode(true);
-        newBias.querySelector('.quote').innerHTML =
-          `<span class="text-2xl">"</span>${sentence.text}<span class="text-2xl">"</span>`;
-        newBias.querySelector('.response').innerHTML = veritasResponse(keyword, currentWord);
-        // newBias.appendChild(newBias);
-      });
-      document.getElementById('bias-cards').appendChild(newBias);
-    }
-  });
+  Object.keys(bias.keywords)
+    .toSorted()
+    .forEach((keyword) => {
+      const currentWord = bias.keywords[keyword];
+      const biasTemplate = document.getElementById('bias-card');
+      const newBias = biasTemplate.content.cloneNode(true);
+      newBias.querySelector('.keyword').innerHTML = keyword;
+      if (currentWord.sentences.length !== 0) {
+        currentWord.sentences.forEach(() => {
+          newBias.querySelector('.response').innerHTML = veritasResponse(keyword, currentWord);
+        });
+        biasCards.appendChild(newBias);
+      }
+    });
 }
 
 function veritasResponse(keyword, keywordObject) {
@@ -118,9 +110,11 @@ function veritasResponse(keyword, keywordObject) {
   </div>
   <p class="text-l">${(keywordObject.sentiment.score * 100).toFixed()}%</p>
   </div>`;
-  if (bias.sentences) {
-    veritas += '<p>';
-    keywordObject.sentences.forEach((sentence) => {
+
+  veritas += '<p><span class="text-2xl">"</span>';
+  keywordObject.sentences
+    .filter((sentence) => sentence.scores !== undefined)
+    .forEach((sentence) => {
       const coloredSentence = writeSegments(keyword, sentence);
       const order = Object.keys(coloredSentence);
       order.sort((a, b) => {
@@ -130,8 +124,7 @@ function veritasResponse(keyword, keywordObject) {
         veritas += coloredSentence[position];
       });
     });
-    veritas += '</p>';
-  }
+  veritas += '<span class="text-2xl">"</span></p>';
 
   return veritas;
 }
@@ -167,7 +160,7 @@ function writeSegments(keyword, sentence) {
   return segmentOrder;
 }
 
-function populateBiasScores() {
+function populateBiasScores(bias) {
   const overallBias = parseFloat(bias.biasScore.toFixed(2));
   const pronounBias = parseFloat(bias.pronounScore.toFixed(2));
   const maleCount = bias.pronounCount.he;
@@ -229,11 +222,19 @@ function populateBiasScores() {
     `width: ${Math.abs(keywordDirectionScore) * 50}%`;
 }
 
-async function main() {
-  const articleID = getQueryParam('uid');
-  await getBias(articleID);
-  populateBiasScores();
-  writeSentences();
-}
+const articleID = getQueryParam('uid');
+const ref = doc(firestore, 'articles', articleID);
 
-if (window.location.href.match('bias') != null) main();
+let scoresRendered = false;
+onSnapshot(ref, (doc) => {
+  const data = doc.data();
+
+  if (data === undefined || data.bias === undefined) return;
+
+  if (!scoresRendered) {
+    populateBiasScores(data.bias);
+    scoresRendered = true;
+  }
+
+  writeSentences(data.bias);
+});
