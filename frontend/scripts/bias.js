@@ -4,6 +4,11 @@ import { firestore } from './firebase.js';
 
 let bias;
 
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
 function getChartOptions(biasScores) {
   return {
     series: [
@@ -215,7 +220,8 @@ function populateBiasScores() {
 }
 
 async function main() {
-  await getBias('gL5po1BLAmwEZ9seMnay');
+  const articleID = getQueryParam('uid');
+  await getBias(articleID);
   populateBiasScores();
   writeSentences();
 }
