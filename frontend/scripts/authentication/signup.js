@@ -34,6 +34,7 @@ form.addEventListener('submit', async (event) => {
       name: credential.user.displayName,
       email: credential.user.email,
       dob: data.dob,
+      savedArticles: [],
     });
     await sendEmailVerification(auth.currentUser);
     redirectToHome();

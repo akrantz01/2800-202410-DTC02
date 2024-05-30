@@ -22,6 +22,7 @@ def chunk_sentence(sentence: str) -> list[str]:
             current_segment = ""
 
         current_segment += token
-    segments_to_scan[-1] = segments_to_scan[-1] + " " + current_segment
+    if segments_to_scan:
+        segments_to_scan[-1] = segments_to_scan[-1] + " " + current_segment
 
     return segments_to_scan
