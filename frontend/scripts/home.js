@@ -22,12 +22,22 @@ form.addEventListener('submit', async (event) => {
     const result = await send(data);
     window.location.href = `summary.html?uid=${result.id}`;
   } catch (e) {
-    const errorArray = JSON.parse(e.message);
-    error.querySelector('span').innerHTML = ``;
-    for (const errorMsg of errorArray) {
-      error.querySelector('span').innerHTML +=
-        `${capitalize(errorMsg.loc.toString())}: ${errorMsg.msg}<br/>`;
+    let errorMessage;
+    // try converting to JSON first
+    try {
+      const errorArray = JSON.parse(e.message);
+      errorMessage = errorArray
+        .map((errorMsg) => `${capitalize(errorMsg.loc.toString())}: ${errorMsg.msg}`)
+        .join('<br/>');
+      // handle the error if it's not in JSON
+    } catch (jsonError) {
+      errorMessage = e.message;
     }
+
+    // Display the error message
+    error.querySelector('span').innerHTML = errorMessage;
+    error.classList.remove('hidden');
+    console.error(e);
     error.classList.remove('hidden');
   } finally {
     spinner(false);
