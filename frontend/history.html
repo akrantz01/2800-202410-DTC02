@@ -24,7 +24,7 @@
         class="overflow-y-scroll mx-6 mb-20 max-h-[80vh] rounded-3xl pb-12 lg:mx-60"
         id="history-cards"
       >
-        <div id="history-card">
+        <template id="history-card">
           <div
             class="my-2 shadow-md border bg-white border-gray-300 p-4 rounded-xl space-y-4 block"
           >
@@ -98,7 +98,7 @@
               </div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-heart save-button fill-red-500 stroke-red-500 transition hover:fill-red-600 hover:stroke-red-600"
+                class="icon icon-tabler icon-tabler-heart save-button stroke-red-500 transition"
                 width="32"
                 height="32"
                 viewBox="0 0 24 24"
@@ -115,7 +115,7 @@
               </svg>
             </div>
           </div>
-        </div>
+        </template>
       </div>
     </div>
     <footer id="footer-placeholder"></footer>

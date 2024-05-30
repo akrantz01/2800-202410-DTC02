@@ -80,7 +80,7 @@ async function writeHistory() {
       const buttonID = 'save-' + articleID;
       newCard.querySelector('.save-button').id = buttonID;
       const buttonElement = newCard.getElementById(buttonID);
-      if (savedArticles.includes(articleID)) buttonElement.classList.add('fill-primary');
+      if (savedArticles.includes(articleID)) buttonElement.classList.add('fill-red-500');
       buttonElement.addEventListener('click', () => {
         saveArticleToggle(articleID);
       });
@@ -107,12 +107,12 @@ export async function saveArticleToggle(articleID) {
     await updateDoc(user, {
       savedArticles: arrayRemove(articleID),
     });
-    document.getElementById('save-' + articleID).classList.remove('fill-primary');
+    document.getElementById('save-' + articleID).classList.remove('fill-red-500');
   } else {
     await updateDoc(user, {
       savedArticles: arrayUnion(articleID),
     });
-    document.getElementById('save-' + articleID).classList.add('fill-primary');
+    document.getElementById('save-' + articleID).classList.add('fill-red-500');
   }
 }
 

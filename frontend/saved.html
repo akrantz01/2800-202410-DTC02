@@ -24,7 +24,7 @@
         class="overflow-y-scroll mx-6 mb-20 max-h-[80vh] rounded-3xl lg:mx-60 pb-12"
         id="saved-cards"
       >
-        <div id="saved-card">
+        <template id="saved-card">
           <div
             class="my-2 shadow-md border bg-white border-gray-300 p-4 rounded-xl space-y-4 block"
             href="#"
@@ -80,7 +80,7 @@
             <div class="flex justify-end items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-heart save-button fill-red-500 stroke-red-500 transition hover:fill-red-600 hover:stroke-red-600"
+                class="icon icon-tabler icon-tabler-heart save-button fill-red-500 stroke-red-500"
                 width="32"
                 height="32"
                 viewBox="0 0 24 24"
@@ -97,7 +97,7 @@
               </svg>
             </div>
           </div>
-        </div>
+        </template>
       </div>
     </div>
     <footer id="footer-placeholder"></footer>
