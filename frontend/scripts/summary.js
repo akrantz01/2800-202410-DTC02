@@ -88,7 +88,7 @@ onSnapshot(ref, async (doc) => {
       await updateAuthorBias(articleData.author);
       await updatePublisherBias(articleData.publisher);
 
-      linkCardToPage('bias-detection-card', 'bias.html');
+      linkCardToPage('bias-detection-card', 'bias');
       hideSpinner('bias-detection-card');
     }
 

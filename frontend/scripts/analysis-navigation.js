@@ -15,6 +15,11 @@ async function loadPaginationTemplate() {
   xhr.send();
 }
 
+function getUid() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('uid');
+}
+
 // Helper function for getting the file name from the url
 function getCurrentFileName() {
   const url = window.location.href;
@@ -25,14 +30,19 @@ function getCurrentFileName() {
 // Helper function for getting an array of the available href links
 function getHrefArray() {
   const links = document.querySelectorAll('#analysis-navigation-controls a');
-  const hrefArray = Array.from(links).map((link) => link.getAttribute('href'));
+  const linksArray = Array.from(links);
+  linksArray.forEach((link) => {
+    link.setAttribute('href', `${link.getAttribute('href')}?uid=${getUid()}`);
+  });
+  const hrefArray = linksArray.map((link) => link.getAttribute('href'));
+
   return hrefArray;
 }
 
 // Sets css classes for the currently active navigation page
 function setNavClass(hRefArray = []) {
   const fileName = getCurrentFileName();
-
+  fileName.replace('.html', '');
   for (let i = 0; i < hRefArray.length; i++) {
     if (hRefArray[i] === fileName) {
       console.log(`${hRefArray[i]} is equal to, ${fileName}`);

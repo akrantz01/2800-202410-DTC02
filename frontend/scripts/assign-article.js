@@ -62,7 +62,6 @@ async function authorExists(author) {
  * @param {String} articleID the article id
  */
 async function createAuthor(article, articleID) {
-  console.log('here');
   const publisherSnapshot = await getDocs(collection(firestore, 'publishers'));
   publisherSnapshot.forEach(async (publisherInDB) => {
     if (
@@ -115,7 +114,7 @@ async function createPublisher(article, articleID) {
     name: article.publisher,
     authors: [],
   });
-  console.log(newPublisher.id);
+  console.log(newPublisher);
 }
 
 /**
