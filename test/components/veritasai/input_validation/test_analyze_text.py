@@ -9,6 +9,7 @@ def data() -> dict[str, str]:
     Mock input data to mock the request payload.
     """
     return {
+        "title": "Some News for Today",
         "content": "Yesterday's news tomorrow, Tonight at 5.",
         "author": "Guy Fawkes",
         "publisher": "Fawks",
@@ -29,6 +30,13 @@ def test_valid_input(data: dict[str, str]):
 
 def test_missing_fields():
     assert validate({}) == [
+        {
+            "input": {},
+            "loc": ("title",),
+            "msg": "Field required",
+            "type": "missing",
+            "url": "https://errors.pydantic.dev/2.7/v/missing",
+        },
         {
             "input": {},
             "loc": ("content",),
@@ -54,8 +62,18 @@ def test_missing_fields():
 
 
 def test_all_fields_empty():
-    data = {"content": "", "author": "", "publisher": "", "source-url": ""}
+    data = {"title": "", "content": "", "author": "", "publisher": "", "source-url": ""}
     assert validate(data) == [
+        {
+            "ctx": {
+                "min_length": 5,
+            },
+            "input": "",
+            "loc": ("title",),
+            "msg": "String should have at least 5 characters",
+            "type": "string_too_short",
+            "url": "https://errors.pydantic.dev/2.7/v/string_too_short",
+        },
         {
             "ctx": {
                 "min_length": 5,
@@ -95,6 +113,22 @@ def test_all_fields_empty():
             "msg": "Input should be a valid URL, input is empty",
             "type": "url_parsing",
             "url": "https://errors.pydantic.dev/2.7/v/url_parsing",
+        },
+    ]
+
+
+def test_title_empty(data: dict[str, str]):
+    data["title"] = ""
+    assert validate(data) == [
+        {
+            "ctx": {
+                "min_length": 5,
+            },
+            "input": "",
+            "loc": ("title",),
+            "msg": "String should have at least 5 characters",
+            "type": "string_too_short",
+            "url": "https://errors.pydantic.dev/2.7/v/string_too_short",
         },
     ]
 
@@ -163,7 +197,9 @@ def test_url_empty(data: dict[str, str]):
     ]
 
 
-@pytest.mark.parametrize("field,length", [("content", 5), ("author", 5), ("publisher", 2)])
+@pytest.mark.parametrize(
+    "field,length", [("title", 5), ("content", 5), ("author", 5), ("publisher", 2)]
+)
 def test_field_too_short(data, field, length):
     data[field] = "a" * (length - 1)
     assert validate(data) == [
