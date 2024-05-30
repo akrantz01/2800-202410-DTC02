@@ -2,9 +2,15 @@ import ApexCharts from 'apexcharts';
 
 import { listenForDocChanges } from './firestore-listener.js';
 
-function getQueryParam(param) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(param);
+function getQueryParam() {
+  const url = window.location.href;
+  const queryStringStartIndex = url.indexOf('?');
+  if (queryStringStartIndex !== -1) {
+    const pathname = url.substring(queryStringStartIndex + 1);
+    const urlParams = new URLSearchParams(pathname);
+    return urlParams.get('uid');
+  }
+  return 'Article not found';
 }
 function addTableHeaders(table, headers) {
   const headerRow = document.createElement('tr');
