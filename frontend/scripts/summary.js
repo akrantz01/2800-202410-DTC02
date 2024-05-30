@@ -14,7 +14,6 @@ import { addHistory } from './history.js';
 const errorContainer = document.getElementById('error-message');
 
 const title = document.getElementById('title');
-const articleInfo = document.getElementById('article-info');
 const shareLink = document.getElementById('share-link');
 const author = document.getElementById('author-name');
 const publisher = document.getElementById('publisher-name');
@@ -32,10 +31,8 @@ onSnapshot(ref, async (doc) => {
 
     const articleData = doc.data();
 
-    if (articleData.status.extract === 'complete') {
+    if (title.textContent === 'Processing...') {
       title.textContent = articleData.title;
-
-      articleInfo.classList.remove('hidden');
       shareLink.classList.remove('hidden');
       createShareLink(shareLink);
       author.textContent = articleData.author;
@@ -49,7 +46,11 @@ onSnapshot(ref, async (doc) => {
       await addHistory(doc.id);
       await assignArticle(doc.id);
       url.href = articleData.url;
+    }
+
+    if (articleData.status.summary === 'complete') {
       summary.textContent = articleData.summary;
+      summary.classList.remove('hidden');
     }
 
     if (articleData.status.ai === 'complete') {
