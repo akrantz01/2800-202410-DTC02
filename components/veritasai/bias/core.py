@@ -1,3 +1,5 @@
+from typing import Generator
+
 from ibm_watson.natural_language_understanding_v1 import (
     ConceptsOptions,
     EmotionOptions,
@@ -25,7 +27,7 @@ from .sentences import chunk_sentence
 logger = get_logger("veritasai.bias")
 
 
-def analyze(*, url: str | None = None, text: str | None = None) -> dict:
+def analyze_document(*, url: str | None = None, text: str | None = None) -> dict:
     """
     Analyze the bias of some text.
 
@@ -51,18 +53,18 @@ def analyze(*, url: str | None = None, text: str | None = None) -> dict:
 
     logger.info("completed document analysis")
 
-    logger.info("starting sentence analysis")
+    # logger.info("starting sentence analysis")
 
-    for keyword in keywords:
-        logger.info("processing keyword: %s", keyword)
-        for sentence in keywords[keyword]["sentences"]:
-            segments = chunk_sentence(sentence["text"])
-            scanned_segments = {
-                segment: interpret_text(text=segment, sentiment_only=True) for segment in segments
-            }
-            sentence["scores"] = score_segments(scanned_segments)
+    # for keyword in keywords:
+    #     logger.info("processing keyword: %s", keyword)
+    #     for sentence in keywords[keyword]["sentences"]:
+    #         segments = chunk_sentence(sentence["text"])
+    #         scanned_segments = {
+    #             segment: interpret_text(text=segment, sentiment_only=True) for segment in segments
+    #         }
+    #         sentence["scores"] = score_segments(scanned_segments)
 
-    logger.info("completed sentence analysis")
+    # logger.info("completed sentence analysis")
 
     return {
         "adjectiveScore": adjective_score,
@@ -73,6 +75,53 @@ def analyze(*, url: str | None = None, text: str | None = None) -> dict:
         "sentences": True,
         "biasScore": (adjective_score + pronoun_score + keywords_score["score"]) / 3,
     }
+
+
+def get_keyword_sentences(analysis: dict) -> Generator[tuple[str, str], None, None]:
+    """
+    Get the sentences for each keyword in the analysis.
+
+    :param analysis: the analysis data
+    :return: a generator of tuples with the keyword and sentence text
+    """
+    for keyword, score in analysis["keywords"].items():
+        yield keyword, score["sentences"]
+
+
+def analyze_sentence(sentence: dict) -> dict:
+    """
+    Analyze the bias of a sentence.
+
+    The sentence must have a 'text' key with the text to analyze. The analysis scores will be added
+    to the sentence.
+
+    :param sentence: the sentence to analyze
+    """
+    segments = chunk_sentence(sentence["text"])
+    scanned_segments = {
+        segment: interpret_text(text=segment, sentiment_only=True) for segment in segments
+    }
+    sentence["scores"] = score_segments(scanned_segments)
+
+
+def analyze_keyword_sentences(keyword: str, analysis: dict) -> list[dict]:
+    """
+    Analyze the bias of a set of sentences.
+
+    :param keyword: the keyword being analyzed
+    :param analysis: the analysis data for the keyword
+    :return: a dictionary with the analysis data for all the sentences
+    """
+    sentence_scores = []
+
+    for sentence in analysis["sentences"]:
+        segments = chunk_sentence(sentence["text"])
+        scanned_segments = {
+            segment: interpret_text(text=segment, sentiment_only=True) for segment in segments
+        }
+        sentence_scores.append(score_segments(scanned_segments))
+
+    return sentence_scores
 
 
 def interpret_text(
