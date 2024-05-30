@@ -157,7 +157,6 @@ function populateTone(tone) {
     );
     radarChart.render();
   }
-  
 }
 
 /**

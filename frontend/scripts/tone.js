@@ -77,7 +77,6 @@ export function createApexChart(docEmotion, entityEmotions, keywordEmotions, cha
   };
   const createChart = new ApexCharts(chart, options);
   createChart.render();
-  
 }
 
 function createSpan(emoji, data, colour = '') {
