@@ -70,16 +70,18 @@ class GPTSummarizer:
         combined_summary = " ".join(summaries)
         return combined_summary
 
+
 def main():
     return
+
 
 if __name__ == "__main__":
     main()
     # # Long text string to summarize
     # text = """
-    # Your very long text goes here. It can be a multi-paragraph or even a 
-    # multi-page text that needs to be summarized. 
-    # This text will be split into manageable chunks, each of which will be summarized separately, 
+    # Your very long text goes here. It can be a multi-paragraph or even a
+    # multi-page text that needs to be summarized.
+    # This text will be split into manageable chunks, each of which will be summarized separately,
     # and the final result will be a combined summary.
     # """
 
