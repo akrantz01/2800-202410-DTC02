@@ -1,6 +1,5 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 
-import { getChartOptions } from './bias.js';
 import {
   assignArticle,
   updateAuthorAi,
@@ -8,6 +7,7 @@ import {
   updatePublisherAi,
   updatePublisherBias,
 } from './assign-article.js';
+import { getChartOptions } from './bias.js';
 import { firestore } from './firebase.js';
 import { addHistory } from './history.js';
 
