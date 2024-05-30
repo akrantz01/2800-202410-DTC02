@@ -22,10 +22,10 @@ function addTableHeaders(table, headers) {
   }
   table.appendChild(headerRow);
 }
-function createApexChart(docEmotion, entityEmotions, keywordEmotions) {
+export function createApexChart(docEmotion, entityEmotions, keywordEmotions, chart) {
   // clear the chart in case it's being redrawn
-  const chartElement = document.querySelector('#chart');
-  chartElement.innerHTML = '';
+  // const chartElement = document.querySelector('#chart');
+  chart.innerHTML = '';
   const options = {
     // Populate options in radar chart
     series: [
@@ -75,8 +75,9 @@ function createApexChart(docEmotion, entityEmotions, keywordEmotions) {
       categories: ['Joy', 'Anger', 'Disgust', 'Sadness', 'Fear'],
     },
   };
-  const chart = new ApexCharts(document.querySelector('#chart'), options);
-  chart.render();
+  const createChart = new ApexCharts(chart, options);
+  createChart.render();
+  
 }
 
 function createSpan(emoji, data, colour = '') {
@@ -261,6 +262,7 @@ async function loadPageElements(data) {
       article.document.emotion,
       article.entities['averaged emotions'],
       article.keywords['averaged emotions'],
+      document.querySelector('#chart'),
     );
     ['document', 'entities', 'keywords'].forEach((category) => {
       prepareSummary(category, article[category]);
@@ -419,5 +421,9 @@ function populateKeywordsTable(keywords) {
 }
 
 const returnCellStyles = (size) => `px-2 py-2 text-center text-${size}`; // tailwind classes for table cell
-const articleId = getQueryParam();
-listenForDocChanges(articleId, loadPageElements);
+function main() {
+  const articleId = getQueryParam();
+  listenForDocChanges(articleId, loadPageElements);
+}
+
+if (window.location.href.match('tone') != null) main();

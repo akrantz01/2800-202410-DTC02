@@ -10,7 +10,7 @@ import {
 import { getChartOptions } from './bias.js';
 import { firestore } from './firebase.js';
 import { addHistory } from './history.js';
-
+import { createApexChart } from './tone.js';
 const errorContainer = document.getElementById('error-message');
 
 const title = document.getElementById('title');
@@ -93,13 +93,11 @@ onSnapshot(ref, async (doc) => {
     }
 
     if (articleData.status.tone === 'complete') {
-      const toneDetectionProgress = document.getElementById('tone-detection-progress');
-      const toneDetectionText = document.getElementById('tone-detection-text');
-      toneDetectionProgress.style.width = `${articleData.tone.toneDetection}%`;
-      toneDetectionText.textContent = `${articleData.tone.toneDetection}%`;
-
       linkCardToPage('tone-detection-card', 'tone.html');
       hideSpinner('tone-detection-card');
+      const toneResults = document.getElementById('tone-results');
+      toneResults.classList.remove('hidden');
+      populateTone(articleData.tone);
     }
   } catch (error) {
     displayError(error.message);
@@ -146,6 +144,20 @@ function createShareLink(element) {
     navigator.clipboard.writeText(currentURL);
     alert('URL has been copied to the clipboard!');
   });
+}
+
+function populateTone(tone) {
+  const radar = document.getElementById('radar-chart');
+  if (radar && tone) {
+    const radarChart = createApexChart(
+      tone.document.emotion,
+      tone.entities['averaged emotions'],
+      tone.keywords['averaged emotions'],
+      radar,
+    );
+    radarChart.render();
+  }
+  
 }
 
 /**
