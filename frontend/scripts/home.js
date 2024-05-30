@@ -8,7 +8,7 @@ const submitText = document.getElementById('submit-text');
 const submitSpinner = document.getElementById('submit-spinner');
 
 const user = await currentUser;
-if (user === null) window.location.href = 'login.html';
+if (user === null || !user.emailVerified) window.location.href = 'login.html';
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
