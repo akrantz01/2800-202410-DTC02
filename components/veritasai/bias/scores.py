@@ -9,6 +9,8 @@ def score_adjectives(analysis: dict) -> float:
     sentences = analysis["syntax"]["sentences"]
     sentence_count = len(sentences)
     high_adjectives = 4 * sentence_count
+    if sentence_count == 0:
+        return 0
     adjectives = [token["text"] for token in tokens if token["part_of_speech"] == "ADJ"]
     return len(adjectives) / high_adjectives
 
@@ -22,10 +24,14 @@ def count_pronouns(analysis: str) -> dict:
     """
     tokens = analysis["syntax"]["tokens"]
     pronouns = [token for token in tokens if token["part_of_speech"] == "PRON"]
-    he = [pronoun["lemma"] for pronoun in pronouns if pronoun["lemma"] == "he"]
-    she = [pronoun["lemma"] for pronoun in pronouns if pronoun["lemma"] == "she"]
-    he_count = len(he)
-    she_count = len(she)
+    try:
+        he = [pronoun["lemma"] for pronoun in pronouns if pronoun["lemma"] == "he"]
+        she = [pronoun["lemma"] for pronoun in pronouns if pronoun["lemma"] == "she"]
+        he_count = len(he)
+        she_count = len(she)
+    except KeyError:
+        he_count = 0
+        she_count = 0
     return {"he": he_count, "she": she_count}
 
 
@@ -58,8 +64,14 @@ def score_keywords(keywords: dict) -> float:
         if direction == "positive":
             positive_count += 1
     negative_count = len(directions) - positive_count
-    direction_score = (positive_count - negative_count) / len(directions)
-    total_score = sum(scores) / len(scores)
+    try:
+        direction_score = (positive_count - negative_count) / len(directions)
+    except ZeroDivisionError:
+        direction_score = 0
+    try:
+        total_score = sum(scores) / len(scores)
+    except ZeroDivisionError:
+        total_score = 0
     return {"score": total_score, "direction_bias": direction_score}
 
 
