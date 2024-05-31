@@ -6,9 +6,14 @@ const error = document.getElementById('error');
 const submit = document.getElementById('submit');
 const submitText = document.getElementById('submit-text');
 const submitSpinner = document.getElementById('submit-spinner');
+const resetButton = document.getElementById('reset-button');
 
 const user = await currentUser;
 if (user === null || !user.emailVerified) window.location.href = 'login.html';
+
+resetButton.addEventListener('click', () => {
+  form.reset();
+});
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
