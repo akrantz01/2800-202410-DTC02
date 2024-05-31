@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - dev
+
+jobs:
+  projects:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        name:
+          - analysis-manager
+          - accuracy-analyzer
+          - bias-analyzer
+          - summary-analyzer
+          - tone-analyzer
+    env:
+      PDM_PROJECT: projects/${{ matrix.name }}
+      PDM_LOCKFILE: ${{ github.workspace }}/pdm.lock
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pdm-project/setup-pdm@v4
+        with:
+          python-version-file: projects/${{ matrix.name }}/pyproject.toml
+
+      - name: Build
+        id: build
+        run: |
+          pdm export --prod --format requirements --output ${{ env.PDM_PROJECT }}/requirements.txt --without-hashes
+          pdm build --no-wheel
+          echo "name=$(pdm show --name)" >> "$GITHUB_OUTPUT"
+          echo "version=$(pdm show --version)" >> "$GITHUB_OUTPUT"
+
+      - name: Package
+        run: tar zxvf ${{ env.PDM_PROJECT }}/dist/${{ steps.build.outputs.name}}-${{ steps.build.outputs.version }}.tar.gz
