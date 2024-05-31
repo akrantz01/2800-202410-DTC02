@@ -89,6 +89,17 @@ function writeSentences(bias) {
       const logo = document.getElementById('logo-display');
       newBias.querySelector('img').src = logo.src;
       newBias.querySelector('.keyword').innerHTML = keyword;
+      const closeButton = newBias.querySelector('.close-menu');
+      const sentenceShow = newBias.querySelector('.sentence-show');
+      const dataShow = newBias.querySelector('.data-show');
+      const dropDown = newBias.querySelector('.drop-down');
+      closeButton.addEventListener('click', () => {
+        toggleDrop(closeButton, dropDown, sentenceShow, dataShow);
+      });
+
+      dropDown.addEventListener('click', () => {
+        toggleDrop(closeButton, dropDown, sentenceShow, dataShow);
+      });
       if (currentWord.sentences.length !== 0) {
         currentWord.sentences.forEach(() => {
           newBias.querySelector('.response').innerHTML = veritasResponse(keyword, currentWord);
@@ -223,6 +234,18 @@ function populateBiasScores(bias) {
   document.querySelector('.language-direction-gauge').style =
     `width: ${Math.abs(keywordDirectionScore) * 50}%`;
 }
+
+function toggleDrop(closeButton, dropDown, sentenceShow, dataShow) {
+  closeButton.classList.toggle('hidden');
+  dropDown.classList.toggle('-rotate-180');
+  sentenceShow.classList.toggle('invisible');
+  sentenceShow.classList.toggle('max-h-screen');
+  sentenceShow.classList.toggle('max-h-0');
+  sentenceShow.classList.toggle('opacity-0');
+  sentenceShow.classList.toggle('duration-1000');
+  dataShow.classList.toggle('mt-4');
+}
+
 function main() {
   const articleID = getQueryParam('uid');
   const ref = doc(firestore, 'articles', articleID);

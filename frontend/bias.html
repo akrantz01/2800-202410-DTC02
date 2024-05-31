@@ -208,48 +208,54 @@
 
       <!-- Bias Card Template -->
       <template id="bias-card">
-        <div
-          class="group flex flex-col border border-gray-400 overflow-hidden rounded-lg bg-white p-4 text-black"
-          tabindex="1"
-        >
-          <div class="flex cursor-pointer justify-between items-end text-lg">
-            <span class="keyword"> Confirmation Bias </span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon icon-tabler icon-tabler-chevron-down transition-all duration-500 group-focus:-rotate-180"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="#000000"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M6 9l6 6l6 -6" />
-            </svg>
-          </div>
-          <div id="sentence-template">
-            <div
-              class="invisible space-y-4 text-left h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000"
-            >
-              <!-- Input analyzed data here -->
-              <div class="group-focus:mt-4 border border-gray-400 rounded-lg">
-                <div
-                  class="flex flex-row space-x-2 flex-wrap text-md font-semibold bg-[#EDE9E9] border-b border-gray-300 shadow rounded-t-lg p-4"
-                >
-                  <img src="images/logo.svg" width="32" height="32" alt="VeritasAI" />
-                  <p>VeritasAI Response</p>
+        <div class="relative">
+          <button
+            type="button"
+            class="rounded-full w-[40px] h-[40px] absolute right-2 top-2 hidden close-menu"
+          ></button>
+          <div
+            class="group flex flex-col border border-gray-400 overflow-hidden rounded-lg bg-white p-4 text-black"
+            tabindex="1"
+          >
+            <div class="flex cursor-pointer justify-between items-end text-lg">
+              <span class="keyword"> Confirmation Bias </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-chevron-down transition-all duration-500 drop-down"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="#000000"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M6 9l6 6l6 -6" />
+              </svg>
+            </div>
+            <div id="sentence-template">
+              <div
+                class="invisible max-h-0 space-y-4 text-left h-auto items-center opacity-0 transition-all sentence-show"
+              >
+                <!-- Input analyzed data here -->
+                <div class="border border-gray-400 rounded-lg data-show">
+                  <div
+                    class="flex flex-row space-x-2 flex-wrap text-md font-semibold bg-[#EDE9E9] border-b border-gray-300 shadow rounded-t-lg p-4"
+                  >
+                    <img src="images/logo.svg" width="32" height="32" alt="VeritasAI" />
+                    <p>VeritasAI Response</p>
+                  </div>
+                  <!-- Input analysis output here -->
+                  <p class="p-4 response">
+                    Lorem ipsum dolor sit,
+                    <a href="#" class="text-blue-400 underline">confirmation bias</a> adipisicing
+                    elit. Libero corporis beatae accusantium minus rerum, laboriosam quibusdam, cum
+                    nobis ducimus fuga officiis illo vitae consectetur eaque totam delectus. Animi,
+                    non laudantium.
+                  </p>
                 </div>
-                <!-- Input analysis output here -->
-                <p class="p-4 response">
-                  Lorem ipsum dolor sit,
-                  <a href="#" class="text-blue-400 underline">confirmation bias</a> adipisicing
-                  elit. Libero corporis beatae accusantium minus rerum, laboriosam quibusdam, cum
-                  nobis ducimus fuga officiis illo vitae consectetur eaque totam delectus. Animi,
-                  non laudantium.
-                </p>
               </div>
             </div>
           </div>
