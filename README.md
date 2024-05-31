@@ -119,7 +119,33 @@ What we'd like to build in the future:
 | Kyryl Shtanhei | <kyryl@shtanhei.org>      | <https://github.com/kyrylshtanhei> |
 | Travis Gooden  | <travis.gooden@gmail.com> | <https://github.com/travis-aaron>  |
 
-## 9. Repository Contents
+## 9. Credits
+
+- Hamburger animation to "x" from <https://www.epicweb.dev/tips/hamburger-menu-animation>
+- Icons from <https://tablericons.com/>
+
+### Licenses
+
+- Watson NLU: Apache 2.0
+- TailwindCSS: MIT
+- Firebase: Apache 2.0
+- ChatGPT: Proprietary EULA
+- ApexCharts: MIT
+- Vite: MIT
+- Vercel: Proprietary EULA
+- PDM: MIT
+- PNPM: MIT
+- Google Cloud Services: Proprietary EULA
+- Google Cloud Python API: Apache 2.0
+- Pydantic: MIT
+- Eslint: MIT
+- Pytest: MIT
+- Lint-staged: MIT
+- Prettier: MIT
+- Husky: MIT
+- Ruff: MIT
+
+## 10. Repository Contents
 
 Our backend follows the [Polylith architecture](https://davidvujic.github.io/python-polylith-docs/workspace/), using the `veritasai` namespace. The frontend can be found in the `frontend` folder. The `environments` folder contains
 the encrypted configuration for the Google Cloud Functions environment variables.
