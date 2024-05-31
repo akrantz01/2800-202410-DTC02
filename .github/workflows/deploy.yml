@@ -149,6 +149,7 @@ jobs:
             --entry-point=handler \
             --trigger-topic=${TOPIC} \
             --env-vars-file=env.yaml \
+            --memory=512Mb \
             --timeout=300s \
             --ingress-settings=internal-only \
             --ignore-file=$(pwd)/.gcloudignore
