@@ -133,7 +133,7 @@ const getEmoji = function (category, value) {
         return '😭';
       case 'rage':
         return '🤬';
-      case 'ecstatic':
+      case 'ecstasy':
         return '😄';
       case 'envy':
         return '😧';
