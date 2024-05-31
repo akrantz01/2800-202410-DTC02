@@ -86,6 +86,7 @@ function writeSentences(bias) {
       const currentWord = bias.keywords[keyword];
       const biasTemplate = document.getElementById('bias-card');
       const newBias = biasTemplate.content.cloneNode(true);
+      newBias.querySelector('img').src = 'images/logo.svg';
       newBias.querySelector('.keyword').innerHTML = keyword;
       if (currentWord.sentences.length !== 0) {
         currentWord.sentences.forEach(() => {
