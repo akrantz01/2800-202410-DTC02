@@ -37,7 +37,7 @@
     <form id="form" class="mx-auto max-w-sm grid grid-cols-1 gap-x-6 gap-y-4">
       <div>
         <label for="title" class="block text-sm font-medium leading-6 text-gray-900">
-          * Title
+          Title <span class="text-red-500">*</span>
         </label>
         <div class="relative mt-0.5 rounded-md shadow-sm">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -58,13 +58,14 @@
             id="title"
             class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             placeholder="The MOST Outrageous Headline"
+            required
           />
         </div>
       </div>
 
       <div class="col-span-full">
-        <label for="content" class="block text-sm font-medium leading-6 text-gray-900"
-          >* Content
+        <label for="content" class="block text-sm font-medium leading-6 text-gray-900">
+          Content <span class="text-red-500">*</span>
         </label>
         <div class="mt-0.5">
           <textarea
@@ -80,7 +81,7 @@
 
       <div>
         <label for="author" class="block text-sm font-medium leading-6 text-gray-900">
-          * Author(s)
+          Author(s) <span class="text-red-500">*</span>
         </label>
         <div class="relative mt-0.5 rounded-md shadow-sm">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -108,6 +109,7 @@
             class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             placeholder="John Doe"
             aria-describedby="author-description"
+            required
           />
         </div>
         <p class="mt-2 text-xs text-gray-500" id="author-description">
@@ -117,7 +119,7 @@
 
       <div>
         <label for="publisher" class="block text-sm font-medium leading-6 text-gray-900">
-          * Publisher
+          Publisher <span class="text-red-500">*</span>
         </label>
         <div class="relative mt-0.5 rounded-md shadow-sm">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -146,6 +148,7 @@
             type="text"
             name="publisher"
             id="publisher"
+            required
             class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             placeholder="Fake News Publishing"
           />
