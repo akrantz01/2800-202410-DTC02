@@ -44,7 +44,7 @@ def return_dominant_emotion(emotion: str) -> list[str]:
     """
     match emotion:
         case "joy":
-            return ["ecstasy"]
+            return ["ecstatic"]
         case "fear":
             return ["terror"]
         case "anger":
