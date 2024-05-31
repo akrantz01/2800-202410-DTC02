@@ -420,9 +420,9 @@ function populateKeywordsTable(keywords) {
 }
 
 function addListeners(entity) {
-  let closeButton = entity.parentNode.querySelector('.close-menu');
-  let dropDown = entity.querySelector('.drop-down');
-  let dataShow = entity.querySelector('.data-show');
+  const closeButton = entity.parentNode.querySelector('.close-menu');
+  const dropDown = entity.querySelector('.drop-down');
+  const dataShow = entity.querySelector('.data-show');
   console.log(entity);
   console.log(closeButton);
   console.log(dropDown);
