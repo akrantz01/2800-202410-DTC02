@@ -1,3 +1,3 @@
-from .core import verify_article_factuality
+from .core import determine_accuracy
 
-__all__ = ["verify_article_factuality"]
+__all__ = ["determine_accuracy"]

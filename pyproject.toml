@@ -21,7 +21,6 @@ dependencies = [
   "cloup>=3.0.5",
   "requests>=2.32.2",
   "google-cloud-aiplatform>=1.53.0",
-  "openai>=1.30.3",
 ]
 
 [build-system]
@@ -64,6 +63,7 @@ summary-analyzer.env = { PORT = "8003" }
 "components/veritasai/config" = "veritasai/config"
 "components/veritasai/cors" = "veritasai/cors"
 "components/veritasai/firebase" = "veritasai/firebase"
+"components/veritasai/gemini" = "veritasai/gemini"
 "components/veritasai/input_validation" = "veritasai/input_validation"
 "components/veritasai/logging" = "veritasai/logging"
 "components/veritasai/protocol" = "veritasai/protocol"
