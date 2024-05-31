@@ -20,6 +20,7 @@ dependencies = [
   "click>=8.1.7",
   "cloup>=3.0.5",
   "requests>=2.32.2",
+  "google-cloud-aiplatform>=1.53.0",
 ]
 
 [build-system]
@@ -45,10 +46,13 @@ tone-analyzer.cmd = "functions-framework --target=handler --source projects/tone
 tone-analyzer.env = { PORT = "8001" }
 bias-analyzer.cmd = "functions-framework --target=handler --source projects/bias-analyzer/main.py"
 bias-analyzer.env = { PORT = "8002" }
+summary-analyzer.cmd = "functions-framework --target=handler --source projects/summary-analyzer/main.py"
+summary-analyzer.env = { PORT = "8003" }
 
 [tool.polylith.bricks]
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
 "bases/veritasai/bias_analyzer" = "veritasai/bias_analyzer"
+"bases/veritasai/summary_analyzer" = "veritasai/summary_analyzer"
 "bases/veritasai/tone_analyzer" = "veritasai/tone_analyzer"
 "components/veritasai/articles" = "veritasai/articles"
 "components/veritasai/authentication" = "veritasai/authentication"
@@ -61,6 +65,7 @@ bias-analyzer.env = { PORT = "8002" }
 "components/veritasai/logging" = "veritasai/logging"
 "components/veritasai/protocol" = "veritasai/protocol"
 "components/veritasai/pubsub" = "veritasai/pubsub"
+"components/veritasai/summarizer" = "veritasai/summarizer"
 "components/veritasai/tone" = "veritasai/tone"
 "components/veritasai/watson" = "veritasai/watson"
 

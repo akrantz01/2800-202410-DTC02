@@ -102,6 +102,7 @@ jobs:
       matrix:
         name:
           - bias-analyzer
+          - summary-analyzer
           - tone-analyzer
     env:
       PDM_PROJECT: projects/${{ matrix.name }}
