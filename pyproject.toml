@@ -46,6 +46,8 @@ tone-analyzer.cmd = "functions-framework --target=handler --source projects/tone
 tone-analyzer.env = { PORT = "8001" }
 bias-analyzer.cmd = "functions-framework --target=handler --source projects/bias-analyzer/main.py"
 bias-analyzer.env = { PORT = "8002" }
+summary-analyzer.cmd = "functions-framework --target=handler --source projects/summary-analyzer/main.py"
+summary-analyzer.env = { PORT = "8003" }
 
 [tool.polylith.bricks]
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
