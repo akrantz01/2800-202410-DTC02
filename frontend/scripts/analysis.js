@@ -1,3 +1,5 @@
+import ApexCharts from 'apexcharts';
+
 const getChartOptions = () => {
   return {
     series: [35.1, 23.5, 2.4, 5.4],
@@ -82,8 +84,7 @@ const getChartOptions = () => {
   };
 };
 
-if (document.getElementById('donut-chart') && typeof ApexCharts !== 'undefined') {
-  // eslint-disable-next-line no-undef
+if (document.getElementById('donut-chart')) {
   const chart = new ApexCharts(document.getElementById('donut-chart'), getChartOptions());
   chart.render();
 }

@@ -1,3 +1,4 @@
+import ApexCharts from 'apexcharts';
 import { doc, onSnapshot } from 'firebase/firestore';
 
 import { firestore } from './firebase.js';
@@ -183,8 +184,7 @@ function populateBiasScores(bias) {
     opinion: adjectiveBiasPercent,
   };
 
-  if (document.getElementById('pie-chart') && typeof ApexCharts !== 'undefined') {
-    // eslint-disable-next-line no-undef
+  if (document.getElementById('pie-chart')) {
     const chart = new ApexCharts(
       document.getElementById('pie-chart'),
       getChartOptions(biasScores, 420),
