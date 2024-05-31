@@ -1,11 +1,11 @@
 import functions_framework
 from cloudevents.http import CloudEvent
+from veritasai.accuracy import verify_article_factuality
 from veritasai.articles import Article
-from veritasai.fact_check import verify_article_factuality
 from veritasai.firebase import get_db
 from veritasai.logging import get_logger
 
-logger = get_logger("veritasai.fact_checker")
+logger = get_logger("veritasai.accuracy_analyzer")
 
 
 @functions_framework.cloud_event
@@ -20,11 +20,11 @@ def handler(event: CloudEvent):
 
     factuality_score = verify_article_factuality(text=article.content)
 
-    logger.info("fact-check complete, writing to database")
+    logger.info("fact check complete, writing to database")
 
     get_db().collection("articles").document(article.id).update(
         {
-            "factuality_score": factuality_score,
-            "status.fact_check": "complete",
+            "accuracyScore": factuality_score,
+            "status.accuracy": "complete",
         }
     )

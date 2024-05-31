@@ -51,17 +51,18 @@ summary-analyzer.cmd = "functions-framework --target=handler --source projects/s
 summary-analyzer.env = { PORT = "8003" }
 
 [tool.polylith.bricks]
+"bases/veritasai/accuracy_analyzer" = "veritasai/accuracy_analyzer"
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
 "bases/veritasai/bias_analyzer" = "veritasai/bias_analyzer"
 "bases/veritasai/summary_analyzer" = "veritasai/summary_analyzer"
 "bases/veritasai/tone_analyzer" = "veritasai/tone_analyzer"
+"components/veritasai/accuracy" = "veritasai/accuracy"
 "components/veritasai/articles" = "veritasai/articles"
 "components/veritasai/authentication" = "veritasai/authentication"
 "components/veritasai/bias" = "veritasai/bias"
 "components/veritasai/cache" = "veritasai/cache"
 "components/veritasai/config" = "veritasai/config"
 "components/veritasai/cors" = "veritasai/cors"
-"components/veritasai/fact_check" = "veritasai/fact_check"
 "components/veritasai/firebase" = "veritasai/firebase"
 "components/veritasai/input_validation" = "veritasai/input_validation"
 "components/veritasai/logging" = "veritasai/logging"

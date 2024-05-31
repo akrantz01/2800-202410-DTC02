@@ -94,11 +94,3 @@ def verify_article_factuality(text: str) -> float:
     results = [verify_claim(claim) for claim in claims]
     factuality_score = calculate_factuality_score(results)
     return factuality_score
-
-
-def main():
-    pass
-
-
-if __name__ == "__main__":
-    main()
