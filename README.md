@@ -112,17 +112,7 @@ What we'd like to build in the future:
   - At times, Watson IBM would not generate requested responses
   - AI detection tools are still in their infancy and still doesn't have a good answer
 
-## 8. Contact Info
-
-| Name           | Email                     | Github                             |
-| -------------- | ------------------------- | ---------------------------------- |
-| Alex Krantz    | <alex@krantz.dev>         | <https://github.com/akrantz01>     |
-| Daniel Lee     | <dancheuklee@gmail.com>   | <https://github.com/dlee537>       |
-| Dylan Reimer   | <reimer.dylan@gmail.com>  | <https://github.com/twistedburger> |
-| Kyryl Shtanhei | <kyryl@shtanhei.org>      | <https://github.com/kyrylshtanhei> |
-| Travis Gooden  | <travis.gooden@gmail.com> | <https://github.com/travis-aaron>  |
-
-## 9. Credits
+## 8. Credits
 
 - Hamburger animation to "x" from <https://www.epicweb.dev/tips/hamburger-menu-animation>
 - Icons from <https://tablericons.com/>
@@ -148,7 +138,7 @@ What we'd like to build in the future:
 - Husky: MIT
 - Ruff: MIT
 
-## 10. Repository Contents
+## 9. Repository Contents
 
 Our backend follows the [Polylith architecture](https://davidvujic.github.io/python-polylith-docs/workspace/), using the `veritasai` namespace. The frontend can be found in the `frontend` folder. The `environments` folder contains
 the encrypted configuration for the Google Cloud Functions environment variables.
@@ -453,3 +443,13 @@ Content of the project folder:
     ├── launch.json
     └── settings.json
 ```
+
+## 10. Contact Info
+
+| Name           | Email                     | Github                             |
+| -------------- | ------------------------- | ---------------------------------- |
+| Alex Krantz    | <alex@krantz.dev>         | <https://github.com/akrantz01>     |
+| Daniel Lee     | <dancheuklee@gmail.com>   | <https://github.com/dlee537>       |
+| Dylan Reimer   | <reimer.dylan@gmail.com>  | <https://github.com/twistedburger> |
+| Kyryl Shtanhei | <kyryl@shtanhei.org>      | <https://github.com/kyrylshtanhei> |
+| Travis Gooden  | <travis.gooden@gmail.com> | <https://github.com/travis-aaron>  |
