@@ -42,7 +42,8 @@ onSnapshot(ref, async (doc) => {
       });
       await addHistory(doc.id);
       await assignArticle(doc.id);
-      url.href = articleData.url;
+      if (articleData.url) url.href = articleData.url;
+      else url.classList.add('hidden');
     }
 
     if (articleData.status.summary === 'complete') {
