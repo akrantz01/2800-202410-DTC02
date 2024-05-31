@@ -132,7 +132,10 @@ def calculate_average_relevance(category: dict) -> float:
         relevance = relevance_dict.get("relevance")
         relevance_score["relevance"] += relevance
         relevance_score["count"] += 1
-    return round(relevance_score["relevance"] / relevance_score["count"], 4)
+    return (
+        round(relevance_score["relevance"] / relevance_score["count"], 4) if relevance_score else 0,
+        4,
+    )
 
 
 def calculate_general_trust(category: dict) -> bool:
