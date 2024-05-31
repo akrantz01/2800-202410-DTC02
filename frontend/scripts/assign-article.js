@@ -180,7 +180,8 @@ export async function updateAuthorAi(author) {
   let totalCount = 0;
   for (const article of articles) {
     const articleSnapshot = await getDoc(doc(firestore, 'articles', article));
-    if (articleSnapshot.data().ai) {
+    const data = articleSnapshot.data();
+    if (data?.ai) {
       totalScore += parseFloat(articleSnapshot.data().ai.aiScore);
       totalCount += 1;
     }
@@ -204,7 +205,8 @@ export async function updatePublisherAi(publisher) {
   let totalCount = 0;
   for (const article of articles) {
     const articleSnapshot = await getDoc(doc(firestore, 'articles', article));
-    if (articleSnapshot.data().ai) {
+    const data = articleSnapshot.data();
+    if (data?.ai) {
       totalScore += parseFloat(articleSnapshot.data().ai.aiScore);
       totalCount += 1;
     }
@@ -228,7 +230,8 @@ export async function updateAuthorBias(author) {
   let totalCount = 0;
   for (const article of articles) {
     const articleSnapshot = await getDoc(doc(firestore, 'articles', article));
-    if (articleSnapshot.data().bias) {
+    const data = articleSnapshot.data();
+    if (data?.bias) {
       totalScore += parseFloat(articleSnapshot.data().bias.biasScore);
       totalCount += 1;
     }
@@ -252,7 +255,8 @@ export async function updatePublisherBias(publisher) {
   let totalCount = 0;
   for (const article of articles) {
     const articleSnapshot = await getDoc(doc(firestore, 'articles', article));
-    if (articleSnapshot.data().bias) {
+    const data = articleSnapshot.data();
+    if (data?.bias) {
       totalScore += parseFloat(articleSnapshot.data().bias.biasScore);
       totalCount += 1;
     }
