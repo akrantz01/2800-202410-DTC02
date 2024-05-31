@@ -169,7 +169,7 @@ const getEmoji = function (category, value) {
 
 function emotionIntensity(intensity) {
   if (intensity === 'unchanged') {
-    return ['average intensity', 'were left unchanged due to an average score'];
+    return ['average intensity', 'original values were left unchanged due to an average score'];
   }
   if (intensity === 'combined') {
     return [
@@ -178,7 +178,7 @@ function emotionIntensity(intensity) {
     ];
   }
   if (intensity === 'weakened') {
-    return ['weak intensity', 'were renamed to reflect a very low intensity'];
+    return ['weak intensity', 'original values were renamed to reflect a very low intensity'];
   } else {
     return [
       'very strong intensity',
@@ -192,7 +192,7 @@ function emotionSummary(type, article, intensity) {
     if (emotions.length === 3) {
       return `Its dominant emotions are <span class="font-bold">${article.plutchik[0]}</span> and <span class="font-bold">${article.plutchik[1]}</span> and <span class="font-bold">${intensity}</span>`;
     } else {
-      return `Its dominant emotion is <span class="font-bold">${article.plutchik[0]}</span> and is considered <span class="font-bold">${intensity}</span>`;
+      return `Its dominant emotion is <span class="font-bold">${article.plutchik[0]}</span> and <span class="font-bold">${intensity}</span>`;
     }
   }
 }
