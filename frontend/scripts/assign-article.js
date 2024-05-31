@@ -107,14 +107,13 @@ async function publisherExists(publisher) {
  * @param {String} articleID the article id
  */
 async function createPublisher(article, articleID) {
-  const newPublisher = await addDoc(collection(firestore, 'publishers'), {
+  await addDoc(collection(firestore, 'publishers'), {
     aiScore: article.aiDetection / 100,
     articles: [articleID],
     biasScore: article.bias / 100,
     name: article.publisher,
     authors: [],
   });
-  console.log(newPublisher);
 }
 
 /**

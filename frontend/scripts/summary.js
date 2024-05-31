@@ -109,7 +109,6 @@ function hideSpinner(cardId) {
  * @param {string} message the error message to display
  */
 function displayError(message) {
-  console.log(message);
   errorContainer.querySelector('span').textContent = message;
   errorContainer.classList.remove('hidden');
 }

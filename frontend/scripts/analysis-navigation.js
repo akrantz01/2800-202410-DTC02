@@ -45,13 +45,10 @@ function setNavClass(hRefArray = []) {
   fileName.replace('.html', '');
   for (let i = 0; i < hRefArray.length; i++) {
     if (hRefArray[i] === fileName) {
-      console.log(`${hRefArray[i]} is equal to, ${fileName}`);
-
       const element = document.querySelector(
         `#analysis-navigation-controls a[href="${hRefArray[i]}"]`,
       );
 
-      // TODO: Disable classes for when the navigation link is active
       // Disable link when current page
       [`border`, `rounded-lg`, `font-semibold`].map((classGroup) =>
         element.classList.toggle(classGroup),

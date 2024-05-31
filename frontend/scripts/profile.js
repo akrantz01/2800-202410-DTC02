@@ -47,14 +47,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const normalizedDob = new Date(dob.getFullYear(), dob.getMonth(), dob.getDate() + 1);
     const normalizedToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    console.log(normalizedDob);
-    console.log(normalizedToday);
 
     const isBirthday =
       normalizedToday.getMonth() === normalizedDob.getMonth() &&
       normalizedToday.getDate() === normalizedDob.getDate();
-
-    console.log(isBirthday);
 
     const profileContainer = document.getElementById('profile-info');
     profileContainer.innerHTML = `
