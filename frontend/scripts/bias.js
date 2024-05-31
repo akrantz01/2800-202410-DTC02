@@ -1,5 +1,6 @@
 import ApexCharts from 'apexcharts';
 import { doc, onSnapshot } from 'firebase/firestore';
+import 'flowbite';
 
 import { firestore } from './firebase.js';
 

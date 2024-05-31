@@ -1,4 +1,5 @@
 import ApexCharts from 'apexcharts';
+import 'flowbite';
 
 const getChartOptions = () => {
   return {

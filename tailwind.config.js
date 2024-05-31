@@ -1,8 +1,9 @@
 import forms from '@tailwindcss/forms';
+import flowbite from 'flowbite/plugin';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./frontend/**/*.{html,js}'],
+  content: ['./frontend/**/*.{html,js}', './node_modules/flowbite/**/*.js'],
   theme: {
     extend: {
       fontFamily: {
@@ -20,5 +21,5 @@ export default {
       },
     },
   },
-  plugins: [forms],
+  plugins: [forms, flowbite],
 };
