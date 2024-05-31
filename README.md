@@ -73,6 +73,12 @@ Here's how to get started once you've cloned the project:
     - Analysis manager: `pdm analysis-manager`
     - Bias analyzer: `pdm bias-analyzer`
     - Tone analyzer: `pdm tone-analyzer`
+    - Summary analyzer: `pdm summary-analyzer`
+    - Accuracy analyzer: `pdm accuracy-analyzer`
+
+> ![NOTE]
+> The full analysis pipeline cannot be fully tested locally due to the use of Google Cloud Pub/Sub.
+> However, individual analyzers can be triggered by using the `development/publish.py` script.
 
 Once you've gotten the project running, here's how to use it:
 
