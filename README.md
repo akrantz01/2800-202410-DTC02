@@ -68,6 +68,7 @@ What we'd like to build in the future:
 - Add AI detection functionality
 - Show ranking of different authors and publishers
 - Add more advanced bias detection
+- Link accuracy detection
 
 ## 7. Contents of Folder
 
