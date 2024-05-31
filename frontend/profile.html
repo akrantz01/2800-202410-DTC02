@@ -47,16 +47,18 @@
         >
           Change Name
         </button>
-        <form id="update-name-form" class="hidden mb-6">
-          <label for="new-name" class="block mb-2 text-sm font-bold text-gray-700">
-            New Name <span class="text-red-500">*</span>
-          </label>
-          <input
-            id="new-name"
-            type="text"
-            class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-            required
-          />
+        <form id="update-name-form" class="hidden my-6 space-y-6 border rounded-lg p-2 shadow-sm">
+          <div>
+            <label for="new-name" class="block text-sm font-medium leading-6 text-gray-700">
+              New Name <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="new-name"
+              type="text"
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+              required
+            />
+          </div>
           <button
             type="submit"
             class="w-full py-2 mt-4 text-white bg-secondary rounded-lg hover:bg-blue-600"
@@ -71,25 +73,29 @@
         >
           Change Email
         </button>
-        <form id="update-email-form" class="hidden mb-6">
-          <label for="new-email" class="block mb-2 text-sm font-bold text-gray-700">
-            New Email <span class="text-red-500">*</span>
-          </label>
-          <input
-            id="new-email"
-            type="email"
-            class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-            required
-          />
-          <label for="password" class="block mb-2 text-sm font-bold text-gray-700">
-            Password <span class="text-red-500">*</span>
-          </label>
-          <input
-            id="password"
-            type="password"
-            class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-            required
-          />
+        <form id="update-email-form" class="hidden my-6 space-y-6 border rounded-lg p-2 shadow-sm">
+          <div>
+            <label for="new-email" class="block text-sm font-medium leading-6 text-gray-700">
+              New Email <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="new-email"
+              type="email"
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+              required
+            />
+          </div>
+          <div>
+            <label for="password" class="block text-sm font-medium leading-6 text-gray-700">
+              Password <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="password"
+              type="password"
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+              required
+            />
+          </div>
           <button
             type="submit"
             class="w-full py-2 mt-4 text-white bg-secondary rounded-lg hover:bg-blue-600"
