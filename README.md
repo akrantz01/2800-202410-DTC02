@@ -66,6 +66,7 @@ Here's how to get started once you've cloned the project:
 - Install dependencies for each language
   - `pnpm install`
   - `pdm install`
+- Install and configure the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install).
 - Configure your `.env` file according to the `.env.example` file.
 - Start developing
   - Frontend: `pnpm dev`
