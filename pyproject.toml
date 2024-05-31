@@ -48,12 +48,16 @@ bias-analyzer.cmd = "functions-framework --target=handler --source projects/bias
 bias-analyzer.env = { PORT = "8002" }
 summary-analyzer.cmd = "functions-framework --target=handler --source projects/summary-analyzer/main.py"
 summary-analyzer.env = { PORT = "8003" }
+accuracy-analyzer.cmd = "functions-framework --target=handler --source projects/accuracy-analyzer/main.py"
+accuracy-analyzer.env = { PORT = "8003" }
 
 [tool.polylith.bricks]
+"bases/veritasai/accuracy_analyzer" = "veritasai/accuracy_analyzer"
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
 "bases/veritasai/bias_analyzer" = "veritasai/bias_analyzer"
 "bases/veritasai/summary_analyzer" = "veritasai/summary_analyzer"
 "bases/veritasai/tone_analyzer" = "veritasai/tone_analyzer"
+"components/veritasai/accuracy" = "veritasai/accuracy"
 "components/veritasai/articles" = "veritasai/articles"
 "components/veritasai/authentication" = "veritasai/authentication"
 "components/veritasai/bias" = "veritasai/bias"
@@ -61,6 +65,7 @@ summary-analyzer.env = { PORT = "8003" }
 "components/veritasai/config" = "veritasai/config"
 "components/veritasai/cors" = "veritasai/cors"
 "components/veritasai/firebase" = "veritasai/firebase"
+"components/veritasai/gemini" = "veritasai/gemini"
 "components/veritasai/input_validation" = "veritasai/input_validation"
 "components/veritasai/logging" = "veritasai/logging"
 "components/veritasai/protocol" = "veritasai/protocol"

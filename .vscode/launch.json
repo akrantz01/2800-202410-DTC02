@@ -59,6 +59,20 @@
       },
       "args": ["run", "--no-debugger"],
       "autoStartBrowser": false
+    },
+    {
+      "name": "accuracy-analyzer",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "flask",
+      "env": {
+        "FLASK_APP": "development/function.py",
+        "FLASK_DEBUG": "1",
+        "FLASK_RUN_PORT": "8004",
+        "FUNCTION": "accuracy_analyzer"
+      },
+      "args": ["run", "--no-debugger"],
+      "autoStartBrowser": false
     }
   ]
 }
