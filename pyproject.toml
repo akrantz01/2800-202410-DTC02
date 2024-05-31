@@ -50,6 +50,7 @@ bias-analyzer.env = { PORT = "8002" }
 [tool.polylith.bricks]
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
 "bases/veritasai/bias_analyzer" = "veritasai/bias_analyzer"
+"bases/veritasai/summary_analyzer" = "veritasai/summary_analyzer"
 "bases/veritasai/tone_analyzer" = "veritasai/tone_analyzer"
 "components/veritasai/articles" = "veritasai/articles"
 "components/veritasai/authentication" = "veritasai/authentication"
