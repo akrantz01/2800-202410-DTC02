@@ -2,11 +2,12 @@
 
 ## 1. Project Description
 
-Team DTC02 is developing VeritasAI to help people who read online articles determine the bias and accuracy of the content, and whether it was generated with AI, by implementing AI language models to analyze the text
+Team DTC-02 is developing VeritasAI to help people who read online articles determine the bias and accuracy of the content, and whether it was generated with AI, by implementing AI language models to analyze the text
 
 ## 2. Names of Contributors
 
-- DTC-02
+Team DTC-02:
+
 - Dylan Reimer
 - Alex Krantz
 - Kyryl Shtanhei
@@ -53,6 +54,13 @@ Here's how to get started once you've cloned the project:
   - Frontend: `pnpm dev`
   - Backend: TBD
 
+Once you've gotten the project running, here's how to use it:
+
+- Login or Signup
+- Find an article to scan
+- Copy the title, content, author, and publisher into the relevant fields
+- Click analyze (wait for ~20 seconds and the pages will populate)
+
 ## 5. Known Bugs and Limitations
 
 Here are some known bugs:
@@ -70,7 +78,30 @@ What we'd like to build in the future:
 - Add more advanced bias detection
 - Link accuracy detection
 
-## 7. Contents of Folder
+## 7. AI usage
+
+- Github Copilot was used to help with line completion during coding
+- AI was not used to otherwise generate code or data
+
+- AI App Features:
+
+  - Watson IBM NLU and Google Gemini 1.5 were used for analyzing the submitted articles. Watson IBM responses created the Tone and Bias breakdowns, and Chat GPT 4 created the article summary
+
+- AI Limitations included
+  - At times, Watson IBM would not generate requested responses
+  - AI detection tools are still in their infancy and still doesn't have a good answer
+
+## 8. Contact Info
+
+| Name           | Email                     | Github                             |
+| -------------- | ------------------------- | ---------------------------------- |
+| Alex Krantz    | <alex@krantz.dev>         | <https://github.com/akrantz01>     |
+| Daniel Lee     | <dancheuklee@gmail.com>   | <https://github.com/dlee537>       |
+| Dylan Reimer   | <reimer.dylan@gmail.com>  | <https://github.com/twistedburger> |
+| Kyryl Shtanhei | <kyryl@shtanhei.org>      | <https://github.com/kyrylshtanhei> |
+| Travis Gooden  | <travis.gooden@gmail.com> | <https://github.com/travis-aaron>  |
+
+## 9. Contents of Folder
 
 Content of the project folder:
 
