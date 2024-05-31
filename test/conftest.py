@@ -85,6 +85,16 @@ def disable_firebase_admin_sdk_initialization(monkeypatch: MonkeyPatch):
 
 
 @pytest.fixture(autouse=True)
+def disable_vertexai_initialization(monkeypatch: MonkeyPatch):
+    """
+    Disables the initialization process for the Vertex AI SDK.
+
+    This ensures that credentials are not required to run tests.
+    """
+    monkeypatch.setattr("vertexai.init", lambda: None)
+
+
+@pytest.fixture(autouse=True)
 def mock_pubsub(mocker: MockerFixture):
     """
     Mock the `PublisherClient` class from the `google.cloud.pubsub` module.

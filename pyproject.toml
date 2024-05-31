@@ -20,6 +20,7 @@ dependencies = [
   "click>=8.1.7",
   "cloup>=3.0.5",
   "requests>=2.32.2",
+  "google-cloud-aiplatform>=1.53.0",
 ]
 
 [build-system]
@@ -61,6 +62,7 @@ bias-analyzer.env = { PORT = "8002" }
 "components/veritasai/logging" = "veritasai/logging"
 "components/veritasai/protocol" = "veritasai/protocol"
 "components/veritasai/pubsub" = "veritasai/pubsub"
+"components/veritasai/summarizer" = "veritasai/summarizer"
 "components/veritasai/tone" = "veritasai/tone"
 "components/veritasai/watson" = "veritasai/watson"
 
