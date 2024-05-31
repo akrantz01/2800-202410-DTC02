@@ -25,6 +25,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   const errorContainer = document.getElementById('error-message');
   const messageContainer = document.getElementById('message');
 
+  const modal = document.getElementById('confirm');
+  const cancel = document.getElementById('cancel');
+
+  const deleteAccountButton = document.getElementById('delete-account-button');
+
+  // disable the modal if clicking outside
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
+
+  deleteAccountButton.addEventListener('click', () => {
+    modal.style.display = 'block';
+  });
+
+  cancel.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
   function displayMessage(message, isError = false) {
     if (isError) {
       errorContainer.querySelector('span').textContent = message;
@@ -129,9 +148,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     await signOut(auth);
     redirectToIndex();
   });
-
-  const deleteAccountButton = document.getElementById('delete-account-button');
-  deleteAccountButton.addEventListener('click', async () => {
+  const confirmDelete = document.getElementById('delete');
+  confirmDelete.addEventListener('click', async () => {
     try {
       if (user.providerData[0].providerId === 'google.com') {
         const provider = new GoogleAuthProvider();
