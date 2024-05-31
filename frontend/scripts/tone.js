@@ -421,8 +421,40 @@ function populateKeywordsTable(keywords) {
   });
 }
 
+function addListeners(entity) {
+  const closeButton = entity.parentNode.querySelector('.close-menu');
+  const dropDown = entity.querySelector('.drop-down');
+  const dataShow = entity.querySelector('.data-show');
+  console.log(entity);
+  console.log(closeButton);
+  console.log(dropDown);
+  console.log(dataShow);
+  closeButton.addEventListener('click', () => {
+    toggleDrop(closeButton, dropDown, dataShow);
+  });
+  dropDown.addEventListener('click', () => {
+    toggleDrop(closeButton, dropDown, dataShow);
+  });
+}
+
+function toggleDrop(closeButton, dropDown, dataShow) {
+  closeButton.classList.toggle('hidden');
+  dropDown.classList.toggle('-rotate-180');
+  dataShow.classList.toggle('invisible');
+  dataShow.classList.toggle('max-h-screen');
+  dataShow.classList.toggle('max-h-0');
+  dataShow.classList.toggle('opacity-0');
+  dataShow.classList.toggle('duration-1000');
+}
+
 const returnCellStyles = (size) => `px-2 py-2 text-center text-${size}`; // tailwind classes for table cell
 function main() {
+  const entityTab = document.getElementById('entity-tab');
+  const keywordTab = document.getElementById('keyword-tab');
+  const articleTab = document.getElementById('article-tab');
+  addListeners(entityTab);
+  addListeners(keywordTab);
+  addListeners(articleTab);
   const articleId = getQueryParam();
   listenForDocChanges(articleId, loadPageElements);
 }
