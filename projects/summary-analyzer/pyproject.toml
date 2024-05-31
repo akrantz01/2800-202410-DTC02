@@ -3,7 +3,7 @@ requires = ["pdm-backend", "pdm-polylith-bricks"]
 build-backend = "pdm.backend"
 
 [project]
-name = "summary-analyzer"
+name = "summary_analyzer"
 version = "0.1.0"
 description = ""
 authors = [{ name = "DTC-02" }]
