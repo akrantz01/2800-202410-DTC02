@@ -48,6 +48,8 @@ bias-analyzer.cmd = "functions-framework --target=handler --source projects/bias
 bias-analyzer.env = { PORT = "8002" }
 summary-analyzer.cmd = "functions-framework --target=handler --source projects/summary-analyzer/main.py"
 summary-analyzer.env = { PORT = "8003" }
+accuracy-analyzer.cmd = "functions-framework --target=handler --source projects/accuracy-analyzer/main.py"
+accuracy-analyzer.env = { PORT = "8003" }
 
 [tool.polylith.bricks]
 "bases/veritasai/accuracy_analyzer" = "veritasai/accuracy_analyzer"

@@ -1,0 +1,15 @@
+ARTICLES_BUCKET: ENC[AES256_GCM,data:QZQydyzqCsOU/t2FloSGMphg,iv:rzoBo7JNMU2sYkLOBb3wX5P8sruiDG/42teDJ1/eZ1Q=,tag:MN5uKZozwlyDRxciu79xhg==,type:str]
+sops:
+  kms: []
+  gcp_kms:
+    - resource_id: projects/sharp-bivouac-422118-s5/locations/global/keyRings/sops/cryptoKeys/sops
+      created_at: '2024-05-31T22:40:41Z'
+      enc: CiQAxBhRG08D0/6N8IWVAFeQZ8NR7+lifGa8bLqBM8RX72fS3vUSSQC1NN6QfeSWVLX31IxFPlUyPk3r1SBrZRH4wVlfFnh8HbGLI51POUa1lP45xip2O5prPTPsxf/1Imv1IfcH0lnrAFbhq05SHfU=
+  azure_kv: []
+  hc_vault: []
+  age: []
+  lastmodified: '2024-05-31T22:40:47Z'
+  mac: ENC[AES256_GCM,data:Zbnn7xI7FppLpvvEUMWBNj0FuDB+TLTPUnXIk0jZpznCnhCfboKZIes8SJBpxCOJGEedf4KdXfahMn9/zeUlgLVOsLhhv2DdDB7sR+OeYrzX3hmo0+3yLANSi2xrdRgRgJRImWDPTPzvQMr1D/d2A9E8Rj5uIWWU+8UtRblQu6A=,iv:FUFxbB46ZrIYumHr7thAqOR5RNc0e5nz8x6BakAcDqs=,tag:AGwEoISvTw+DXBcpXOJ6uQ==,type:str]
+  pgp: []
+  unencrypted_suffix: _unencrypted
+  version: 3.8.1
