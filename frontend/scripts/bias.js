@@ -197,7 +197,7 @@ function populateBiasScores(bias) {
   document.getElementById('gender-bias-gauge').innerHTML = `${(pronounBias * 100).toFixed()}%`;
   document.querySelector('.gender-gauge').style = `width: ${pronounBias * 100}%`;
   let genderBreakdown = document.getElementById('gender-breakdown');
-  if (pronounBias === 0) {
+  if (pronounBias === 0 && genderBreakdown === document.getElementById('gender-breakdown')) {
     genderBreakdown.innerHTML = 'No pronouns were detected in the text.';
   } else if (maleCount === femaleCount) {
     genderBreakdown = 'The article uses an equal number of "he/him" and "she/her" pronouns.';
@@ -221,20 +221,23 @@ function populateBiasScores(bias) {
   document.querySelector('.language-direction-gauge').style =
     `width: ${Math.abs(keywordDirectionScore) * 50}%`;
 }
+function main() {
+  const articleID = getQueryParam('uid');
+  const ref = doc(firestore, 'articles', articleID);
 
-const articleID = getQueryParam('uid');
-const ref = doc(firestore, 'articles', articleID);
+  let scoresRendered = false;
+  onSnapshot(ref, (doc) => {
+    const data = doc.data();
 
-let scoresRendered = false;
-onSnapshot(ref, (doc) => {
-  const data = doc.data();
+    if (data === undefined || data.bias === undefined) return;
 
-  if (data === undefined || data.bias === undefined) return;
+    if (!scoresRendered) {
+      populateBiasScores(data.bias);
+      scoresRendered = true;
+    }
 
-  if (!scoresRendered) {
-    populateBiasScores(data.bias);
-    scoresRendered = true;
-  }
+    writeSentences(data.bias);
+  });
+}
 
-  writeSentences(data.bias);
-});
+if (window.location.href.match('bias') != null) main();

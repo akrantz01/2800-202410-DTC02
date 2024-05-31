@@ -80,7 +80,8 @@ async function writeHistory() {
       const buttonID = 'save-' + articleID;
       newCard.querySelector('.save-button').id = buttonID;
       const buttonElement = newCard.getElementById(buttonID);
-      if (savedArticles.includes(articleID)) buttonElement.classList.add('fill-red-500');
+      if (savedArticles && savedArticles.includes(articleID))
+        buttonElement.classList.add('fill-red-500');
       buttonElement.addEventListener('click', () => {
         saveArticleToggle(articleID);
       });
@@ -103,7 +104,7 @@ export async function saveArticleToggle(articleID) {
   const savedSnapshot = await getDoc(user);
   const savedArticles = savedSnapshot.data().savedArticles;
 
-  if (savedArticles.includes(articleID)) {
+  if (savedArticles && savedArticles.includes(articleID)) {
     await updateDoc(user, {
       savedArticles: arrayRemove(articleID),
     });
