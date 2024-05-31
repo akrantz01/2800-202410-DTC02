@@ -97,7 +97,7 @@ async function writeAuthorArticles() {
       const buttonID = 'save-' + articleID;
       newCard.querySelector('.save-button').id = buttonID;
       const buttonElement = newCard.getElementById(buttonID);
-      if (savedArticles.includes(article)) buttonElement.classList.add('fill-primary');
+      if (savedArticles.includes(article)) buttonElement.classList.add('fill-red-500');
       buttonElement.addEventListener('click', () => {
         saveArticleToggle(articleID);
       });
