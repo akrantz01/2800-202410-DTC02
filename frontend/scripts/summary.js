@@ -14,6 +14,9 @@ const publisher = document.getElementById('publisher-name');
 const url = document.getElementById('url');
 const summary = document.getElementById('summary');
 
+let biasLoaded = false;
+let toneLoaded = false;
+
 const params = new URLSearchParams(window.location.search);
 const uid = params.get('uid');
 if (!uid) window.location.href = 'home.html';
@@ -58,7 +61,9 @@ onSnapshot(ref, async (doc) => {
       hideSpinner('factual-analysis-card');
     }
 
-    if (articleData.status.bias === 'complete') {
+    if (articleData.status.bias === 'complete' && !biasLoaded) {
+      biasLoaded = true;
+
       // Set up bias indicator
       populateBias(articleData.bias);
 
@@ -71,7 +76,9 @@ onSnapshot(ref, async (doc) => {
       hideSpinner('bias-detection-card');
     }
 
-    if (articleData.status.tone === 'complete') {
+    if (articleData.status.tone === 'complete' && !toneLoaded) {
+      toneLoaded = true;
+
       linkCardToPage('tone-detection-card', 'tone.html');
       hideSpinner('tone-detection-card');
       const toneResults = document.getElementById('tone-results');
