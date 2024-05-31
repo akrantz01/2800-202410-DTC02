@@ -103,6 +103,8 @@ const getEmoji = function (category, value) {
         return '🗺';
       case 'Date':
         return '🗓';
+      case 'jobTitle':
+        return '👷';
     }
   } else if (category === 'sentiment') {
     switch (value) {
