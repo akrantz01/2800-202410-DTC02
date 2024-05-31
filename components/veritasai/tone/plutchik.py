@@ -133,7 +133,8 @@ def calculate_average_relevance(category: dict) -> float:
         relevance_score["relevance"] += relevance
         relevance_score["count"] += 1
     return (
-        round(relevance_score["relevance"] / relevance_score["count"], 4) if relevance_score else 0
+        round(relevance_score["relevance"] / relevance_score["count"], 4) if relevance_score else 0,
+        4,
     )
 
 
