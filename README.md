@@ -86,6 +86,9 @@ Once you've gotten the project running, here's how to use it:
 Here are some known bugs:
 
 - At times, Watson IBM would not generate requested responses
+- Using the navigation controls in summary page, it is possible to bypass the lock that waits for another analysis to complete
+- Originally, we intended to have guest users. This was not implemented and viewing pages wihtout login breaks the pages
+- Bias scans for generic usage of pronouns, adjectives, and sentiment. There is not catagorization into the specific usages of adjectives for positive and negative due to Watson IBM lower-end character limitations. There is not catagorization into specific types of bias, or left/right bias
 
 ## 6. Features for Future
 
