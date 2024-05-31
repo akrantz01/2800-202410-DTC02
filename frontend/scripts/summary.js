@@ -1,12 +1,6 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 
-import {
-  assignArticle,
-  updateAuthorAi,
-  updateAuthorBias,
-  updatePublisherAi,
-  updatePublisherBias,
-} from './assign-article.js';
+import { assignArticle, updateAuthorBias, updatePublisherBias } from './assign-article.js';
 import { getChartOptions } from './bias.js';
 import { firestore } from './firebase.js';
 import { addHistory } from './history.js';
@@ -51,22 +45,6 @@ onSnapshot(ref, async (doc) => {
     if (articleData.status.summary === 'complete') {
       summary.textContent = articleData.summary;
       summary.classList.remove('hidden');
-    }
-
-    if (articleData.status.ai === 'complete') {
-      const aiDetectionProgress = document.getElementById('ai-detection-progress');
-      const aiDetectionText = document.getElementById('ai-detection-text');
-
-      await addHistory(doc.id);
-      await assignArticle(doc.id);
-      await updateAuthorAi(articleData.author);
-      await updatePublisherAi(articleData.publisher);
-
-      aiDetectionProgress.style.width = `${articleData.aiDetection}%`;
-      aiDetectionText.textContent = `${articleData.aiDetection}%`;
-
-      linkCardToPage('ai-detection-card', 'ai-detect.html');
-      hideSpinner('ai-detection-card');
     }
 
     if (articleData.status.accuracy === 'complete') {
@@ -156,7 +134,9 @@ function populateTone(tone) {
       tone.keywords['averaged emotions'],
       radar,
     );
-    radarChart.render();
+    if (radarChart) {
+      radarChart.render();
+    }
   }
 }
 

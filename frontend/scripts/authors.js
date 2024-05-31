@@ -73,7 +73,6 @@ async function writeAuthorArticles() {
 
       // get other data from article
     } else {
-      console.log('article missing from firestore');
       articleBody = 'Article Reference Missing';
       aiGauge = 'width: 0%';
       biasGauge = 'width: 0%';
