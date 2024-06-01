@@ -19,6 +19,7 @@ def data() -> dict[str, str]:
     Mock input data to mock the request payload.
     """
     return {
+        "title": "Some News for Today",
         "content": "Yesterday's news tomorrow, Tonight at 5.",
         "author": "Guy Fawkes",
         "publisher": "Fawks",
@@ -32,7 +33,22 @@ def test_missing_fields(client: FlaskClient):
     assert response.status_code == 422
     assert response.json == [
         {
+            "loc": ["title"],
+            "msg": "Field required",
+            "type": "missing",
+        },
+        {
             "loc": ["content"],
+            "msg": "Field required",
+            "type": "missing",
+        },
+        {
+            "loc": ["author"],
+            "msg": "Field required",
+            "type": "missing",
+        },
+        {
+            "loc": ["publisher"],
             "msg": "Field required",
             "type": "missing",
         },
@@ -40,11 +56,16 @@ def test_missing_fields(client: FlaskClient):
 
 
 def test_all_fields_empty(client: FlaskClient):
-    data = {"content": "", "author": "", "publisher": "", "source-url": ""}
+    data = {"title": "", "content": "", "author": "", "publisher": "", "source-url": ""}
     response = client.post("/", json=data)
 
     assert response.status_code == 422
     assert response.json == [
+        {
+            "loc": ["title"],
+            "msg": "String should have at least 5 characters",
+            "type": "string_too_short",
+        },
         {
             "loc": ["content"],
             "msg": "String should have at least 5 characters",
@@ -52,18 +73,32 @@ def test_all_fields_empty(client: FlaskClient):
         },
         {
             "loc": ["author"],
-            "msg": "String should have at least 2 characters",
+            "msg": "String should have at least 5 characters",
             "type": "string_too_short",
         },
         {
             "loc": ["publisher"],
-            "msg": "String should have at least 5 characters",
+            "msg": "String should have at least 2 characters",
             "type": "string_too_short",
         },
         {
             "loc": ["source-url"],
             "msg": "Input should be a valid URL, input is empty",
             "type": "url_parsing",
+        },
+    ]
+
+
+def test_title_empty(client: FlaskClient, data: dict[str, str]):
+    data["title"] = ""
+    response = client.post("/", json=data)
+
+    assert response.status_code == 422
+    assert response.json == [
+        {
+            "loc": ["title"],
+            "msg": "String should have at least 5 characters",
+            "type": "string_too_short",
         },
     ]
 
@@ -90,7 +125,7 @@ def test_author_empty(client: FlaskClient, data: dict[str, str]):
     assert response.json == [
         {
             "loc": ["author"],
-            "msg": "String should have at least 2 characters",
+            "msg": "String should have at least 5 characters",
             "type": "string_too_short",
         },
     ]
@@ -104,7 +139,7 @@ def test_publisher_empty(client: FlaskClient, data: dict[str, str]):
     assert response.json == [
         {
             "loc": ["publisher"],
-            "msg": "String should have at least 5 characters",
+            "msg": "String should have at least 2 characters",
             "type": "string_too_short",
         },
     ]
@@ -125,7 +160,9 @@ def test_url_empty(client: FlaskClient, data: dict[str, str]):
     ]
 
 
-@pytest.mark.parametrize("field,length", [("content", 5), ("author", 2), ("publisher", 5)])
+@pytest.mark.parametrize(
+    "field,length", [("title", 5), ("content", 5), ("author", 5), ("publisher", 2)]
+)
 def test_field_too_short(client: FlaskClient, data: dict[str, str], field: str, length: int):
     data[field] = "a" * (length - 1)
     response = client.post("/", json=data)

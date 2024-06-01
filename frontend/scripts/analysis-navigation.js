@@ -1,3 +1,4 @@
+// For loading the tempalte into the DOM
 async function loadPaginationTemplate() {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', '/templates/analysis-navigation-template.html', true);
@@ -5,24 +6,56 @@ async function loadPaginationTemplate() {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
       document.getElementById('analysis-navigation-placeholder').innerHTML = xhr.responseText;
-      // highlightActiveLink();
+
+      const hrefArray = getHrefArray();
+      setNavClass(hrefArray);
     }
   };
 
   xhr.send();
 }
 
-// async function highlightActiveLink() {
-//   const currentPath = window.location.pathname.split('/').pop();
-//   const links = document.querySelectorAll('#pagination-placeholder a');
+function getUid() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('uid');
+}
 
-//   console.log(currentPath, links, 'asdf');
-//   links.forEach((link) => {
-//     if (link.getAttribute('href') === currentPath) {
-//       console.log('asdf');
-//     }
-//   });
-// }
+// Helper function for getting the file name from the url
+function getCurrentFileName() {
+  const url = window.location.href;
+  const fileName = url.substring(url.lastIndexOf('/') + 1);
+  return fileName;
+}
+
+// Helper function for getting an array of the available href links
+function getHrefArray() {
+  const links = document.querySelectorAll('#analysis-navigation-controls a');
+  const linksArray = Array.from(links);
+  linksArray.forEach((link) => {
+    link.setAttribute('href', `${link.getAttribute('href')}?uid=${getUid()}`);
+  });
+  const hrefArray = linksArray.map((link) => link.getAttribute('href'));
+
+  return hrefArray;
+}
+
+// Sets css classes for the currently active navigation page
+function setNavClass(hRefArray = []) {
+  const fileName = getCurrentFileName();
+  fileName.replace('.html', '');
+  for (let i = 0; i < hRefArray.length; i++) {
+    if (hRefArray[i] === fileName) {
+      const element = document.querySelector(
+        `#analysis-navigation-controls a[href="${hRefArray[i]}"]`,
+      );
+
+      // Disable link when current page
+      [`border`, `rounded-lg`, `font-semibold`].map((classGroup) =>
+        element.classList.toggle(classGroup),
+      );
+    }
+  }
+}
 
 document.addEventListener('DOMContentLoaded', function () {
   loadPaginationTemplate();

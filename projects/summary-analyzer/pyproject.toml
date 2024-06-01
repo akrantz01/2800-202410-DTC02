@@ -1,0 +1,31 @@
+[build-system]
+requires = ["pdm-backend", "pdm-polylith-bricks"]
+build-backend = "pdm.backend"
+
+[project]
+name = "summary_analyzer"
+version = "0.1.0"
+description = ""
+authors = [{ name = "DTC-02" }]
+
+requires-python = ">=3.10"
+
+dependencies = [
+  "firebase-admin>=6.5.0",
+  "functions-framework>=3.5.0",
+  "python-dotenv>=1.0.1",
+  "google-cloud-storage>=2.16.0",
+  "google-cloud-logging>=3.10.0",
+  "google-cloud-aiplatform>=1.53.0",
+]
+
+[tool.pdm.build]
+includes = ["main.py", "requirements.txt"]
+
+[tool.polylith.bricks]
+"../../bases/veritasai/summary_analyzer" = "veritasai/summary_analyzer"
+"../../components/veritasai/articles" = "veritasai/articles"
+"../../components/veritasai/config" = "veritasai/config"
+"../../components/veritasai/firebase" = "veritasai/firebase"
+"../../components/veritasai/logging" = "veritasai/logging"
+"../../components/veritasai/summarizer" = "veritasai/summarizer"

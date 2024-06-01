@@ -16,8 +16,11 @@ dependencies = [
   "ibm-watson>=8.1.0",
   "ibm-cloud-sdk-core>=3.20.0",
   "google-cloud-pubsub>=2.21.1",
-  "ibm-watson>=8.0.0",
   "google-cloud-logging>=3.10.0",
+  "click>=8.1.7",
+  "cloup>=3.0.5",
+  "requests>=2.32.2",
+  "google-cloud-aiplatform>=1.53.0",
 ]
 
 [build-system]
@@ -38,20 +41,38 @@ format = { cmd = "ruff format --check" }
 test = { cmd = "pytest" }
 
 analysis-manager.cmd = "functions-framework --target=handler --source projects/analysis-manager/main.py"
-analysis-manager.env = { PORT = "8080" }
+analysis-manager.env = { PORT = "8000" }
+tone-analyzer.cmd = "functions-framework --target=handler --source projects/tone-analyzer/main.py"
+tone-analyzer.env = { PORT = "8001" }
+bias-analyzer.cmd = "functions-framework --target=handler --source projects/bias-analyzer/main.py"
+bias-analyzer.env = { PORT = "8002" }
+summary-analyzer.cmd = "functions-framework --target=handler --source projects/summary-analyzer/main.py"
+summary-analyzer.env = { PORT = "8003" }
+accuracy-analyzer.cmd = "functions-framework --target=handler --source projects/accuracy-analyzer/main.py"
+accuracy-analyzer.env = { PORT = "8003" }
 
 [tool.polylith.bricks]
+"bases/veritasai/accuracy_analyzer" = "veritasai/accuracy_analyzer"
 "bases/veritasai/analysis_manager" = "veritasai/analysis_manager"
+"bases/veritasai/bias_analyzer" = "veritasai/bias_analyzer"
+"bases/veritasai/summary_analyzer" = "veritasai/summary_analyzer"
+"bases/veritasai/tone_analyzer" = "veritasai/tone_analyzer"
+"components/veritasai/accuracy" = "veritasai/accuracy"
 "components/veritasai/articles" = "veritasai/articles"
 "components/veritasai/authentication" = "veritasai/authentication"
+"components/veritasai/bias" = "veritasai/bias"
 "components/veritasai/cache" = "veritasai/cache"
 "components/veritasai/config" = "veritasai/config"
 "components/veritasai/cors" = "veritasai/cors"
 "components/veritasai/firebase" = "veritasai/firebase"
+"components/veritasai/gemini" = "veritasai/gemini"
 "components/veritasai/input_validation" = "veritasai/input_validation"
 "components/veritasai/logging" = "veritasai/logging"
 "components/veritasai/protocol" = "veritasai/protocol"
 "components/veritasai/pubsub" = "veritasai/pubsub"
+"components/veritasai/summarizer" = "veritasai/summarizer"
+"components/veritasai/tone" = "veritasai/tone"
+"components/veritasai/watson" = "veritasai/watson"
 
 [tool.pyright]
 extraPaths = ["bases", "components"]

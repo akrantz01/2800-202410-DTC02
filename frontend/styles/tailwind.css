@@ -1,3 +1,6 @@
+@import '@fontsource-variable/open-sans';
+@import '@fontsource/roboto';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

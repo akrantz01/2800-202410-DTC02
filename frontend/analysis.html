@@ -12,30 +12,19 @@
     <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5" />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
-
-    <!-- Import Flowbite via CDN -->
-
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
-      rel="stylesheet"
-    />
-
-    <!-- Import ApexCharts via CDN -->
-
-    <script type="module" src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   </head>
 
   <body
-    class="font-roboto bg-gradient-to-b from-white to-gray-300 bg-auto bg-no-repeat min-h-screen items-center text-center container pt-14 mx-auto"
+    class="container items-center min-h-screen mx-auto text-center bg-no-repeat bg-auto font-roboto bg-gradient-to-b from-white to-gray-300 pt-14"
   >
     <header id="header-placeholder"></header>
 
     <div id="analysis-navigation-placeholder"></div>
 
-    <div class="flex flex-col min-h-full space-y-4 mx-2 mb-20">
-      <div class="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+    <div class="flex flex-col min-h-full mx-2 mb-20 space-y-4">
+      <div class="w-full max-w-sm p-4 bg-white rounded-lg shadow dark:bg-gray-800 md:p-6">
         <div class="flex justify-between mb-3">
-          <div class="flex justify-center items-center">
+          <div class="flex items-center justify-center">
             <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">
               Website traffic
             </h5>
@@ -104,10 +93,10 @@
 
       <div
         id="analysis-description"
-        class="w-full border border-gray-400 rounded-lg bg-white p-4 px-6 text-left space-y-2"
+        class="w-full p-4 px-6 space-y-2 text-left bg-white border border-gray-400 rounded-lg"
       >
-        <h2 class="text-2xl text-gray-600 font-semibold">Accuracy Assessment</h2>
-        <p class="text-md text-gray-500">
+        <h2 class="text-2xl font-semibold text-gray-600">Accuracy Assessment</h2>
+        <p class="text-gray-500 text-md">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae, temporibus
           quisquam! Dignissimos repudiandae animi dolorem fuga beatae sequi soluta quidem fugiat
           alias ex, pariatur voluptatibus obcaecati nisi quam vitae dolore.
@@ -117,24 +106,24 @@
       <!-- Contains Fact Cards -->
       <div
         id="fact-cards"
-        class="flex flex-col space-y-2 border border-gray-400 rounded-lg bg-white p-4"
+        class="flex flex-col p-4 space-y-2 bg-white border border-gray-400 rounded-lg"
       >
-        <h2 class="text-2xl text-gray-600 text-left pb-5">
+        <h2 class="pb-5 text-2xl text-left text-gray-600">
           Facts
-          <p class="text-sm text-gray-600 text-left">2/5 Analyzed</p>
+          <p class="text-sm text-left text-gray-600">2/5 Analyzed</p>
         </h2>
 
         <!-- Fact Card: True -->
         <div
-          class="min-w-sm bg-white border border-gray-600 border-separate rounded-lg shadow text-left"
+          class="text-left bg-white border border-separate border-gray-600 rounded-lg shadow min-w-sm"
         >
           <div
-            class="flex flex-wrap text-md font-semibold text-white border-b border-gray-600 shadow rounded-t-lg p-4 bg-primary"
+            class="flex flex-wrap p-4 font-semibold text-white border-b border-gray-600 rounded-t-lg shadow text-md bg-primary"
           >
             Bananas are berries, but strawberries are not.
           </div>
           <div class="p-4 space-y-3 text-left">
-            <div class="flex flex-row space-x-1 items-start">
+            <div class="flex flex-row items-start space-x-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="icon icon-tabler icon-tabler-checkbox"
@@ -151,7 +140,7 @@
                 <path d="M9 11l3 3l8 -8" />
                 <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
               </svg>
-              <h5 class="text-xl text-green-500 font-semibold align-text-bottom">True</h5>
+              <h5 class="text-xl font-semibold text-green-500 align-text-bottom">True</h5>
             </div>
             <p class="font-normal mx-0.5 text-gray-500">
               Bananas are berries, but strawberries are not. Botanically speaking, bananas qualify
@@ -184,15 +173,15 @@
 
         <!-- Fact Card: False -->
         <div
-          class="min-w-sm bg-white border border-gray-600 border-separate rounded-lg shadow text-left"
+          class="text-left bg-white border border-separate border-gray-600 rounded-lg shadow min-w-sm"
         >
           <div
-            class="flex flex-wrap text-md font-semibold text-white border-b border-gray-600 shadow rounded-t-lg p-4 bg-red-500"
+            class="flex flex-wrap p-4 font-semibold text-white bg-red-500 border-b border-gray-600 rounded-t-lg shadow text-md"
           >
             Mount Everest is the tallest mountain in the world.
           </div>
           <div class="p-4 space-y-3 text-left">
-            <div class="flex flex-row space-x-1 items-start">
+            <div class="flex flex-row items-start space-x-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="icon icon-tabler icon-tabler-x"
@@ -209,7 +198,7 @@
                 <path d="M18 6l-12 12" />
                 <path d="M6 6l12 12" />
               </svg>
-              <h5 class="text-xl text-red-500 font-semibold align-text-bottom">False</h5>
+              <h5 class="text-xl font-semibold text-red-500 align-text-bottom">False</h5>
             </div>
             <p class="font-normal mx-0.5 text-gray-400">
               While Everest is the highest peak above sea level, Mauna Kea in Hawaii is the tallest
@@ -241,16 +230,16 @@
         </div>
       </div>
 
-      <div class="flex flex-col space-y-2 border border-gray-400 rounded-lg bg-white p-4">
-        <h2 class="text-2xl text-gray-600 text-left">72% Factual</h2>
+      <div class="flex flex-col p-4 space-y-2 bg-white border border-gray-400 rounded-lg">
+        <h2 class="text-2xl text-left text-gray-600">72% Factual</h2>
         <div class="w-full bg-red-500 rounded-full h-2.5">
           <div class="bg-green-500 h-2.5 rounded-full" style="width: 72%"></div>
         </div>
       </div>
 
-      <div class="w-full border border-gray-400 rounded-lg bg-white p-4 px-6 text-left space-y-2">
-        <h2 class="text-2xl text-gray-600 font-semibold">Summary</h2>
-        <p class="text-md text-gray-500">
+      <div class="w-full p-4 px-6 space-y-2 text-left bg-white border border-gray-400 rounded-lg">
+        <h2 class="text-2xl font-semibold text-gray-600">Summary</h2>
+        <p class="text-gray-500 text-md">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae, temporibus
           quisquam! Dignissimos repudiandae animi dolorem fuga beatae sequi soluta quidem fugiat
           alias ex, pariatur voluptatibus obcaecati nisi quam vitae dolore.
@@ -258,7 +247,7 @@
         <div>
           <button
             type="button"
-            class="bg-secondary rounded-xl p-3 text-white border border-gray-100"
+            class="p-3 text-white border border-gray-100 bg-secondary rounded-xl"
           >
             <a href="">Share</a>
           </button>
@@ -268,10 +257,6 @@
     <footer id="footer-placeholder"></footer>
     <script type="module" src="scripts/nav-bar-logic.js"></script>
     <script type="module" src="scripts/analysis-navigation.js"></script>
-    <script
-      type="module"
-      src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"
-    ></script>
     <script type="module" src="scripts/analysis.js"></script>
   </body>
 </html>

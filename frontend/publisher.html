@@ -18,11 +18,11 @@
     class="font-roboto bg-gradient-to-b from-white to-gray-300 bg-auto bg-no-repeat min-h-screen"
   >
     <header id="header-placeholder"></header>
-    <h1 id="publisher-name" class="text-3xl text-primary font-extrabold text-center">First Last</h1>
+    <h1 id="publisher-name" class="text-5xl text-primary font-extrabold text-center">First Last</h1>
 
-    <div class="flex justify-around lg:justify-center lg:gap-24">
-      <div class="flex flex-col items-center w-[130px]">
-        <label for="ai-gauge" class="text-slate-600">AI score</label>
+    <div class="flex justify-around lg:justify-center lg:gap-24 py-4">
+      <div class="flex flex-col items-center w-[160px] p-4 shadow-md rounded-lg">
+        <label for="ai-gauge" class="text-slate-600 text-xl font-bold">AI score</label>
         <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
           <div
             class="ai-gauge bg-primary h-2.5 rounded-full"
@@ -32,8 +32,8 @@
           ></div>
         </div>
       </div>
-      <div class="flex flex-col items-center w-[130px]">
-        <label for="bias-gauge" class="text-slate-600">Bias score</label>
+      <div class="flex flex-col items-center w-[160px] p-4 shadow-md rounded-lg">
+        <label for="bias-gauge" class="text-slate-600 text-xl font-bold">Bias score</label>
         <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
           <div
             class="bias-gauge bg-primary h-2.5 rounded-full"
@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-    <div class="relative w-full">
+    <div class="relative w-[150px] mx-auto items-center">
       <button class="peer absolute top-0 right-0 transition" id="drop-button" type="button">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -53,8 +53,8 @@
           height="28"
           viewBox="0 0 24 24"
           stroke-width="1.5"
-          stroke="#000000"
-          fill="none"
+          stroke="#17da7c"
+          fill="#17da7c"
           stroke-linecap="round"
           stroke-linejoin="round"
         >
@@ -63,46 +63,51 @@
         </svg>
       </button>
 
-      <h1>Authors:</h1>
-      <div class="line-clamp-1" id="publisher-authors">
-        <p>John Smith</p>
+      <h1 class="text-primary text-2xl font-bold text-center">Authors</h1>
+      <div class="line-clamp-1 text-center py-2 rounded-lg" id="publisher-authors">
+        <p class="px-4 py-2 shadow-md rounded-lg">John Smith</p>
       </div>
     </div>
-    <h1>Recent Articles</h1>
+    <h1 class="text-primary text-2xl font-bold text-center">Recent Articles</h1>
     <div class="items-center text-center container mx-auto">
       <div
-        class="overflow-y-scroll mx-6 mb-20 max-h-[80vh] rounded-3xl lg:mx-60"
+        class="overflow-y-scroll mx-6 mb-20 max-h-[80vh] rounded-3xl lg:mx-60 pb-12"
         id="publisher-cards"
       >
         <template id="saved-card">
-          <a class="my-2 shadow-md border-2 py-4 rounded-3xl block" href="#">
-            <header class="flex items-center px-2">
-              <h1
-                class="analyzed-text text-slate-600 text-xl lg:text-4xl font-bold flex-1 text-left line-clamp-2"
-              >
-                Local Cat Unveils Master Plan for World Domination
-              </h1>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-external-link stroke-primary lg:scale-[135%]"
-                width="40"
-                height="32"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="#ffffff"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" />
-                <path d="M11 13l9 -9" />
-                <path d="M15 4h5v5" />
-              </svg>
+          <div
+            class="my-2 shadow-md border bg-white border-gray-300 p-4 rounded-xl space-y-4 block"
+            href="#"
+          >
+            <header>
+              <div class="flex items-start justify-between">
+                <h1
+                  class="analyzed-text text-slate-600 text-xl lg:text-xl font-semibold flex-1 text-left line-clamp-2"
+                >
+                  Local Cat Unveils Master Plan for World Domination
+                </h1>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon icon-tabler icon-tabler-external-link stroke-accent transition hover:stroke-secondary link flex-shrink-0"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="#ffffff"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" />
+                  <path d="M11 13l9 -9" />
+                  <path d="M15 4h5v5" />
+                </svg>
+              </div>
             </header>
-            <div class="flex justify-around lg:justify-center lg:gap-24">
-              <div class="flex flex-col items-center w-[130px]">
-                <label for="ai-gauge" class="text-slate-600">AI detection</label>
+            <div class="flex flex-col space-y-2 lg:justify-center gauges">
+              <div class="flex flex-col items-center w-full ai-tag">
+                <label for="ai-gauge" class="text-slate-600">AI Score</label>
                 <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
                   <div
                     class="ai-gauge bg-primary h-2.5 rounded-full"
@@ -111,8 +116,8 @@
                   ></div>
                 </div>
               </div>
-              <div class="flex flex-col items-center w-[130px]">
-                <label for="bias-gauge" class="text-slate-600">Bias Placeholder</label>
+              <div class="flex flex-col items-center w-full bias-tag">
+                <label for="bias-gauge" class="text-slate-600">Bias Score</label>
                 <div class="w-full bg-gray-200 rounded-full h-2.5 flex">
                   <div
                     class="bias-gauge bg-primary h-2.5 rounded-full"
@@ -122,31 +127,12 @@
                 </div>
               </div>
             </div>
-            <div class="flex justify-between items-center mt-4 ml-2 mr-4">
-              <div class="flex items-center gap-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="icon icon-tabler icon-tabler-clock stroke-primary"
-                  width="28"
-                  height="28"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="#ffffff"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
-                  <path d="M12 7v5l3 3" />
-                </svg>
-                <p class="scanned-date text-slate-600">2024-05-15 16:13</p>
-              </div>
+            <div class="flex justify-end items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-heart save-button stroke-primary"
-                width="28"
-                height="28"
+                class="icon icon-tabler icon-tabler-heart save-button stroke-red-500"
+                width="32"
+                height="32"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="#ffffff"
@@ -160,7 +146,7 @@
                 />
               </svg>
             </div>
-          </a>
+          </div>
         </template>
       </div>
     </div>

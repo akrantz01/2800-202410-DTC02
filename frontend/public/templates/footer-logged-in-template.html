@@ -1,15 +1,16 @@
 <div>
+  <!-- Footer -->
   <div
-    class="fixed bottom-0 w-full lg:w-[400px] lg:rounded-full bg-primary h-[70px] left-1/2 -translate-x-1/2 z-30"
+    class="fixed font-opensans bottom-0 w-full bg-primary h-[70px] left-1/2 -translate-x-1/2 z-30 border-t border-gray-100"
   >
     <a
       href="/home.html"
       id="analyze"
-      class="absolute text-white font-extrabold rounded-full p-2 w-[75px] h-[75px] right-1/2 -translate-x-24 text-center hover:bg-white hover:text-primary group"
+      class="absolute flex flex-col justify-center items-center text-white font-light p-2 right-1/2 -translate-x-24 transition ease-in-out hover:-translate-y-0.5 hover:scale-105 group"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="icon icon-tabler icon-tabler-text-scan-2 inline-block group-hover:stroke-primary"
+        class="icon icon-tabler icon-tabler-text-scan-2 inline-block"
         width="32"
         height="32"
         viewBox="0 0 24 24"
@@ -28,16 +29,16 @@
         <path d="M8 9h6" />
         <path d="M8 15h4" />
       </svg>
-      <span class="">Analyze</span>
+      <span class="object-center">Analyze</span>
     </a>
     <a
       href="/history.html"
       id="history"
-      class="absolute text-white font-extrabold rounded-full p-2 w-[75px] h-[75px] right-1/2 translate-x-1/2 text-center hover:bg-white hover:text-primary group"
+      class="absolute flex flex-col justify-center items-center text-white font-light p-2 right-1/2 translate-x-1/2 text-center transition ease-in-out hover:-translate-y-0.5 hover:scale-105 group"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="icon icon-tabler icon-tabler-history inline-block group-hover:stroke-primary"
+        class="icon icon-tabler icon-tabler-history inline-block"
         width="32"
         height="32"
         viewBox="0 0 24 24"
@@ -56,11 +57,11 @@
     <a
       href="/saved.html"
       id="favorites"
-      class="absolute text-white font-extrabold rounded-full p-2 w-[75px] h-[75px] left-1/2 translate-x-24 text-center hover:bg-white hover:text-primary group"
+      class="absolute flex flex-col justify-center items-center text-white font-light p-2 left-1/2 translate-x-24 text-center transition ease-in-out hover:-translate-y-0.5 hover:scale-105 group"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="icon icon-tabler icon-tabler-heart inline-block group-hover:stroke-primary"
+        class="icon icon-tabler icon-tabler-heart inline-block"
         width="32"
         height="32"
         viewBox="0 0 24 24"
@@ -76,9 +77,9 @@
       <span class="object-center">Saved</span>
     </a>
   </div>
-  <div
-    class="fixed group end-1/2 translate-x-[165px] bottom-20 lg:right-6 lg:left-none lg:bottom-6 lg:translate-x-0"
-  >
+
+  <!-- Radial Menu -->
+  <div class="fixed group right-5 bottom-20 lg:left-none lg:translate-x-0">
     <button
       type="button"
       class="shadow-md rounded-full w-14 h-14 bg-primary peer group focus:bg-white"
@@ -94,7 +95,6 @@
           class="h-1 w-8 rounded-full bg-white group-focus:bg-primary group-focus:-rotate-45 group-focus:-translate-y-2.5 transition"
         ></span>
       </div>
-      <!-- end of grabbed code -->
     </button>
 
     <a
@@ -170,6 +170,7 @@
       <span class="">Logout</span>
     </a>
 
+    <!-- Radial Menu Wheel -->
     <div
       class="invisible peer-focus:visible peer-focus:scale-[5] absolute top-0 -left-0 bg-primary rounded-full w-14 h-14 transition-all -z-10 delay-150"
     ></div>

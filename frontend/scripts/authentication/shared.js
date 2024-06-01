@@ -12,25 +12,38 @@ export function enableSignInWithGoogle() {
   googleButton.addEventListener('click', async () => {
     const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      const { user } = await signInWithPopup(auth, provider);
 
-      // Store user info temporarily
-      sessionStorage.setItem(
-        'googleUser',
-        JSON.stringify({
-          uid: user.uid,
-          displayName: user.displayName,
-          email: user.email,
-        }),
-      );
+      const createdAt = getUserCreationTime(user.metadata);
+      if (createdAt > Date.now() - 10000) {
+        // Store user info temporarily
+        sessionStorage.setItem(
+          'googleUser',
+          JSON.stringify({
+            uid: user.uid,
+            displayName: user.displayName,
+            email: user.email,
+          }),
+        );
 
-      // Redirect to the date of birth input page
-      window.location.href = 'dob.html';
+        // Redirect to the date of birth input page
+        window.location.href = 'dob.html';
+      } else redirectToHome();
     } catch (error) {
       displayError(error.message);
     }
   });
+}
+
+/**
+ * Get the timestamp of when the user was created
+ *
+ * @param {import('firebase/auth').UserMetadata} metadata the user metadata
+ * @returns {number} a unix timestamp with milliseconds
+ */
+function getUserCreationTime(metadata) {
+  if ('createdAt' in metadata) return parseInt(metadata.createdAt, 10);
+  else return new Date(metadata.creationTime).getTime();
 }
 
 /**
